@@ -1,7 +1,10 @@
 # 맥반윈반 터치즈 프론트엔드 레포지토리
 
 이 레포지토리는 맥반윈반 터치즈 프로젝트의 프론트엔드 코드를 포함하고 있습니다.
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0eaa9156b8697b7d86a57f5fb7dbb609b1058042
 ## 기술 스택
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white)
