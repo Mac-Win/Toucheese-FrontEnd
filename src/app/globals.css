@@ -1,20 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+KR:wght@100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+
+
+
+
 :root {
+  --fonts-kr : "Noto Sans KR", serif;
+  --fonts-number : "Lato"
+  --fonts-eu : "inter"
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
+  --max-width: 600px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
   }
+}
+
+
+html{
+  font-family : var(--fonts-kr)
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+}
+
+
+
+#main {
+  width: 100%;
+  min-width: 320px;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.global_gnb {
+  width: 100%;
+  min-width: 320px;
+  max-width: var(--max-width);
+  position: fixed;
+  bottom: 0;
+  background-color: #fff2cc;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 10; /* 상위에 고정 */
 }
