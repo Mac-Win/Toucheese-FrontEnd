@@ -1,13 +1,44 @@
-export default function Home() {
+"use client";
+
+import { concepts } from "@/data/conceptData";
+import Header from "@/features/header/header";
+import SearchBar from "@/features/searchBar/searchBar";
+import Image from "next/image";
+import Link from "next/link";
+
+const Home = () => {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <header>header</header>
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1>터치즈</h1>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        footer
-      </footer>
+    <div className="flex flex-col items-center w-full h-full">
+      {/* 헤더 */}
+      <Header />
+
+      {/* {검색바} */}
+      <SearchBar />
+
+      {/* 콘텐츠 */}
+      <div className="grid grid-cols-2 gap-4 w-full flex-grow aspect-3/4">
+        {concepts.map((concept) => (
+          <Link
+            href="/studios"
+            key={concept.id}
+            className="relative rounded-lg overflow-hidden shadow-lg"
+          >
+            <Image
+              src={`/${concept.imageName}`}
+              alt={concept.title}
+              fill
+              className="object-cover"
+            />
+            <div className="absolute bottom-0 w-full bg-black bg-opacity-50 py-4 text-center backdrop-blur-sm">
+              <h1 className="text-white text-lg font-normal">
+                {concept.title}
+              </h1>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
