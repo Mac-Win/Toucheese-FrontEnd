@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,12 +8,19 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
 import { studios as initialStudios } from "@/data/studioData";
+import FilterGroup from "@/features/filter/filterGroup";
+
+type SelectedFilters = Record<string, string[]>;
 
 const StudioList = () => {
-  // 스튜디오 상태 관리
+  const [filters, setFilters] = useState<SelectedFilters>({
+    region: [],
+    popularity: [],
+    price: [],
+  });
+
   const [studios, setStudios] = useState(initialStudios);
 
-  // 북마크 상태 변경 함수
   const toggleBookmark = (id: string) => {
     setStudios((prevStudios) =>
       prevStudios.map((studio) =>
@@ -22,9 +29,31 @@ const StudioList = () => {
     );
   };
 
+  const filteredStudios = useMemo(() => {
+    return studios.filter((studio) => {
+      const regionMatch =
+        filters.region.length === 0 || filters.region.includes(studio.region);
+      const popularityMatch =
+        filters.popularity.length === 0 ||
+        filters.popularity.some((pop) => {
+          const rating = parseFloat(pop.split(" ")[0]);
+          return studio.rating >= rating;
+        });
+      const priceMatch =
+        filters.price.length === 0 ||
+        filters.price.includes(studio.priceCategory);
+
+      return regionMatch && popularityMatch && priceMatch;
+    });
+  }, [studios, filters]);
+
   return (
-    <>
-      {studios.map((studio) => (
+    <div>
+      {/* 필터 그룹 */}
+      <FilterGroup filters={filters} onFilterChange={setFilters} />
+
+      {/* 필터링된 스튜디오 리스트 */}
+      {filteredStudios.map((studio) => (
         <div
           key={studio._id}
           className="flex flex-col gap-4 py-4 w-full border-b border-gray-100"
@@ -46,8 +75,6 @@ const StudioList = () => {
             <div>
               <span>{studio.price}</span>
             </div>
-
-            {/* 북마크 버튼 */}
             <button
               onClick={() => toggleBookmark(studio._id)}
               className="text-2xl transition"
@@ -69,7 +96,6 @@ const StudioList = () => {
               )}
             </button>
           </div>
-
           <div className="w-full max-w-[600px] overflow-hidden">
             <Swiper
               slidesPerView={3}
@@ -94,7 +120,7 @@ const StudioList = () => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 
