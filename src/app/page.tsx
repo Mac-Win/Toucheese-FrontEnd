@@ -5,6 +5,7 @@ import Header from "@/features/header/header";
 import SearchBar from "@/features/searchBar/searchBar";
 import Image from "next/image";
 import Link from "next/link";
+import { studios } from "@/data/studioData";
 
 const Home = () => {
   return (
@@ -13,7 +14,7 @@ const Home = () => {
       <Header />
 
       {/* {검색바} */}
-      <SearchBar />
+      <SearchBar studios={studios} />
 
       {/* 콘텐츠 */}
       <div className="grid grid-cols-2 gap-4 w-full flex-grow aspect-3/4">
