@@ -25,11 +25,13 @@ function SearchBar() {
             placeholder="스튜디오 이름 또는 주소를 검색하세요"
             className="text-size px-4 flex-grow border-none outline-none bg-transparent text-white placeholder-white"
           />
-          <button
-            onClick={handleSearch}
-            className="ml-2 px-4 py-2 bg-white text-yellow-500 rounded-full hover:bg-yellow-500 hover:text-white transition"
-          >
-            검색
+          <button onClick={handleSearch} className="ml-2">
+            <Image
+              src="/icons/search.svg"
+              alt="Search"
+              width={24}
+              height={24}
+            />
           </button>
         </div>
       </div>
