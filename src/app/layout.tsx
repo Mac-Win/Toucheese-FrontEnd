@@ -1,17 +1,12 @@
+import NavBar from "@/features/navbar/Navbar";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-
-const pretendard = localFont({
-  src: "/fonts/PretendardVariable.woff2",
-  display: "swap",
-  weight: "45 920",
-  variable: "--font-pretendard",
-});
+import { Suspense } from "react";
+import Loading from "./Loading/page";
 
 export const metadata: Metadata = {
-  title: "터치즈",
-  description: "creating by MacWinHalf",
+  title: "터치즈 MVP 기능구현",
+  description: "스프린트1단계",
 };
 
 export default function RootLayout({
@@ -20,8 +15,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="kr" className={`${pretendard.variable}`}>
-      <body className="antialiased">{children}</body>
+    <html lang="ko">
+      <body className="flex justify-center">
+        <div
+          className="w-full max-w-[var(--max-width)]"
+          style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
+        >
+          <Suspense fallback={<Loading />}>
+            <main
+              id="main"
+              className="bg-white pb-28 flex flex-col p-4 min-h-screen"
+            >
+              {children}
+            </main>
+            <NavBar />
+          </Suspense>
+        </div>
+      </body>
     </html>
   );
 }
