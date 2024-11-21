@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/lib/apiCient";
-import { Studio } from "@/types/studio.types";
-
-interface StudiosByConceptResponse {
-  studios: Studio[];
-}
+import { Studio, StudiosByConceptResponse } from "@/types/studio.types";
 
 export function useStudiosByConcept(
   conceptId: number,
@@ -39,13 +35,13 @@ export function useStudiosByConcept(
 }
 
 interface StudiosByKeywordResponse {
-  studios: Studio[];
+  content: Studio[]; // 검색된 스튜디오 데이터 배열
+  totalElements: number; // 검색된 총 데이터 수
 }
 
 export function useStudiosByKeyword(keyword: string) {
   const [data, setData] = useState<StudiosByKeywordResponse | null>(null);
-  const [filteredData, setFilteredData] =
-    useState<StudiosByKeywordResponse | null>(null);
+  const [filteredData, setFilteredData] = useState<Studio[] | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +50,7 @@ export function useStudiosByKeyword(keyword: string) {
       setLoading(true);
       try {
         const response = await apiClient.get<StudiosByKeywordResponse>(
-          `/studios/search?keyword`
+          `/studios/search?keyword=${keyword.trim()}`
         );
         setData(response.data);
       } catch (err) {
@@ -69,9 +65,8 @@ export function useStudiosByKeyword(keyword: string) {
   }, [keyword]);
 
   useEffect(() => {
-    if (data && keyword.trim()) {
-      // 필터링 로직: name 또는 address에 keyword 포함 여부 검사
-      const filtered = data.filter(
+    if (data && data.content) {
+      const filtered = data.content.filter(
         (studio: Studio) =>
           studio.name.toLowerCase().includes(keyword.toLowerCase()) ||
           studio.address.toLowerCase().includes(keyword.toLowerCase())

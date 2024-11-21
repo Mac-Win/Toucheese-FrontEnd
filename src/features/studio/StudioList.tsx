@@ -30,7 +30,6 @@ const StudioList = ({ conceptId }: { conceptId: number }) => {
     pageSize
   );
 
-  const studios: Studio[] = data?.content || [];
   const totalPages = data?.totalPages || 1;
 
   const toggleBookmark = (id: number | string) => {
@@ -39,6 +38,8 @@ const StudioList = ({ conceptId }: { conceptId: number }) => {
       studios[studioIndex].bookmark = !studios[studioIndex].bookmark;
     }
   };
+
+  const studios = useMemo(() => data?.content || [], [data?.content]);
 
   const filteredStudios = useMemo(() => {
     return studios.filter((studio: Studio) => {
