@@ -12,6 +12,7 @@ const config: Config = {
     extend: {
       aspectRatio: {
         "3/4": "3 / 4",
+        "16/9": "16 / 9",
       },
       colors: {
         "custom-bg": "#FFFCF5",
