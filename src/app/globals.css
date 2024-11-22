@@ -56,11 +56,13 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding-bottom: 200px; /* 하단 여유 공간 추가 */
 }
 
 @media (max-width: 480px) {
   #main {
     padding: 0 12px; /* 작은 화면에서 더 적은 좌우 간격 */
+    padding-bottom: 200px; /* 하단 여유 공간 유지 */
   }
 }
 
