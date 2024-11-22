@@ -78,8 +78,8 @@ export function useStudiosByConcept(
 export function useStudiosWithFilters(
   conceptId: number,
   filters: {
-    price?: number | null;
-    rating?: number | null;
+    price?: number;
+    rating?: number;
     locations?: string[];
   },
   pageNumber: number
@@ -94,24 +94,16 @@ export function useStudiosWithFilters(
       try {
         const queryParams = new URLSearchParams({
           page: pageNumber.toString(),
+          price: filters.price?.toString() || "",
+          rating: filters.rating?.toString() || "",
         });
 
-        if (filters.price != null) {
-          queryParams.set("price", filters.price.toString());
-        }
-
-        if (filters.rating != null) {
-          queryParams.set("rating", filters.rating.toString());
-        }
-
-        // locations 추가
-        (filters.locations || []).forEach((location) => {
-          if (location !== "") {
+        // locations 배열이 존재할 경우 각각 추가
+        if (filters.locations) {
+          filters.locations.forEach((location) => {
             queryParams.append("locations", location);
-          }
-        });
-
-        console.log("Generated API URL:", queryParams.toString());
+          });
+        }
 
         const response = await apiClient.get<StudiosByConceptResponse>(
           `/studios/${conceptId}/filters?${queryParams}`
@@ -125,7 +117,7 @@ export function useStudiosWithFilters(
         setLoading(false);
       }
     };
-    console.log("filters.price:", filters.price);
+
     fetchFilteredStudios();
   }, [conceptId, filters, pageNumber]);
 
