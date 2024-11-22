@@ -39,16 +39,16 @@ const StudiosPage = () => {
   }) => {
     setFilters({
       price:
-        newFilters.price?.length && !isNaN(Number(newFilters.price[0]))
-          ? Number(newFilters.price[0]) // 숫자로 변환 가능한 경우 변환
-          : undefined, // 변환 불가능하거나 빈 문자열이면 undefined
+        newFilters.price?.length && newFilters.price[0] !== ""
+          ? Number(newFilters.price[0]) // 빈 문자열이 아닌 경우 숫자로 변환
+          : undefined, // 빈 문자열이면 undefined
       rating:
-        newFilters.rating?.length && !isNaN(Number(newFilters.rating[0]))
-          ? Number(newFilters.rating[0]) // 숫자로 변환 가능한 경우 변환
-          : undefined, // 변환 불가능하거나 빈 문자열이면 undefined
+        newFilters.rating?.length && newFilters.rating[0] !== ""
+          ? Number(newFilters.rating[0]) // 빈 문자열이 아닌 경우 숫자로 변환
+          : undefined, // 빈 문자열이면 undefined
       locations: newFilters.locations?.includes("") // "전체" 선택 시 빈 배열
         ? []
-        : newFilters.locations || [], // 빈 배열이 아닌 경우 그대로 설정
+        : newFilters.locations || [],
     });
   };
 
