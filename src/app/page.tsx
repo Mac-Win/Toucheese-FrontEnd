@@ -8,15 +8,13 @@ import Link from "next/link";
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center w-full min-h-screen bg-white">
-      {/* Header */}
+    <div className="flex flex-col items-center w-full h-full">
       <Header />
 
-      {/* Search Bar */}
       <SearchBar />
 
       {/* 콘텐츠 */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 w-full">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4 w-full min-h-[50vh]">
         {concepts.map((concept) => (
           <Link
             href={`/studios?conceptId=${concept.id}`}
