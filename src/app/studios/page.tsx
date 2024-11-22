@@ -32,22 +32,23 @@ const StudiosPage = () => {
     rating: undefined,
     locations: [],
   });
-
   const handleApplyFilters = (newFilters: {
     price?: string[];
     rating?: string[];
     locations?: string[];
   }) => {
     setFilters({
-      price: newFilters.price?.length
-        ? parseInt(newFilters.price[0], 10)
-        : undefined,
-      rating: newFilters.rating?.length
-        ? parseFloat(newFilters.rating[0])
-        : undefined,
-      locations: newFilters.locations?.includes("전체")
-        ? [] // "전체"가 선택된 경우 비워줌
-        : newFilters.locations || [],
+      price:
+        newFilters.price?.length && !isNaN(Number(newFilters.price[0]))
+          ? Number(newFilters.price[0]) // 숫자로 변환 가능한 경우 변환
+          : undefined, // 변환 불가능하거나 빈 문자열이면 undefined
+      rating:
+        newFilters.rating?.length && !isNaN(Number(newFilters.rating[0]))
+          ? Number(newFilters.rating[0]) // 숫자로 변환 가능한 경우 변환
+          : undefined, // 변환 불가능하거나 빈 문자열이면 undefined
+      locations: newFilters.locations?.includes("") // "전체" 선택 시 빈 배열
+        ? []
+        : newFilters.locations || [], // 빈 배열이 아닌 경우 그대로 설정
     });
   };
 

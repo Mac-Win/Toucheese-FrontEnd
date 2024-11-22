@@ -38,7 +38,7 @@ const FilterGroup = ({
       label: "지역별",
       key: "locations",
       options: [
-        { label: "전체", value: "전체" },
+        { label: "전체", value: "" },
         { label: "강남구", value: "강남" },
         { label: "서초구", value: "서초" },
         { label: "송파구", value: "송파" },
@@ -54,7 +54,7 @@ const FilterGroup = ({
       label: "평점순",
       key: "rating",
       options: [
-        { label: "전체", value: "전체" },
+        { label: "전체", value: "" },
         { label: "3.0 이상", value: "3.0" },
         { label: "4.0 이상", value: "4.0" },
         { label: "4.5 이상", value: "4.5" },
@@ -64,7 +64,7 @@ const FilterGroup = ({
       label: "가격순",
       key: "price",
       options: [
-        { label: "전체", value: "전체" },
+        { label: "전체", value: "" },
         { label: "10만원 미만", value: "0-100000" },
         { label: "20만원 미만", value: "100000-200000" },
         { label: "20만원 이상", value: "200000-999999" },

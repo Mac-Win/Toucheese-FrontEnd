@@ -4,19 +4,27 @@ import { StudiosByConceptResponse } from "@/types/studio.types";
 import { Search } from "@/types/search.types";
 
 export function useStudiosByKeyword(keyword: string) {
-  const [data, setData] = useState<Search[] | null>(null); // 데이터를 배열로 변경
-  const [filteredData, setFilteredData] = useState<Search[] | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<Search[] | null>(null); // API 결과 데이터
+  const [loading, setLoading] = useState(false); // 로딩 상태
+  const [error, setError] = useState<string | null>(null); // 에러 상태
 
   useEffect(() => {
     const fetchStudios = async () => {
       setLoading(true);
+      setError(null); // 이전 에러 초기화
       try {
+        // API 호출, 키워드 포함
         const response = await apiClient.get<Search[]>(
-          `/studios/search?keyword`
+          `/studios/search?keyword=${encodeURIComponent(keyword)}`
         );
-        setData(response.data);
+
+        // 중복 제거 후 데이터 설정
+        const uniqueResults = response.data.filter(
+          (studio, index, self) =>
+            index === self.findIndex((s) => s.id === studio.id)
+        );
+
+        setData(uniqueResults);
       } catch (err) {
         setError("검색 결과를 불러오는 데 실패했습니다.");
         console.error(err);
@@ -25,23 +33,14 @@ export function useStudiosByKeyword(keyword: string) {
       }
     };
 
-    if (keyword.trim()) fetchStudios();
+    if (keyword.trim()) {
+      fetchStudios(); // 키워드가 있을 때만 API 호출
+    } else {
+      setData(null); // 키워드가 없을 때 데이터 초기화
+    }
   }, [keyword]);
 
-  useEffect(() => {
-    if (data) {
-      const filtered = data.filter(
-        (studio) =>
-          studio.name.toLowerCase().includes(keyword.toLowerCase()) ||
-          studio.address.toLowerCase().includes(keyword.toLowerCase())
-      );
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(null);
-    }
-  }, [data, keyword]);
-
-  return { data: filteredData, loading, error };
+  return { data, loading, error };
 }
 
 export function useStudiosByConcept(
@@ -97,17 +96,20 @@ export function useStudiosWithFilters(
           page: pageNumber.toString(),
           price: filters.price?.toString() || "",
           rating: filters.rating?.toString() || "",
-          ...filters.locations?.reduce(
-            (acc, loc) => ({ ...acc, locations: loc }),
-            {}
-          ),
         });
+
+        // locations 배열이 존재할 경우 각각 추가
+        if (filters.locations) {
+          filters.locations.forEach((location) => {
+            queryParams.append("locations", location);
+          });
+        }
 
         const response = await apiClient.get<StudiosByConceptResponse>(
           `/studios/${conceptId}/filters?${queryParams}`
         );
 
-        setData(response.data); // 전체 응답을 설정
+        setData(response.data);
       } catch (err) {
         setError("필터링된 데이터를 불러오는 데 실패했습니다.");
         console.error(err);
