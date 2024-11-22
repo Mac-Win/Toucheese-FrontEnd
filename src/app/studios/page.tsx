@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/features/header/header";
 import FilterGroup from "@/features/filter/filterGroup";
-import { useState } from "react";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
 import {
@@ -23,15 +23,16 @@ const StudiosPage = () => {
       ? parseInt(conceptIdParam, 10)
       : null;
 
-    const [filters, setFilters] = useState<{
-      price?: number | null;
-      rating?: number | null;
-      locations: string[];
-    }>({
-      price: null,
-      rating: null,
-      locations: [],
-    });
+  const [filters, setFilters] = useState<{
+    price?: number;
+    rating?: number;
+    locations: string[];
+  }>({
+    price: undefined,
+    rating: undefined,
+    locations: [],
+  });
+
   const handleApplyFilters = (newFilters: {
     price?: string[];
     rating?: string[];
@@ -39,16 +40,16 @@ const StudiosPage = () => {
   }) => {
     setFilters({
       price:
-        newFilters.price?.length && !isNaN(Number(newFilters.price[0]))
-          ? Number(newFilters.price[0]) // 숫자로 변환 가능한 경우 변환
-          : undefined, // 변환 불가능하거나 빈 문자열이면 undefined
+        newFilters.price?.length && newFilters.price[0] !== ""
+          ? Number(newFilters.price[0])
+          : undefined,
       rating:
-        newFilters.rating?.length && !isNaN(Number(newFilters.rating[0]))
-          ? Number(newFilters.rating[0]) // 숫자로 변환 가능한 경우 변환
-          : undefined, // 변환 불가능하거나 빈 문자열이면 undefined
-      locations: newFilters.locations?.includes("") // "전체" 선택 시 빈 배열
+        newFilters.rating?.length && newFilters.rating[0] !== ""
+          ? Number(newFilters.rating[0])
+          : undefined,
+      locations: newFilters.locations?.includes("")
         ? []
-        : newFilters.locations || [], // 빈 배열이 아닌 경우 그대로 설정
+        : newFilters.locations || [],
     });
   };
 
@@ -74,11 +75,14 @@ const StudiosPage = () => {
         }}
         onApplyFilters={handleApplyFilters}
       />
-      <StudioDisplay conceptId={conceptId} filters={{
-    price: filters.price ?? null, 
-    rating: filters.rating ?? null,
-    locations: filters.locations || [],
-  }} />
+      <StudioDisplay
+        conceptId={conceptId}
+        filters={{
+          price: filters.price,
+          rating: filters.rating,
+          locations: filters.locations,
+        }}
+      />
     </div>
   );
 };
@@ -88,7 +92,7 @@ const StudioDisplay = ({
   filters,
 }: {
   conceptId: number;
-  filters: { price?: number | null; rating?: number | null; locations?: string[] };
+  filters: { price?: number; rating?: number; locations?: string[] };
 }) => {
   const {
     data: allStudiosData,

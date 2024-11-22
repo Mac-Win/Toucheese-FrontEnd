@@ -65,9 +65,9 @@ const FilterGroup = ({
       key: "price",
       options: [
         { label: "전체", value: "" },
-        { label: "10만원 미만", value: "0-100000" },
-        { label: "20만원 미만", value: "100000-200000" },
-        { label: "20만원 이상", value: "200000-999999" },
+        { label: "10만원 미만", value: "999999" },
+        { label: "20만원 미만", value: "199999" },
+        { label: "20만원 이상", value: "200000" },
       ],
     },
   ];
