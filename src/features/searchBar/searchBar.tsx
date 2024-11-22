@@ -22,7 +22,7 @@ function SearchBar() {
               type="text"
               value={searchQuery}
               onChange={handleInputChange} // 입력값 변경 처리
-              placeholder="스튜디오 이름 또는 주소를 검색하세요"
+              placeholder="스튜디오 이름을 검색해주세요"
               className="text-size flex-grow border-none outline-none bg-transparent text-white placeholder-white "
             />
             <button type="button" className="ml-2">
