@@ -23,15 +23,15 @@ const StudiosPage = () => {
       ? parseInt(conceptIdParam, 10)
       : null;
 
-  const [filters, setFilters] = useState<{
-    price?: number;
-    rating?: number;
-    locations: string[];
-  }>({
-    price: undefined,
-    rating: undefined,
-    locations: [],
-  });
+    const [filters, setFilters] = useState<{
+      price?: number | null;
+      rating?: number | null;
+      locations: string[];
+    }>({
+      price: null,
+      rating: null,
+      locations: [],
+    });
   const handleApplyFilters = (newFilters: {
     price?: string[];
     rating?: string[];
@@ -74,7 +74,11 @@ const StudiosPage = () => {
         }}
         onApplyFilters={handleApplyFilters}
       />
-      <StudioDisplay conceptId={conceptId} filters={filters} />
+      <StudioDisplay conceptId={conceptId} filters={{
+    price: filters.price ?? null, 
+    rating: filters.rating ?? null,
+    locations: filters.locations || [],
+  }} />
     </div>
   );
 };
@@ -84,7 +88,7 @@ const StudioDisplay = ({
   filters,
 }: {
   conceptId: number;
-  filters: { price?: number; rating?: number; locations: string[] };
+  filters: { price?: number | null; rating?: number | null; locations?: string[] };
 }) => {
   const {
     data: allStudiosData,
