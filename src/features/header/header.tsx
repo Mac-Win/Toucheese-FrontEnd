@@ -8,14 +8,14 @@ function Header() {
   const pathname = usePathname(); // 현재 경로 가져오기
 
   return (
-    <header className="flex items-center justify-center my-6">
+    <header className="relative flex items-center justify-center my-6">
       {/* back icon은 "/"가 아닌 경우에만 표시 */}
       {pathname !== "/" && (
-        <Link className="block mr-auto" href="/">
+        <Link className="absolute -left-2" href="/">
           <Image src="/icons/back.svg" alt="back" width={36} height={36} />
         </Link>
       )}
-      <Link href="/" className="mr-auto">
+      <Link href="/">
         <Image
           src="/TOUCHEESE_Y.png"
           alt="TOUCHEESE_Y"

@@ -3,17 +3,13 @@
 @tailwind components;
 @tailwind utilities;
 
-
-
-
-
 :root {
-  --fonts-kr : "Noto Sans KR", serif;
-  --fonts-number : "Lato"
-  --fonts-eu : "inter"
+  --fonts-kr: "Noto Sans KR", serif;
   --background: #ffffff;
   --foreground: #000000;
   --max-width: 600px;
+  --font-size: 16px;
+  --font-size-md: 14px;
 }
 
 @layer utilities {
@@ -22,16 +18,20 @@
   }
 }
 
+html {
+  font-family: var(--fonts-kr);
+  font-size: var(--fonts-size);
+}
 
-html{
-  font-family : var(--fonts-kr)
+@media (max-width: 480px) {
+  html {
+    font-size: var(--fonts-size-md);
+  }
 }
 
 body {
   color: var(--foreground);
 }
-
-
 
 #main {
   width: 100%;

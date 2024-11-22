@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="flex justify-center">
+      <body className="flex justify-center ">
         <div
           className="w-full max-w-[var(--max-width)]"
           style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}

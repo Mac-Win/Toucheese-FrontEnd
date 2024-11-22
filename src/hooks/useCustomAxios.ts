@@ -1,6 +1,48 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/lib/apiCient";
-import { Studio, StudiosByConceptResponse } from "@/types/studio.types";
+import { StudiosByConceptResponse } from "@/types/studio.types";
+import { Search } from "@/types/search.types";
+
+export function useStudiosByKeyword(keyword: string) {
+  const [data, setData] = useState<Search[] | null>(null); // 데이터를 배열로 변경
+  const [filteredData, setFilteredData] = useState<Search[] | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchStudios = async () => {
+      setLoading(true);
+      try {
+        const response = await apiClient.get<Search[]>(
+          `/studios/search?keyword`
+        );
+        setData(response.data);
+      } catch (err) {
+        setError("검색 결과를 불러오는 데 실패했습니다.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (keyword.trim()) fetchStudios();
+  }, [keyword]);
+
+  useEffect(() => {
+    if (data) {
+      const filtered = data.filter(
+        (studio) =>
+          studio.name.toLowerCase().includes(keyword.toLowerCase()) ||
+          studio.address.toLowerCase().includes(keyword.toLowerCase())
+      );
+      setFilteredData(filtered);
+    } else {
+      setFilteredData(null);
+    }
+  }, [data, keyword]);
+
+  return { data: filteredData, loading, error };
+}
 
 export function useStudiosByConcept(
   conceptId: number,
@@ -34,48 +76,48 @@ export function useStudiosByConcept(
   return { data, loading, error };
 }
 
-interface StudiosByKeywordResponse {
-  content: Studio[]; // 검색된 스튜디오 데이터 배열
-  totalElements: number; // 검색된 총 데이터 수
-}
-
-export function useStudiosByKeyword(keyword: string) {
-  const [data, setData] = useState<StudiosByKeywordResponse | null>(null);
-  const [filteredData, setFilteredData] = useState<Studio[] | null>(null);
+export function useStudiosWithFilters(
+  conceptId: number,
+  filters: {
+    price?: number;
+    rating?: number;
+    locations?: string[];
+  },
+  pageNumber: number
+) {
+  const [data, setData] = useState<StudiosByConceptResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchStudios = async () => {
+    const fetchFilteredStudios = async () => {
       setLoading(true);
       try {
-        const response = await apiClient.get<StudiosByKeywordResponse>(
-          `/studios/search?keyword=${keyword.trim()}`
+        const queryParams = new URLSearchParams({
+          page: pageNumber.toString(),
+          price: filters.price?.toString() || "",
+          rating: filters.rating?.toString() || "",
+          ...filters.locations?.reduce(
+            (acc, loc) => ({ ...acc, locations: loc }),
+            {}
+          ),
+        });
+
+        const response = await apiClient.get<StudiosByConceptResponse>(
+          `/studios/${conceptId}/filters?${queryParams}`
         );
-        setData(response.data);
+
+        setData(response.data); // 전체 응답을 설정
       } catch (err) {
-        setError("검색 결과를 불러오는 데 실패했습니다.");
+        setError("필터링된 데이터를 불러오는 데 실패했습니다.");
         console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
-    if (keyword.trim()) fetchStudios();
-  }, [keyword]);
+    fetchFilteredStudios();
+  }, [conceptId, filters, pageNumber]);
 
-  useEffect(() => {
-    if (data && data.content) {
-      const filtered = data.content.filter(
-        (studio: Studio) =>
-          studio.name.toLowerCase().includes(keyword.toLowerCase()) ||
-          studio.address.toLowerCase().includes(keyword.toLowerCase())
-      );
-      setFilteredData(filtered);
-    } else {
-      setFilteredData(null);
-    }
-  }, [data, keyword]);
-
-  return { data: filteredData, loading, error };
+  return { data, loading, error };
 }
