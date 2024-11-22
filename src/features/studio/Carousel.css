@@ -1,9 +1,0 @@
-.swiper-slide {
-  display: flex;
-  items: center;
-  border-radius: 16px;
-  overflow: hidden;
-  aspect-ratio: 1/1;
-  & img {
-  }
-}

@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import scrollbarHide from "tailwind-scrollbar-hide";
 
 const config: Config = {
   content: [
@@ -13,13 +14,17 @@ const config: Config = {
       aspectRatio: {
         "3/4": "3 / 4",
         "16/9": "16 / 9",
+        "1/1": "1/1",
       },
       colors: {
         "custom-bg": "#FFFCF5",
       },
+      maxWidth: {
+        custom: "600px", // 사용자 정의 값 추가
+      },
     },
   },
-  plugins: [],
+  plugins: [scrollbarHide], // 플러그인 적용
 };
 
 export default config;
