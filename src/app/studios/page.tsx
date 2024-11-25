@@ -1,10 +1,10 @@
 "use client";
 
+import Image from "next/image";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Header from "@/features/header/header";
 import FilterGroup from "@/features/filter/filterGroup";
-import { useState } from "react";
-import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, FreeMode } from "swiper/modules";
 import {
@@ -39,14 +39,16 @@ const StudiosPage = () => {
     locations?: string[];
   }) => {
     setFilters({
-      price: newFilters.price?.length
-        ? parseInt(newFilters.price[0], 10)
-        : undefined,
-      rating: newFilters.rating?.length
-        ? parseFloat(newFilters.rating[0])
-        : undefined,
-      locations: newFilters.locations?.includes("전체")
-        ? [] // "전체"가 선택된 경우 비워줌
+      price:
+        newFilters.price?.length && newFilters.price[0] !== ""
+          ? Number(newFilters.price[0])
+          : undefined,
+      rating:
+        newFilters.rating?.length && newFilters.rating[0] !== ""
+          ? Number(newFilters.rating[0])
+          : undefined,
+      locations: newFilters.locations?.includes("")
+        ? []
         : newFilters.locations || [],
     });
   };
@@ -73,7 +75,14 @@ const StudiosPage = () => {
         }}
         onApplyFilters={handleApplyFilters}
       />
-      <StudioDisplay conceptId={conceptId} filters={filters} />
+      <StudioDisplay
+        conceptId={conceptId}
+        filters={{
+          price: filters.price,
+          rating: filters.rating,
+          locations: filters.locations,
+        }}
+      />
     </div>
   );
 };
@@ -83,7 +92,7 @@ const StudioDisplay = ({
   filters,
 }: {
   conceptId: number;
-  filters: { price?: number; rating?: number; locations: string[] };
+  filters: { price?: number; rating?: number; locations?: string[] };
 }) => {
   const {
     data: allStudiosData,

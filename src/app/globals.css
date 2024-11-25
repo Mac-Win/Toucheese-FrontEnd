@@ -10,6 +10,7 @@
   --max-width: 600px;
   --font-size: 16px;
   --font-size-md: 14px;
+  --font-size-sm: 12px;
 }
 
 @layer utilities {
@@ -20,17 +21,30 @@
 
 html {
   font-family: var(--fonts-kr);
-  font-size: var(--fonts-size);
+  font-size: var(--font-size);
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: var(--font-size-md); /* 중간 화면에서는 약간 작은 글꼴 */
+  }
 }
 
 @media (max-width: 480px) {
   html {
-    font-size: var(--fonts-size-md);
+    font-size: var(--font-size-sm); /* 작은 화면에서는 더 작은 글꼴 */
   }
 }
 
 body {
-  color: var(--foreground);
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #main {
@@ -38,9 +52,20 @@ body {
   min-width: 320px;
   max-width: var(--max-width);
   margin: 0 auto;
+  padding: 0 16px; /* 좌우 간격 추가 */
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
+  padding-bottom: 200px; /* 하단 여유 공간 추가 */
 }
+
+@media (max-width: 480px) {
+  #main {
+    padding: 0 12px; /* 작은 화면에서 더 적은 좌우 간격 */
+    padding-bottom: 200px; /* 하단 여유 공간 유지 */
+  }
+}
+
 .global_gnb {
   width: 100%;
   min-width: 320px;
@@ -50,4 +75,26 @@ body {
   background-color: #fff2cc;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 10; /* 상위에 고정 */
+  padding: 8px 0; /* 위아래 여백 추가 */
+}
+
+.global_gnb button {
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-size-md);
+}
+
+.global_gnb button span {
+  display: block;
+  font-size: var(--font-size-sm); /* 작은 아이콘/텍스트 */
+}
+
+@media (max-width: 480px) {
+  .global_gnb {
+    padding: 12px 0; /* 작은 화면에서 여백 조정 */
+  }
+
+  .global_gnb button {
+    font-size: var(--font-size-sm);
+  }
 }
