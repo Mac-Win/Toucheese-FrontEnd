@@ -11,7 +11,7 @@ const PaginationComponent = ({
     <button
       disabled={pageNumber === 0}
       onClick={() => onPageChange(pageNumber - 1)}
-      className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+      className="px-4 py-2 bg-yellow-200 rounded disabled:opacity-50"
     >
       이전
     </button>
@@ -21,7 +21,7 @@ const PaginationComponent = ({
     <button
       disabled={pageNumber === totalPages - 1}
       onClick={() => onPageChange(pageNumber + 1)}
-      className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50"
+      className="px-4 py-2 bg-yellow-200 rounded disabled:opacity-50"
     >
       다음
     </button>

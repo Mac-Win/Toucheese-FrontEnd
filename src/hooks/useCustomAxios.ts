@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import apiClient from "@/lib/apiCient";
-import { StudiosByConceptResponse } from "@/types/studio.types";
-import { Search } from "@/types/search.types";
+import { StudiosByConceptResponse } from "@/types/studioResponse.type";
+import { Search } from "@/types/search.type";
 
 export function useStudiosByKeyword(keyword: string) {
   const [data, setData] = useState<Search[] | null>(null); // API 결과 데이터
