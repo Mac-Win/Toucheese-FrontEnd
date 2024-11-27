@@ -9,8 +9,7 @@ export const metadata: Metadata = {
   description: "스프린트1단계",
   icons: {
     icon: "/icon.ico",
-    shortcut: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/icon.icon",
   },
 };
 
