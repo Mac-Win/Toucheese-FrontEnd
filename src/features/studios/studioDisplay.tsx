@@ -8,10 +8,8 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import PaginationComponent from "@/features/pagination/pagination";
-import {
-  useStudiosByConcept,
-  useStudiosWithFilters,
-} from "@/hooks/useCustomAxios";
+import { useConcept } from "@/hooks/useConcept";
+import { useFilters } from "@/hooks/useFilters";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -29,13 +27,13 @@ const StudioDisplay = ({
     data: allStudiosData,
     loading: allStudiosLoading,
     error: allStudiosError,
-  } = useStudiosByConcept(conceptId, pageNumber); // 0-based index
+  } = useConcept(conceptId, pageNumber); // 0-based index
 
   const {
     data: filteredStudiosData,
     loading: filteredStudiosLoading,
     error: filteredStudiosError,
-  } = useStudiosWithFilters(conceptId, filters, pageNumber);
+  } = useFilters(conceptId, filters, pageNumber);
 
   const isFilterApplied =
     filters.price !== undefined ||
@@ -50,25 +48,22 @@ const StudioDisplay = ({
     }
   }, [filteredStudiosData, allStudiosData]);
 
-  // 로딩 상태 처리
   if (isFilterApplied && filteredStudiosLoading)
     return <p>로딩 중 (필터 적용)...</p>;
   if (!isFilterApplied && allStudiosLoading)
     return <p>로딩 중 (전체 조회)...</p>;
 
-  // 오류 상태 처리
   if (isFilterApplied && filteredStudiosError)
     return <p>오류 발생: 필터된 데이터를 불러오지 못했습니다.</p>;
   if (!isFilterApplied && allStudiosError)
     return <p>오류 발생: 전체 데이터를 불러오지 못했습니다.</p>;
 
-  // 데이터 선택
   const studios = isFilterApplied
     ? filteredStudiosData?.content || []
     : allStudiosData?.content || [];
 
   const handlePageChange = (newPage: number) => {
-    setPageNumber(newPage); // 페이지 번호 상태 업데이트
+    setPageNumber(newPage);
   };
 
   return (

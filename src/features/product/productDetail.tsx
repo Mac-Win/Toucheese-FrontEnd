@@ -3,33 +3,41 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { product, Addon } from "@/app/constants/product";
+import { product as ProductList, Addon } from "@/api/data/productTestData";
 
-function ProductDetail() {
-  // 상태 관리
+const ProductDetail = ({ productid }: { productid: number }) => {
+  const product = ProductList.content.find((p) => p.id === productid);
+
   const [quantity, setQuantity] = useState(1);
   const [selectedAddons, setSelectedAddons] = useState<Addon[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-  // 선택된 추가 구매 옵션 업데이트
+  if (!product) {
+    return (
+      <div className="text-center mt-10 text-red-500">
+        상품을 찾을 수 없습니다.
+      </div>
+    );
+  }
+
   const handleAddonChange = (addon: Addon, isChecked: boolean) => {
-    if (isChecked) {
-      setSelectedAddons((prev) => [...prev, addon]); // 옵션 추가
-    } else {
-      setSelectedAddons((prev) => prev.filter((item) => item.id !== addon.id)); // 옵션 제거
-    }
+    setSelectedAddons((prev) =>
+      isChecked ? [...prev, addon] : prev.filter((item) => item.id !== addon.id)
+    );
   };
 
-  // 총 가격 계산
-  const addonTotalPrice = selectedAddons.reduce(
-    (total, addon) => total + addon.price,
-    0
-  );
-  const totalPrice = product.price * quantity + addonTotalPrice;
+  const calculateTotalPrice = () => {
+    const addonTotalPrice = selectedAddons.reduce(
+      (total, addon) => total + addon.price,
+      0
+    );
+    return product.price * quantity + addonTotalPrice;
+  };
 
   return (
     <div>
       <div className="bg-custom-bg -mx-4 p-4">
-        <Link href="../" className="">
+        <Link href="../">
           <Image src="/icons/back.svg" alt="뒤로가기" width={36} height={36} />
         </Link>
 
@@ -42,46 +50,41 @@ function ProductDetail() {
               fill
             />
           </div>
-          <div className="mt-8 text-center">
-            <h2 className="text-3xl font-medium mb-4">{product.name}</h2>
-            <p className="text-gray-700">{product.description}</p>
-          </div>
+          <h2 className="text-3xl font-medium mb-4">{product.name}</h2>
+          <p className="text-gray-700">{product.description}</p>
         </div>
       </div>
 
       <div className="bg-white -mx-4 p-4">
-        <div className="my-4">
-          <div className="flex justify-between py-2 border-b">
-            <h3 className="text-2xl font-medium">가격</h3>
-            <div className="items-center">
-              <span className="text-sm text-gray-600 mr-2">1인 기준</span>
-              <span className="text-lg font-bold">
-                {product.price.toLocaleString()}원
-              </span>
-            </div>
-          </div>
-
-          <div className="mt-4 flex justify-between items-center">
-            <h4 className="text-xl font-medium">인원</h4>
-            <div className="flex items-center space-x-4">
-              <button
-                className="w-8 h-8 flex justify-center items-center bg-gray-200 rounded-lg"
-                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
-              >
-                -
-              </button>
-              <span className="text-lg font-medium">{quantity}명</span>
-              <button
-                className="w-8 h-8 flex justify-center items-center bg-gray-200 rounded-lg"
-                onClick={() => setQuantity(quantity + 1)}
-              >
-                +
-              </button>
-            </div>
+        <div className="flex justify-between py-2 border-b">
+          <h3 className="text-2xl font-medium">가격</h3>
+          <div>
+            <span className="text-sm text-gray-600 mr-2">1인 기준</span>
+            <span className="text-lg font-bold">
+              {product.price.toLocaleString()}원
+            </span>
           </div>
         </div>
 
-        {/* 추가 구매 옵션 */}
+        <div className="mt-4 flex justify-between items-center">
+          <h4 className="text-xl font-medium">인원</h4>
+          <div className="flex items-center space-x-4">
+            <button
+              className="w-8 h-8 bg-gray-200 rounded-lg"
+              onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
+            >
+              -
+            </button>
+            <span className="text-lg">{quantity}명</span>
+            <button
+              className="w-8 h-8 bg-gray-200 rounded-lg"
+              onClick={() => setQuantity((prev) => prev + 1)}
+            >
+              +
+            </button>
+          </div>
+        </div>
+
         <div className="mt-8">
           <h3 className="text-2xl font-medium mb-4">추가 구매</h3>
           <ul className="space-y-4">
@@ -93,13 +96,14 @@ function ProductDetail() {
                     name="addon"
                     value={addon.id}
                     className="mr-2"
+                    checked={selectedAddons.some(
+                      (item) => item.id === addon.id
+                    )}
                     onChange={(e) => handleAddonChange(addon, e.target.checked)}
                   />
                   {addon.name}
                 </label>
-                <span className="text-gray-700">
-                  {addon.price.toLocaleString()}원
-                </span>
+                <span>{addon.price.toLocaleString()}원</span>
               </li>
             ))}
           </ul>
@@ -107,25 +111,27 @@ function ProductDetail() {
 
         <div className="mt-8">
           <h3 className="text-2xl font-medium mb-4">촬영 날짜</h3>
-          <label className="block relative">
-            <input
-              type="date"
-              placeholder="예약일자 및 시간 선택"
-              className="w-full p-3 border rounded-md"
-              min="2024-01-01"
-              max="2028-12-31"
-            />
-          </label>
+          <input
+            type="date"
+            className="w-full p-3 border rounded-md"
+            min="2024-01-01"
+            max="2028-12-31"
+            value={selectedDate || ""}
+            onChange={(e) => setSelectedDate(e.target.value)}
+          />
+          {selectedDate && (
+            <p className="mt-2 text-gray-600">선택한 날짜: {selectedDate}</p>
+          )}
         </div>
 
         <div className="mt-8">
           <button className="w-full bg-yellow-500 text-white text-lg font-bold py-4 rounded-md">
-            선택 상품 주문 ({totalPrice.toLocaleString()}원)
+            선택 상품 주문 ({calculateTotalPrice().toLocaleString()}원)
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default ProductDetail;

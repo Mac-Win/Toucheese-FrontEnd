@@ -24,7 +24,10 @@ const Home = () => {
               alt={concept.title}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority
             />
+
             <div className="absolute bottom-0 w-full bg-black bg-opacity-50 py-2 text-center">
               <h1 className="text-white text-sm sm:text-base font-medium">
                 {concept.title}

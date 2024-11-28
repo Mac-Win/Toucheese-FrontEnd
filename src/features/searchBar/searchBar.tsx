@@ -1,10 +1,10 @@
 import { useState } from "react";
 import Image from "next/image";
-import { useStudiosByKeyword } from "@/hooks/useCustomAxios";
+import { useSearch } from "@/hooks/useSearch";
 
 function SearchBar() {
   const [searchQuery, setSearchQuery] = useState<string>(""); // 검색 입력값
-  const { data: results, loading, error } = useStudiosByKeyword(searchQuery);
+  const { data: results, loading, error } = useSearch(searchQuery);
 
   // 검색어 변경 시 처리
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
