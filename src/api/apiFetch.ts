@@ -1,4 +1,4 @@
-import apiClient from "@/lib/apiCient";
+import apiClient from "@/api/apiCient";
 
 /**
  * 공통 API 호출 함수

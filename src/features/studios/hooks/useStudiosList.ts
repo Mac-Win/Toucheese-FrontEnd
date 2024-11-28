@@ -1,7 +1,7 @@
-import useFetch from "@/hooks/useFetch";
-import { StudiosByConceptResponse } from "@/types/studioResponse.type";
+import useFetch from "@/features/common/hooks/useFetch";
+import { StudiosByConceptResponse } from "../types/studioResponse.type";
 
-export function useConcept(
+export function useStudioList(
   conceptId: number,
   pageNumber: number = 1,
   pageSize: number = 10
@@ -11,7 +11,7 @@ export function useConcept(
   params.set("size", pageSize.toString());
 
   return useFetch<StudiosByConceptResponse>(
-    `/concepts/${conceptId}/studios`,
+    `/v1/concepts/${conceptId}/studios`,
     params
   );
 }

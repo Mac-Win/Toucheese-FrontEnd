@@ -7,13 +7,13 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import PaginationComponent from "@/features/pagination/pagination";
-import { useConcept } from "@/hooks/useConcept";
-import { useFilters } from "@/hooks/useFilters";
+import PaginationComponent from "@/features/studios/components/pagination";
+import { useStudioList } from "../hooks/useStudiosList";
+import { useFilters } from "@/features/studios/hooks/useFilters";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const StudioDisplay = ({
+const StudioList = ({
   conceptId,
   filters,
 }: {
@@ -27,7 +27,7 @@ const StudioDisplay = ({
     data: allStudiosData,
     loading: allStudiosLoading,
     error: allStudiosError,
-  } = useConcept(conceptId, pageNumber); // 0-based index
+  } = useStudioList(conceptId, pageNumber); // 0-based index
 
   const {
     data: filteredStudiosData,
@@ -133,4 +133,4 @@ const StudioDisplay = ({
   );
 };
 
-export default StudioDisplay;
+export default StudioList;

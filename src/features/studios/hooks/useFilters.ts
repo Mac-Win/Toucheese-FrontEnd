@@ -1,5 +1,5 @@
-import useFetch from "@/hooks/useFetch";
-import { StudiosByConceptResponse } from "@/types/studioResponse.type";
+import useFetch from "@/features/common/hooks/useFetch";
+import { StudiosByConceptResponse } from "../types/studioResponse.type";
 
 export function useFilters(
   conceptId: number,
@@ -22,7 +22,7 @@ export function useFilters(
   }
 
   return useFetch<StudiosByConceptResponse>(
-    `/studios/${conceptId}/filters`,
+    `/v1/concepts/${conceptId}/studios`,
     params
   );
 }

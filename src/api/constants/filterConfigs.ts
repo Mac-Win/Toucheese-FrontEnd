@@ -1,4 +1,4 @@
-import { FilterConfig } from "@/types/filters.type";
+import { FilterConfig } from "@/features/studios/types/filters.type";
 
 export const filterConfigs: FilterConfig[] = [
   {

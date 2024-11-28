@@ -1,4 +1,4 @@
-import NavBar from "@/features/navbar/Navbar";
+import NavBar from "@/features/common/components/navbar/Navbar";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
