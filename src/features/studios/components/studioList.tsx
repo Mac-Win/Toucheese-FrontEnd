@@ -46,7 +46,7 @@ const StudioList = ({
     if (data) {
       setTotalPages(data.totalPages || 1);
     }
-  }, [filteredStudiosData, allStudiosData]);
+  }, [isFilterApplied, filteredStudiosData, allStudiosData]);
 
   if (isFilterApplied && filteredStudiosLoading)
     return <p>로딩 중 (필터 적용)...</p>;

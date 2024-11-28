@@ -6,7 +6,10 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const memoizedParams = useMemo(() => params, [params?.toString()]);
+  // memoization of params to prevent unnecessary re-fetch
+  const memoizedParams = useMemo(() => {
+    return params ? new URLSearchParams(params.toString()) : undefined;
+  }, [params]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,10 +19,8 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       try {
         const response = await apiFetch<T>(endpoint, memoizedParams);
         setData(response);
-      } catch (err: any) {
-        if (err.response?.status === 502) {
-          setError("서버가 현재 닫혀 있습니다. 기본 데이터를 표시합니다.");
-        } else if (err instanceof Error) {
+      } catch (err: unknown) {
+        if (err instanceof Error) {
           setError(err.message);
         } else {
           setError("알 수 없는 에러가 발생했습니다.");
@@ -29,7 +30,9 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       }
     };
 
-    if (endpoint) fetchData();
+    if (endpoint) {
+      fetchData();
+    }
   }, [endpoint, memoizedParams]);
 
   return { data, loading, error };

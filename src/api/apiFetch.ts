@@ -14,10 +14,13 @@ export async function apiFetch<T>(
     const url = params ? `${endpoint}?${params.toString()}` : endpoint;
     const response = await apiClient.get<T>(url);
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error(`API 호출 실패: ${endpoint}`, error);
-    throw new Error(
-      error.response?.data?.message || "데이터를 불러오는 데 실패했습니다."
-    );
+
+    if (error instanceof Error && error.message) {
+      throw new Error(error.message);
+    }
+
+    throw new Error("데이터를 불러오는 데 실패했습니다.");
   }
 }

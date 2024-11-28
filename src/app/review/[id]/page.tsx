@@ -1,5 +1,6 @@
 "use client";
 
+import { use } from "react";
 import Image from "next/image";
 import { useReviewDetail } from "@/features/review/hooks/useReviewDetail";
 import { TopBar } from "@/features/common/components/topbar";
@@ -7,12 +8,22 @@ import { TopBar } from "@/features/common/components/topbar";
 function ReviewDetailPage({
   params,
 }: {
-  params: { studioId: string; reviewId: string };
+  params: Promise<{ studioId: string; reviewId: string }>;
 }) {
-  const studioId = parseInt(params.studioId || "1", 10);
-  const reviewId = parseInt(params.reviewId || "1", 10);
+  const { studioId, reviewId } = use(params); // Promise 언래핑
 
-  const { data: review, loading, error } = useReviewDetail(studioId, reviewId);
+  const studioIdNumber = parseInt(studioId, 10);
+  const reviewIdNumber = parseInt(reviewId, 10);
+
+  const {
+    data: review,
+    loading,
+    error,
+  } = useReviewDetail(studioIdNumber, reviewIdNumber);
+
+  if (isNaN(studioIdNumber) || isNaN(reviewIdNumber)) {
+    return <div>유효하지 않은 스튜디오 또는 리뷰 ID입니다.</div>;
+  }
 
   if (loading) return <div>리뷰 데이터를 로딩 중입니다...</div>;
   if (error)

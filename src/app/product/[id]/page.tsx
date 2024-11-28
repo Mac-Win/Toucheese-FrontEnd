@@ -1,13 +1,20 @@
 "use client";
 
+import { use } from "react";
 import { TopBar } from "@/features/common/components/topbar";
 import ProductDetail from "@/features/product/components/productDetail";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 
-function ProductDetailPage({ params }: { params: { productId: string } }) {
-  const productId = parseInt(params.productId || "1", 10);
+function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}) {
+  const { productId } = use(params); // Promise 언래핑
 
-  const { data: product, loading, error } = useProductsDetail(productId);
+  const productIdNumber = parseInt(productId, 10);
+
+  const { data: product, loading, error } = useProductsDetail(productIdNumber);
 
   // 로딩 중 처리
   if (loading) {
