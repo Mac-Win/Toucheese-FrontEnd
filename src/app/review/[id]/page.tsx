@@ -12,8 +12,8 @@ function ReviewDetailPage({
 }) {
   const { studioId, reviewId } = use(params); // Promise 언래핑
 
-  const studioIdNumber = parseInt(studioId, 10);
-  const reviewIdNumber = parseInt(reviewId, 10);
+  const studioIdNumber = parseInt(studioId || "1", 10);
+  const reviewIdNumber = parseInt(reviewId || "1", 10);
 
   const {
     data: review,

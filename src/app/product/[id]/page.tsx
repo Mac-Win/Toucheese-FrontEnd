@@ -12,7 +12,7 @@ function ProductDetailPage({
 }) {
   const { productId } = use(params); // Promise 언래핑
 
-  const productIdNumber = parseInt(productId, 10);
+  const productIdNumber = parseInt(productId || "1", 10);
 
   const { data: product, loading, error } = useProductsDetail(productIdNumber);
 

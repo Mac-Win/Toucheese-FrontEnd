@@ -6,10 +6,8 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // memoization of params to prevent unnecessary re-fetch
-  const memoizedParams = useMemo(() => {
-    return params ? new URLSearchParams(params.toString()) : undefined;
-  }, [params]);
+  // Memoize params as a string
+  const memoizedParams = useMemo(() => params?.toString() || "", [params]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +15,11 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       setError(null);
 
       try {
-        const response = await apiFetch<T>(endpoint, memoizedParams);
+        // Convert memoizedParams back to URLSearchParams for the request
+        const response = await apiFetch<T>(
+          endpoint,
+          new URLSearchParams(memoizedParams)
+        );
         setData(response);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -30,10 +32,11 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       }
     };
 
+    // Fetch data only when endpoint is valid
     if (endpoint) {
       fetchData();
     }
-  }, [endpoint, memoizedParams]);
+  }, [endpoint, memoizedParams]); // Memoized params prevent unnecessary re-fetch
 
   return { data, loading, error };
 }
