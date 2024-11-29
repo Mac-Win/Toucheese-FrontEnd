@@ -1,7 +1,7 @@
 /* -------------------------------------------------------------------------- */
 /*                                   studio list 확인용                                   */
 /* -------------------------------------------------------------------------- */
-import { StudiosByConceptResponse } from "@/types/studioResponse.type";
+import { StudiosByConceptResponse } from "@/features/studios/types/studioResponse.type";
 
 export const studios: StudiosByConceptResponse = {
   content: [

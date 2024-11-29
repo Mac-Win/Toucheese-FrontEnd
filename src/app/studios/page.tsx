@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Header from "@/features/header/header";
-import FilterGroup from "@/features/filter/filterGroup";
-import StudioDisplay from "@/features/studios/studioDisplay";
+import Header from "@/features/common/components/header";
+import FilterGroup from "@/features/studios/components/filterGroup";
+import StudioList from "@/features/studios/components/studioList";
 
 const StudiosPage = () => {
   const searchParams = useSearchParams();
@@ -68,7 +68,7 @@ const StudiosPage = () => {
         onApplyFilters={handleApplyFilters}
       />
 
-      <StudioDisplay
+      <StudioList
         conceptId={conceptId}
         filters={{
           price: filters.price,

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { SelectedFilters } from "@/types/filters.type";
-import { filterConfigs } from "@/app/constants/filterConfigs";
+import { SelectedFilters } from "@/features/studios/types/filters.type";
+import { filterConfigs } from "@/api/constants/filterConfigs";
 
 const FilterGroup = ({
   filters,
@@ -26,11 +26,11 @@ const FilterGroup = ({
           ? value === "전체"
             ? [] // "전체" 선택 시 빈 배열로 설정
             : tempFilters[key]?.includes(value)
-            ? tempFilters[key].filter((v) => v !== value)
-            : [...(tempFilters[key] || []), value]
+              ? tempFilters[key].filter((v) => v !== value)
+              : [...(tempFilters[key] || []), value]
           : value === "전체"
-          ? [] // 단일 선택 필터(rating, price)도 빈 배열로 설정
-          : [value],
+            ? [] // 단일 선택 필터(rating, price)도 빈 배열로 설정
+            : [value],
     };
 
     setTempFilters(newFilters);

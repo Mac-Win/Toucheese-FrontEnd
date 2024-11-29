@@ -1,4 +1,4 @@
-import { Studio } from "@/types/studio.type";
+import { Studio } from "./studio.type";
 
 export interface StudiosByConceptResponse {
   content: Studio[]; // 스튜디오 데이터 배열

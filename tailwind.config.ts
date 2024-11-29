@@ -6,8 +6,9 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/features/**/*.{js,ts,jsx,tsx,mdx}", // 'features' 폴더 경로 추가
-    "./src/shared/**/*.{js,ts,jsx,tsx,mdx}", // 'shared' 폴더 경로 추가
+    "./src/features/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/shared/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/hooks/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -20,11 +21,11 @@ const config: Config = {
         "custom-bg": "#FFFCF5",
       },
       maxWidth: {
-        custom: "600px", // 사용자 정의 값 추가
+        custom: "var(--max-width)",
       },
     },
   },
-  plugins: [scrollbarHide], // 플러그인 적용
+  plugins: [scrollbarHide],
 };
 
 export default config;

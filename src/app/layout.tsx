@@ -1,16 +1,14 @@
-import NavBar from "@/features/navbar/Navbar";
+import NavBar from "@/features/common/components/navbar/Navbar";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
-import Loading from "./Loading/page";
 
 export const metadata: Metadata = {
   title: "터치즈 MVP 기능구현",
-  description: "스프린트1단계",
+  description: "스프린트2단계",
   icons: {
     icon: "/icon.ico",
-    shortcut: "/favicon-32x32.png",
-    apple: "/apple-touch-icon.png",
+    shortcut: "/icon.ico",
   },
 };
 
@@ -22,20 +20,16 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="flex justify-center ">
-        <div
-          className="w-full max-w-[var(--max-width)]"
-          style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
-        >
-          <Suspense fallback={<Loading />}>
-            <main
-              id="main"
-              className="bg-white pb-28 flex flex-col p-4 min-h-screen"
-            >
-              {children}
-            </main>
-            <NavBar />
-          </Suspense>
-        </div>
+        <Suspense>
+          <main
+            id="main"
+            className="relative bg-white pb-28 p-4 flex flex-col min-h-screen w-full max-w-[var(--max-width)]"
+            style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
+          >
+            {children}
+          </main>
+          <NavBar />
+        </Suspense>
       </body>
     </html>
   );

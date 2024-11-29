@@ -24,6 +24,7 @@ html {
   font-size: var(--font-size);
   background-color: var(--background);
   color: var(--foreground);
+  overflow-y: scroll;
 }
 
 @media (max-width: 768px) {
@@ -51,8 +52,7 @@ body {
   width: 100%;
   min-width: 320px;
   max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 16px; /* 좌우 간격 추가 */
+  padding: 16px; /* 좌우 간격 추가 */
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
