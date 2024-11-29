@@ -20,10 +20,6 @@ function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const studioId = parseInt(id, 10);
   const { data: studioData, loading, error } = useStudioDetail(studioId);
 
-  if (isNaN(studioId) || studioId <= 0) {
-    return <div>유효하지 않은 스튜디오 ID입니다.</div>;
-  }
-
   if (!studioData) {
     return <div>스튜디오 정보를 불러올 수 없습니다.</div>;
   }
