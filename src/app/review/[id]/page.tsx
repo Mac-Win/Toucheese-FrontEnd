@@ -1,28 +1,17 @@
 "use client";
 
-import { use } from "react";
-import Image from "next/image";
 import { useReviewDetail } from "@/features/review/hooks/useReviewDetail";
 import { TopBar } from "@/features/common/components/topbar";
+import { use } from "react";
+import ReviewDetail from "@/features/review/components/reviewDetail";
 
-function ReviewDetailPage({
-  params,
-}: {
-  params: Promise<{ studioId: string; reviewId: string }>;
-}) {
-  const { studioId, reviewId } = use(params); // Promise 언래핑
+function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params); // `params` 언래핑
+  const reviewId = parseInt(id, 10);
 
-  const studioIdNumber = parseInt(studioId || "1", 10);
-  const reviewIdNumber = parseInt(reviewId || "1", 10);
-
-  const {
-    data: review,
-    loading,
-    error,
-  } = useReviewDetail(studioIdNumber, reviewIdNumber);
-
-  if (isNaN(studioIdNumber) || isNaN(reviewIdNumber)) {
-    return <div>유효하지 않은 스튜디오 또는 리뷰 ID입니다.</div>;
+  const { data: review, loading, error } = useReviewDetail(reviewId);
+  if (isNaN(reviewId) || reviewId === 0) {
+    return <div>유효하지 않은 리뷰 ID입니다.</div>;
   }
 
   if (loading) return <div>리뷰 데이터를 로딩 중입니다...</div>;
@@ -33,30 +22,7 @@ function ReviewDetailPage({
   return (
     <>
       <TopBar />
-      <div className="p-4 mt-20">
-        <div className="border-b pb-4">
-          <div className="grid grid-cols-2 gap-4 my-4">
-            {review.reviewImages.map((img, idx) => (
-              <div
-                key={idx}
-                className="relative w-full h-48 rounded-lg overflow-hidden"
-              >
-                <Image
-                  src={img}
-                  alt={`리뷰 이미지 ${idx + 1}`}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-          <h1 className="text-lg font-bold mb-2">리뷰 상세</h1>
-          <p className="text-gray-700 text-sm">{review.content}</p>
-        </div>
-        <div className="my-4">
-          <h2 className="text-md font-semibold">평점: {review.rating} / 5</h2>
-        </div>
-      </div>
+      <ReviewDetail review={review} />
     </>
   );
 }

@@ -5,14 +5,9 @@ import { TopBar } from "@/features/common/components/topbar";
 import ProductDetail from "@/features/product/components/productDetail";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 
-function ProductDetailPage({
-  params,
-}: {
-  params: Promise<{ productId: string }>;
-}) {
-  const { productId } = use(params); // Promise 언래핑
-
-  const productIdNumber = parseInt(productId || "1", 10);
+function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params); // `params` 언래핑
+  const productIdNumber = parseInt(id, 10);
 
   const { data: product, loading, error } = useProductsDetail(productIdNumber);
 

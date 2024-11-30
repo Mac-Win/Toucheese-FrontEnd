@@ -17,11 +17,11 @@ function ReviewList({ studioId }: { studioId: number }) {
     <div className="grid grid-cols-3 gap-1">
       {reviews.map((review) => (
         <Link href={`/review/${review.id}`} key={review.id}>
-          <div className="relative w-full overflow-hidden aspect-square cursor-pointer hover:shadow-md bg-black">
+          <div className="relative w-full overflow-hidden aspect-square cursor-pointer">
             <Image
               src={review.firstImage}
               alt={`Review ${review.id}`}
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full hover:scale-105 transition-all duration-200"
               fill
             />
           </div>

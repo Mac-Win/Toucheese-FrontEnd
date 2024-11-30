@@ -12,17 +12,39 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { TopBar } from "@/features/common/components/topbar";
 import ReviewList from "@/features/review/components/reviewList";
+import useStudioStore from "@/features/studios/store/useStudioStore";
+
+function formatContent(content: string): string[] {
+  // 마침표(`.`) 기준으로 텍스트 분리하여 배열로 반환
+  return content
+    .split(".")
+    .map((sentence) => sentence.trim())
+    .filter(Boolean);
+}
 
 function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [activeTab, setActiveTab] = useState("가격");
   const [isExpanded, setIsExpanded] = useState(false);
+
   const { id } = use(params); // `params` 언래핑
   const studioId = parseInt(id, 10);
   const { data: studioData, loading, error } = useStudioDetail(studioId);
+  const setStudioId = useStudioStore((state) => state.setStudioId);
+
+  if (!isNaN(studioId)) {
+    setStudioId(studioId); // 상태에 studioId 저장
+  }
+
+  if (isNaN(studioId) || studioId <= 0) {
+    return <div>유효하지 않은 스튜디오 ID입니다.</div>;
+  }
 
   if (!studioData) {
     return <div>스튜디오 정보를 불러올 수 없습니다.</div>;
   }
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러가 발생했습니다: {error}</div>;
 
   // 상품 리뷰 총합 계산
   const totalReviews = studioData.products.reduce(
@@ -30,8 +52,12 @@ function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
     0
   );
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다: {error}</div>;
+  const formattedContent = formatContent(studioData.description); // 리뷰 내용을 문단 배열로 변환
+
+  // 내용 숨기기와 펼치기 제어
+  const visibleContent = isExpanded
+    ? formattedContent
+    : formattedContent.slice(0, 2); // 처음 두 문단만 표시
 
   return (
     <div>
@@ -75,11 +101,25 @@ function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
         <h2 className="text-black text-lg font-bold">{studioData.name}</h2>
       </div>
 
-      <div className="my-4">
-        <p>리뷰 {totalReviews}개</p>
-        <p>{studioData.description}</p>
-        <p>주소 {studioData.address}</p>
-        <p>{studioData.operationHour}</p>
+      <div className="my-4 space-y-2">
+        <p>❤️리뷰 {totalReviews}개</p>
+        <div>
+          {visibleContent.map((paragraph, idx) => (
+            <p className="leading-relaxed" key={idx}>
+              {paragraph}.
+            </p>
+          ))}
+          {formattedContent.length > 2 && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="text-blue-500 text-sm font-semibold"
+            >
+              {isExpanded ? "간략히 보기" : "자세히 보기"}
+            </button>
+          )}
+        </div>
+        <p>🗺️주소 {studioData.address}</p>
+        <p>🕒영업시간 {studioData.operationHour}</p>
       </div>
 
       <div className="my-4 bg-gray-200 p-4 rounded-lg flex items-start gap-2">
@@ -145,7 +185,7 @@ function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
                       {product.description}
                     </div>
                     <div className="text-sm text-gray-500 mt-2">
-                      리뷰 {product.reviewCount}개
+                      <span>❤️리뷰 {product.reviewCount}개</span>
                     </div>
                     <div className="flex-shrink-0 text-right font-bold text-xl text-black">
                       {product.price.toLocaleString("ko-KR")}원
