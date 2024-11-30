@@ -15,7 +15,6 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       setError(null);
 
       try {
-        // Convert memoizedParams back to URLSearchParams for the request
         const response = await apiFetch<T>(
           endpoint,
           new URLSearchParams(memoizedParams)
@@ -32,11 +31,10 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       }
     };
 
-    // Fetch data only when endpoint is valid
     if (endpoint) {
       fetchData();
     }
-  }, [endpoint, memoizedParams]); // Memoized params prevent unnecessary re-fetch
+  }, [endpoint, memoizedParams]);
 
   return { data, loading, error };
 }

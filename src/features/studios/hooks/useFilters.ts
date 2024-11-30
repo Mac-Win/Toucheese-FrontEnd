@@ -22,7 +22,7 @@ export function useFilters(
   }
 
   return useFetch<StudiosByConceptResponse>(
-    `/v1/concepts/${conceptId}/studios`,
+    `/v1/concepts/${conceptId}/studios/filters`,
     params
   );
 }
