@@ -4,18 +4,25 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https", // 프로토콜 설정
-        hostname: "i.imgur.com", // 허용할 첫 번째 호스트
-        port: "", // 포트 번호는 기본값
-        pathname: "/**", // 모든 경로 허용
+        protocol: "https",
+        hostname: "i.imgur.com",
+        port: "",
+        pathname: "/**",
       },
       {
-        protocol: "https", // 두 번째 호스트의 프로토콜 설정
-        hostname: "imgur.com", // 허용할 두 번째 호스트
-        port: "", // 포트 번호는 기본값
-        pathname: "/**", // 모든 경로 허용
+        protocol: "https",
+        hostname: "imgur.com",
+        port: "",
+        pathname: "/**",
       },
     ],
+  },
+  webpack(config, { isServer }) {
+    // 빌드에서 제외할 폴더 추가
+    if (!isServer) {
+      config.resolve.alias["api/data"] = false;
+    }
+    return config;
   },
 };
 

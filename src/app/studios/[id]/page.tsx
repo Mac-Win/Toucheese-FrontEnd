@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useStudioDetail } from "@/features/studios/hooks/useStudioDetail";
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
@@ -13,6 +13,8 @@ import "swiper/css/navigation";
 import { TopBar } from "@/features/common/components/topbar";
 import ReviewList from "@/features/review/components/reviewList";
 import useStudioStore from "@/features/studios/store/useStudioStore";
+import { useGNBStore } from "@/features/common/store/useGnbStore";
+import { useStudioReviews } from "@/features/review/hooks/useReview";
 
 function formatContent(content: string): string[] {
   // 마침표(`.`) 기준으로 텍스트 분리하여 배열로 반환
@@ -23,17 +25,29 @@ function formatContent(content: string): string[] {
 }
 
 function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const setShowGNB = useGNBStore((state) => state.setShowGNB);
+  const setStudioId = useStudioStore((state) => state.setStudioId);
+
   const [activeTab, setActiveTab] = useState("가격");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const { id } = use(params); // `params` 언래핑
+  const { id } = use(params);
   const studioId = parseInt(id, 10);
   const { data: studioData, loading, error } = useStudioDetail(studioId);
-  const setStudioId = useStudioStore((state) => state.setStudioId);
+  const { data: reviews, loading: reviewsLoading } = useStudioReviews(studioId);
 
-  if (!isNaN(studioId)) {
-    setStudioId(studioId); // 상태에 studioId 저장
-  }
+  useEffect(() => {
+    setShowGNB(false);
+    return () => {
+      setShowGNB(true);
+    };
+  }, [setShowGNB]);
+
+  useEffect(() => {
+    if (!isNaN(studioId)) {
+      setStudioId(studioId); // 상태에 studioId 저장
+    }
+  }, [studioId, setStudioId]);
 
   if (isNaN(studioId) || studioId <= 0) {
     return <div>유효하지 않은 스튜디오 ID입니다.</div>;
@@ -44,6 +58,7 @@ function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
   }
 
   if (loading) return <div>로딩 중...</div>;
+  if (reviewsLoading) return <div>리뷰 로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다: {error}</div>;
 
   // 상품 리뷰 총합 계산
@@ -196,7 +211,7 @@ function StudioDetailPage({ params }: { params: Promise<{ id: string }> }) {
             ))}
           </div>
         )}
-        {activeTab === "리뷰" && <ReviewList studioId={studioId} />}
+        {activeTab === "리뷰" && <ReviewList reviews={reviews || []} />}
       </div>
     </div>
   );

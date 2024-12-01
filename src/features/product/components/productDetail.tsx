@@ -4,33 +4,28 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // App Router용 useRouter
 import useProductOrderStore from "../store/useProductOrderStore";
+import useStudioStore from "@/features/studios/store/useStudioStore";
+import { ProductDetail } from "../types/products.type";
 import Link from "next/link";
 
 interface AddOption {
   name: string;
   price: number;
 }
-
-interface ProductDetailProps {
-  product: {
-    id: number;
-    name: string;
-    description: string;
-    productImage: string;
-    reviewCount: number;
-    standard: number; // 최대 인원
-    price: number;
-    addOptions: AddOption[];
-  };
+interface ProductDetailsProps {
+  product: ProductDetail;
 }
 
-const ProductDetails = ({ product }: ProductDetailProps) => {
+const ProductDetails = ({ product }: ProductDetailsProps) => {
+  const router = useRouter();
   const [quantity, setQuantity] = useState(1);
   const [selectedAddOptions, setSelectedAddOptions] = useState<AddOption[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const router = useRouter();
+  const studioId = useStudioStore((state) => state.studioId);
   const setOrderData = useProductOrderStore((state) => state.setOrderData);
 
+  // studioId가 필요 없는 로직에서는 무시 가능
+  console.log("Studio ID:", studioId);
   // 옵션 체크박스 처리
   const handleOptionChange = (option: AddOption, isChecked: boolean) => {
     setSelectedAddOptions((prev) =>
@@ -62,8 +57,8 @@ const ProductDetails = ({ product }: ProductDetailProps) => {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col items-center">
+    <div>
+      <div className="flex flex-col items-center bg-custom-bg -m-4 p-4 pt-20">
         <div className="relative aspect-[3/4] w-1/2 bg-gray-200 rounded-md overflow-hidden">
           <Image
             src={product.productImage}
@@ -77,10 +72,8 @@ const ProductDetails = ({ product }: ProductDetailProps) => {
       </div>
 
       <div className="mt-8">
-        <Link
-          href={`http://api.toucheese-macwin.store/v1/studios/${product.id}/products/${product.id}/reviews`}
-        >
-          리뷰 {product.reviewCount}개
+        <Link href={`/studios/${studioId}/products/${product.id}/reviews`}>
+          상품리뷰 {product.reviewCount}개 보기
         </Link>
         <div className="flex justify-between items-center border-b py-4">
           <h3 className="text-lg font-semibold">가격</h3>
@@ -91,7 +84,6 @@ const ProductDetails = ({ product }: ProductDetailProps) => {
             {product.price.toLocaleString()}원
           </p>
         </div>
-
         {/* 인원 수 조절 */}
         <div className="flex justify-between items-center py-4">
           <h3 className="text-lg font-semibold">인원</h3>
@@ -117,7 +109,6 @@ const ProductDetails = ({ product }: ProductDetailProps) => {
             </button>
           </div>
         </div>
-
         {/* 추가 옵션 */}
         <div className="mt-8">
           <h3 className="text-lg font-semibold">추가 옵션</h3>
@@ -141,7 +132,6 @@ const ProductDetails = ({ product }: ProductDetailProps) => {
             ))}
           </ul>
         </div>
-
         {/* 촬영 날짜 */}
         <div className="mt-8">
           <h3 className="text-lg font-semibold">촬영 날짜</h3>
@@ -157,7 +147,6 @@ const ProductDetails = ({ product }: ProductDetailProps) => {
             </p>
           )}
         </div>
-
         {/* 주문 버튼 */}
         <div className="mt-8">
           <button

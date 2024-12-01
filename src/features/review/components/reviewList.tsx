@@ -1,14 +1,16 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useStudioReviews } from "../hooks/useReview";
 
-function ReviewList({ studioId }: { studioId: number }) {
-  const { data: reviews, loading, error } = useStudioReviews(studioId);
+interface Review {
+  id: number;
+  firstImage: string;
+}
 
-  if (loading) return <div>리뷰 데이터를 로딩 중입니다...</div>;
-  if (error) return <div>리뷰 데이터를 불러오는 중 에러가 발생했습니다.</div>;
+interface ReviewListProps {
+  reviews: Review[]; // 리뷰 데이터 배열
+}
+
+function ReviewList({ reviews }: ReviewListProps) {
   if (!reviews || reviews.length === 0) {
     return <div>현재 리뷰가 없습니다.</div>;
   }
