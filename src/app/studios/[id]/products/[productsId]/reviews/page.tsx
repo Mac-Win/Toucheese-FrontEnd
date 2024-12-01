@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect } from "react";
+import { use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   useProductReviews,
@@ -13,7 +13,7 @@ import ReviewList from "@/features/review/components/reviewList";
 function ProductReviewsPage({
   params,
 }: {
-  params: { studioId: string; productId: string };
+  params: Promise<{ studioId: string; productId: string }>;
 }) {
   const router = useRouter();
 
@@ -30,10 +30,10 @@ function ProductReviewsPage({
     (state) => state.setProductDescription
   );
   const setProductImage = useStudioStore((state) => state.setProductImage);
-
+  const { studioId, productId } = use(params); // Promise 언래핑
   // 파라미터 파싱
-  const parsedStudioId = parseInt(params.studioId, 10);
-  const parsedProductId = parseInt(params.productId, 10);
+  const parsedStudioId = parseInt(studioId, 10);
+  const parsedProductId = parseInt(productId, 10);
 
   // Zustand에 studioId 및 productId 설정
   useEffect(() => {
