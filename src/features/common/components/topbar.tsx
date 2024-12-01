@@ -30,23 +30,26 @@ export function TopBar() {
   return (
     <>
       {/* TopBar */}
-      <div className="fixed z-10 flex items-center justify-between max-w-[calc(var(--max-width)-2rem)] w-full p-2">
-        <div>
-          <button
-            onClick={() => router.back()}
-            className="flex items-center -ml-2"
-          >
-            <Image src="/icons/back.svg" alt="back" width={36} height={36} />
-          </button>
-        </div>
-        <div>
-          <button onClick={handleModalOpen}>
-            <Image src="/icons/share.svg" alt="share" width={36} height={36} />
-          </button>
+      <div className="fixed z-10 w-full py-2 -left-1">
+        <div className="mx-auto max-w-custom px-6 flex items-center  ">
+          <div>
+            <button onClick={() => router.back()}>
+              <Image src="/icons/back.svg" alt="back" width={36} height={36} />
+            </button>
+          </div>
+          <div className="ml-auto">
+            <button onClick={handleModalOpen}>
+              <Image
+                src="/icons/share.svg"
+                alt="share"
+                width={36}
+                height={36}
+              />
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Toast-like Modal */}
       <AnimatePresence>
         {activeShare && (
           <motion.div

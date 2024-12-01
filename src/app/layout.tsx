@@ -1,8 +1,7 @@
-import NavBar from "@/features/common/components/navbar/Navbar";
 import type { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
-
+import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
 export const metadata: Metadata = {
   title: "터치즈 MVP 기능구현",
   description: "스프린트2단계",
@@ -28,7 +27,7 @@ export default function RootLayout({
           >
             {children}
           </main>
-          <NavBar />
+          <ClientGNBWrapper />
         </Suspense>
       </body>
     </html>

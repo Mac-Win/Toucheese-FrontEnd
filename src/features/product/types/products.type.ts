@@ -1,19 +1,14 @@
-export type ProductContent = {
+export interface ProductDetail {
   id: number;
   name: string;
   description: string;
   productImage: string;
-  price: number;
   reviewCount: number;
-  persons: number;
-  addons: Addon[];
-};
-export type Addon = {
-  id: number;
-  name: string;
+  standard: number;
   price: number;
-};
-
-export type ProductList = {
-  content: ProductContent[];
-};
+  studioId?: number; // studioId를 선택적 속성으로 설정
+  addOptions: {
+    name: string;
+    price: number;
+  }[];
+}
