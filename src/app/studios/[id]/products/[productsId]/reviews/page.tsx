@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { use, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   useProductReviews,
@@ -10,12 +9,10 @@ import {
 import useStudioStore from "@/features/studios/store/useStudioStore";
 import ReviewList from "@/features/review/components/reviewList";
 
-function ProductReviewsPage({
-  params,
-}: {
-  params: Promise<{ studioId: string; productId: string }>;
-}) {
+function ProductReviewsPage() {
   const router = useRouter();
+
+  // 리뷰 데이터 가져오기
 
   // Zustand 상태 및 메서드 가져오기
   const productTitle = useStudioStore((state) => state.productTitle);
@@ -23,44 +20,8 @@ function ProductReviewsPage({
     (state) => state.productDescription
   );
   const productImage = useStudioStore((state) => state.productImage);
-  const setProductTitle = useStudioStore((state) => state.setProductTitle);
-  const setStudioId = useStudioStore((state) => state.setStudioId);
-  const setProductId = useStudioStore((state) => state.setProductId);
-  const setProductDescription = useStudioStore(
-    (state) => state.setProductDescription
-  );
-  const setProductImage = useStudioStore((state) => state.setProductImage);
-  const { studioId, productId } = use(params); // Promise 언래핑
-  // 파라미터 파싱
-  const parsedStudioId = parseInt(studioId, 10);
-  const parsedProductId = parseInt(productId, 10);
 
-  // Zustand에 studioId 및 productId 설정
-  useEffect(() => {
-    if (!isNaN(parsedStudioId)) {
-      setStudioId(parsedStudioId);
-    }
-    if (!isNaN(parsedProductId)) {
-      setProductId(parsedProductId);
-
-      // 샘플 데이터를 Zustand에 설정
-      setProductTitle("샘플 상품 제목"); // 실제 API 데이터로 교체 가능
-      setProductDescription("샘플 상품 설명입니다.");
-      setProductImage("https://via.placeholder.com/300");
-    }
-  }, [
-    parsedStudioId,
-    parsedProductId,
-    setStudioId,
-    setProductId,
-    setProductTitle,
-    setProductDescription,
-    setProductImage,
-  ]);
-
-  // 리뷰 데이터 가져오기
   const { data: reviews, loading, error } = useProductReviews<ProductReview>();
-
   if (loading) {
     return <div>리뷰 데이터를 불러오는 중입니다...</div>;
   }

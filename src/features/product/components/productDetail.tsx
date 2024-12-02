@@ -24,8 +24,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const studioId = useStudioStore((state) => state.studioId);
   const setOrderData = useProductOrderStore((state) => state.setOrderData);
 
-  // studioId가 필요 없는 로직에서는 무시 가능
-  console.log("Studio ID:", studioId);
   // 옵션 체크박스 처리
   const handleOptionChange = (option: AddOption, isChecked: boolean) => {
     setSelectedAddOptions((prev) =>
