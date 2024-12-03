@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/features/common/components/header";
-import { defaultConcept } from "@/features/studios/types/Concept.type";
+import { defaultConcept } from "@/types/Concept.type";
 import { useConcept } from "@/features/studios/hooks/useConcept";
 import SearchBar from "@/features/searchBar/searchBar";
 import Image from "next/image";

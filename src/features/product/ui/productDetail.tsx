@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // App Router용 useRouter
 import useProductOrderStore from "../store/useProductOrderStore";
-import useStudioStore from "@/features/studios/store/useStudioStore";
-import { ProductDetail } from "../types/products.type";
+import useStudioStore from "@/features/studios/store/StudioStore";
+import { ProductDetail } from "../../../types/ProductDetail.type";
 import Link from "next/link";
 
 interface AddOption {

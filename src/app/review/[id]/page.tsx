@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { use } from "react";
 import { useReviewDetail } from "@/features/review/hooks/useReviewDetail";
-import ReviewDetail from "@/features/review/components/reviewDetail";
+import ReviewDetail from "@/features/review/ui/reviewDetail";
 import { useRouter } from "next/navigation";
 
 function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
