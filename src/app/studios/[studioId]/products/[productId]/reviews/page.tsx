@@ -28,8 +28,8 @@ const ReviewsPage = () => {
       <div className="flex flex-col items-center bg-custom-bg -m-4 p-4 pt-20">
         <div className="relative aspect-[3/4] w-1/2 bg-gray-200 rounded-md overflow-hidden">
           <Image
-            src={productImage || "/default-image.jpg"}
-            alt={productTitle || "상품 이미지"}
+            src={productImage}
+            alt={productTitle}
             className="object-cover"
             fill
           />
