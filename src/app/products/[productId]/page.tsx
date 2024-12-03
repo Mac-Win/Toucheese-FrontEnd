@@ -1,31 +1,35 @@
 "use client";
 
 import { use, useEffect } from "react";
-import ProductDetail from "@/features/product/components/productDetail";
+import ProductDetail from "@/features/product/ui/productDetail";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import useStudioStore from "@/features/studios/store/useStudioStore";
+import useProductStore from "@/features/product/store/ProductStore";
 
-function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+function ProductDetailPage({
+  params,
+}: {
+  params: Promise<{ productId: string }>;
+}) {
   const router = useRouter();
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
-
-  const { id } = use(params);
-  const productIdNumber = parseInt(id, 10);
+  const { productId } = use(params);
+  const productIdNumber = parseInt(productId, 10);
 
   const { data: product, loading, error } = useProductsDetail(productIdNumber);
-  const setProductId = useStudioStore((state) => state.setProductId);
-  const setProductTitle = useStudioStore((state) => state.setProductTitle);
-  const setProductDescription = useStudioStore(
+  const setProductId = useProductStore((state) => state.setProductId);
+  const setProductTitle = useProductStore((state) => state.setProductTitle);
+  const setProductDescription = useProductStore(
     (state) => state.setProductDescription
   );
-  const setProductImage = useStudioStore((state) => state.setProductImage);
+  const setProductImage = useProductStore((state) => state.setProductImage);
 
   useEffect(() => {
     if (!isNaN(productIdNumber)) {
       setProductId(productIdNumber); // productId 상태 저장
+      console.log(productIdNumber);
     }
     if (product) {
       setProductTitle(product.name); // product의 이름 저장

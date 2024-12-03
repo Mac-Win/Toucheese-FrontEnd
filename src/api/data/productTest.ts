@@ -1,4 +1,4 @@
-import { ProductDetail } from "@/features/product/types/products.type";
+import { ProductDetail } from "@/types/ProductDetail.type";
 
 // 샘플 데이터
 export const products: ProductDetail[] = [

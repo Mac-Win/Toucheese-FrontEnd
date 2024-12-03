@@ -6,7 +6,7 @@ export interface ProductDetail {
   reviewCount: number;
   standard: number;
   price: number;
-  studioId?: number; // studioId를 선택적 속성으로 설정
+  studioId?: number;
   addOptions: {
     name: string;
     price: number;

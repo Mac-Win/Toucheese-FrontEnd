@@ -6,7 +6,6 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Memoize params as a string
   const memoizedParams = useMemo(() => params?.toString() || "", [params]);
 
   useEffect(() => {

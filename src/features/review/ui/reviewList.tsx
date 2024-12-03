@@ -1,16 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Review } from "@/types/Review.type";
 
-interface Review {
-  id: number;
-  firstImage: string;
-}
-
-interface ReviewListProps {
-  reviews: Review[]; // 리뷰 데이터 배열
-}
-
-function ReviewList({ reviews }: ReviewListProps) {
+function ReviewList({ reviews }: { reviews: Review[] }) {
   if (!reviews || reviews.length === 0) {
     return <div>현재 리뷰가 없습니다.</div>;
   }

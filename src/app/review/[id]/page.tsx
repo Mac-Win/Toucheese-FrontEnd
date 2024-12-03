@@ -1,9 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { use } from "react";
 import { useReviewDetail } from "@/features/review/hooks/useReviewDetail";
-import ReviewDetail from "@/features/review/components/reviewDetail";
-import Image from "next/image";
+import ReviewDetail from "@/features/review/ui/reviewDetail";
 import { useRouter } from "next/navigation";
 
 function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -11,15 +11,11 @@ function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params); // `params` 언래핑
   const reviewId = parseInt(id, 10);
 
-  const { data: review, loading, error } = useReviewDetail(reviewId);
-  if (isNaN(reviewId) || reviewId === 0) {
-    return <div>유효하지 않은 리뷰 ID입니다.</div>;
-  }
+  const { data: review, error } = useReviewDetail(reviewId);
 
-  if (loading) return <div>리뷰 데이터를 로딩 중입니다...</div>;
   if (error)
     return <div>리뷰 데이터를 불러오는 중 에러가 발생했습니다: {error}</div>;
-  if (!review) return <div>리뷰가 존재하지 않습니다.</div>;
+  if (!review) return <div></div>;
 
   return (
     <>

@@ -4,8 +4,8 @@ import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // App Router용 useRouter
 import useProductOrderStore from "../store/useProductOrderStore";
-import useStudioStore from "@/features/studios/store/useStudioStore";
-import { ProductDetail } from "../types/products.type";
+import useStudioStore from "@/features/studios/store/StudioStore";
+import { ProductDetail } from "../../../types/ProductDetail.type";
 import Link from "next/link";
 
 interface AddOption {
@@ -24,8 +24,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const studioId = useStudioStore((state) => state.studioId);
   const setOrderData = useProductOrderStore((state) => state.setOrderData);
 
-  // studioId가 필요 없는 로직에서는 무시 가능
-  console.log("Studio ID:", studioId);
   // 옵션 체크박스 처리
   const handleOptionChange = (option: AddOption, isChecked: boolean) => {
     setSelectedAddOptions((prev) =>
