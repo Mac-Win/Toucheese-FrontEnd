@@ -7,6 +7,7 @@ import useProductOrderStore from "../store/useProductOrderStore";
 import useStudioStore from "@/features/studios/store/StudioStore";
 import { ProductDetail } from "../../../types/ProductDetail.type";
 import Link from "next/link";
+import ProductQuantity from "./ProductQuantity";
 
 interface AddOption {
   name: string;
@@ -18,9 +19,9 @@ interface ProductDetailsProps {
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   const router = useRouter();
-  const [quantity, setQuantity] = useState(1);
   const [selectedAddOptions, setSelectedAddOptions] = useState<AddOption[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { quantity } = useProductOrderStore(); // 전역 상태에서 가져옴
   const studioId = useStudioStore((state) => state.studioId);
   const setOrderData = useProductOrderStore((state) => state.setOrderData);
 
@@ -86,25 +87,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         <div className="flex justify-between items-center py-4">
           <h3 className="text-lg font-semibold">인원</h3>
           <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-            >
-              <Image
-                src="/icons/minus.svg"
-                alt="minus"
-                width={24}
-                height={24}
-              />
-            </button>
-            <span>{quantity}명</span>
-            <button
-              onClick={() =>
-                setQuantity((prev) => Math.min(product.standard, prev + 1))
-              } // `standard` 기준 초과 제한
-              disabled={quantity >= product.standard} // 초과 시 비활성화
-            >
-              <Image src="/icons/plus.svg" alt="plus" width={24} height={24} />
-            </button>
+            <ProductQuantity product={product} />
           </div>
         </div>
         {/* 추가 옵션 */}

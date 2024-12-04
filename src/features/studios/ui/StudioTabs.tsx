@@ -1,12 +1,9 @@
 "use client";
 
-export function StudioTabs({
-  activeTab,
-  setActiveTab,
-}: {
-  activeTab: string;
-  setActiveTab: (tab: string) => void;
-}) {
+import useStudioStore from "@/features/studios/store/StudioStore";
+
+export function StudioTabs() {
+  const { activeTab, setActiveTab } = useStudioStore();
   const tabs = ["가격", "리뷰"];
 
   return (
@@ -15,7 +12,7 @@ export function StudioTabs({
         <button
           key={tab}
           onClick={() => setActiveTab(tab)}
-          className={`flex-1 text-center py-2 outline-none rounded-t-2xl font-semibold transition-all bg-gray-200  ${
+          className={`flex-1 text-center py-2 outline-none rounded-t-2xl font-semibold transition-all ${
             activeTab === tab ? "bg-yellow-200" : "bg-gray-200"
           }`}
         >

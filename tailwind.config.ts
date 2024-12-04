@@ -20,6 +20,7 @@ const config: Config = {
       },
       colors: {
         "custom-bg": "#FFFCF5",
+        "cheese-bg": "#FFC000",
       },
       maxWidth: {
         custom: "var(--max-width)",

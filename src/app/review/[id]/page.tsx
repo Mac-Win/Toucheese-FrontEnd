@@ -1,13 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { use } from "react";
 import { useReviewDetail } from "@/features/review/hooks/useReviewDetail";
 import ReviewDetail from "@/features/review/ui/reviewDetail";
-import { useRouter } from "next/navigation";
+import { TopBar } from "@/features/common/components/topbar";
 
 function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const router = useRouter();
   const { id } = use(params); // `params` 언래핑
   const reviewId = parseInt(id, 10);
 
@@ -19,16 +17,7 @@ function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <>
-      <div className="fixed z-10 flex items-center justify-between max-w-[calc(var(--max-width)-2rem)] w-full p-2">
-        <div>
-          <button
-            onClick={() => router.back()}
-            className="flex items-center -ml-2"
-          >
-            <Image src="/icons/back.svg" alt="back" width={36} height={36} />
-          </button>
-        </div>
-      </div>
+      <TopBar showShare={false} />
       <ReviewDetail review={review} />
     </>
   );

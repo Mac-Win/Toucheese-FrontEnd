@@ -6,6 +6,7 @@ interface ProductOrderState {
   selectedAddOptions: { name: string; price: number }[];
   selectedDate: string | null;
   totalPrice: number;
+  setQuantity: (value: number) => void;
   setOrderData: (data: {
     productId: number;
     quantity: number;
@@ -21,6 +22,7 @@ const useProductOrderStore = create<ProductOrderState>((set) => ({
   selectedAddOptions: [],
   selectedDate: null,
   totalPrice: 0,
+  setQuantity: (value) => set({ quantity: value }),
   setOrderData: (data) =>
     set({
       productId: data.productId,

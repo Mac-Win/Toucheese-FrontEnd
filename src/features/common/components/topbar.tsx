@@ -5,7 +5,11 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
-export function TopBar() {
+type TopBarProps = {
+  showShare?: boolean; // 공유 버튼 표시 여부
+};
+
+export function TopBar({ showShare = true }: TopBarProps) {
   const [activeShare, setActiveShare] = useState(false);
   const router = useRouter();
 
@@ -37,16 +41,18 @@ export function TopBar() {
               <Image src="/icons/back.svg" alt="back" width={36} height={36} />
             </button>
           </div>
-          <div className="ml-auto">
-            <button onClick={handleModalOpen}>
-              <Image
-                src="/icons/share.svg"
-                alt="share"
-                width={36}
-                height={36}
-              />
-            </button>
-          </div>
+          {showShare && (
+            <div className="ml-auto">
+              <button onClick={handleModalOpen}>
+                <Image
+                  src="/icons/share.svg"
+                  alt="share"
+                  width={36}
+                  height={36}
+                />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

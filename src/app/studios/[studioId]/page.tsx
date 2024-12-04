@@ -1,9 +1,8 @@
 "use client";
 
-import { use, useState, useEffect } from "react";
+import { use, useEffect } from "react";
 import { useStudioDetail } from "@/features/studios/hooks/useStudioDetail";
 import { useStudioReviews } from "@/features/review/hooks/useReview";
-import { TopBar } from "@/features/studios/ui/TopBar";
 import { StudioImages } from "@/features/studios/ui/StudioImages";
 import { StudioSummary } from "@/features/studios/ui/StudioSummary";
 import { StudioTabs } from "@/features/studios/ui/StudioTabs";
@@ -11,6 +10,7 @@ import { StudioProducts } from "@/features/studios/ui/StudioProducts";
 import { StudioReviews } from "@/features/studios/ui/StudioReviews";
 import useStudioStore from "@/features/studios/store/StudioStore";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
+import { TopBar } from "@/features/common/components/topbar";
 
 function StudioDetailPage({
   params,
@@ -19,12 +19,11 @@ function StudioDetailPage({
 }) {
   const { studioId } = use(params);
   const studioIdNumber = parseInt(studioId, 10);
-  const setStudioId = useStudioStore((state) => state.setStudioId);
+  // const setStudioId = useStudioStore((state) => state.setStudioId);
+  const { activeTab, setStudioId } = useStudioStore();
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
-
   const { data: studioData, loading } = useStudioDetail(studioIdNumber);
   const { data: reviews } = useStudioReviews(studioIdNumber);
-  const [activeTab, setActiveTab] = useState("가격");
 
   useEffect(() => {
     setStudioId(studioIdNumber);
@@ -37,7 +36,7 @@ function StudioDetailPage({
 
   return (
     <div>
-      <TopBar />
+      <TopBar showShare={true} />
       <StudioImages facilityImageUrls={studioData.facilityImageUrls} />
       <StudioSummary
         profileImage={studioData.profileImage}
@@ -51,7 +50,7 @@ function StudioDetailPage({
         address={studioData.address}
         operationHour={studioData.operationHour}
       />
-      <StudioTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <StudioTabs />
       {activeTab === "가격" && (
         <StudioProducts products={studioData.products} />
       )}
