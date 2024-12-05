@@ -7,9 +7,10 @@ import { AnimatePresence, motion } from "framer-motion";
 
 type TopBarProps = {
   showShare?: boolean; // 공유 버튼 표시 여부
+  message?: string;
 };
 
-export function TopBar({ showShare = true }: TopBarProps) {
+export function TopBar({ showShare = true, message }: TopBarProps) {
   const [activeShare, setActiveShare] = useState(false);
   const router = useRouter();
 
@@ -36,10 +37,11 @@ export function TopBar({ showShare = true }: TopBarProps) {
       {/* TopBar */}
       <div className="fixed z-10 w-full py-2 -left-1">
         <div className="mx-auto max-w-custom px-6 flex items-center  ">
-          <div>
+          <div className="flex items-center gap-2">
             <button onClick={() => router.back()}>
               <Image src="/icons/back.svg" alt="back" width={36} height={36} />
             </button>
+            <span className="font-bold text-lg">{message}</span>
           </div>
           {showShare && (
             <div className="ml-auto">
