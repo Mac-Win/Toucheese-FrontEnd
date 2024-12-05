@@ -2,10 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import useProductOrderStore from "@/features/product/store/useProductOrderStore";
+import Image from "next/image";
 
 function OrderResultPage() {
-  const { productId, quantity, selectedAddOptions, selectedDate, totalPrice } =
-    useProductOrderStore((state) => state);
+  const {
+    productTitle,
+    productId,
+    quantity,
+    selectedAddOptions,
+    selectedDate,
+    totalPrice,
+    productImage,
+  } = useProductOrderStore((state) => state);
 
   const router = useRouter();
 
@@ -29,33 +37,43 @@ function OrderResultPage() {
       <h1 className="text-2xl font-bold mb-6">주문 완료</h1>
 
       {/* 주문 요약 */}
-      <div className="bg-gray-100 p-4 rounded-lg shadow-md mb-6">
-        <h2 className="text-lg font-semibold mb-2">주문 내역</h2>
-        <p className="text-sm">
-          <span className="font-bold">상품 ID:</span> {productId}
-        </p>
-        <p className="text-sm">
-          <span className="font-bold">인원:</span> {quantity}명
-        </p>
-        <p className="text-sm">
-          <span className="font-bold">촬영 날짜:</span>{" "}
-          {selectedDate || "미선택"}
-        </p>
-        {selectedAddOptions.length > 0 && (
-          <div className="mt-4">
-            <h3 className="text-sm font-semibold mb-2">추가 옵션:</h3>
-            <ul>
-              {selectedAddOptions.map((option, idx) => (
-                <li key={idx} className="text-sm">
-                  {option.name} - {option.price.toLocaleString()}원
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <p className="text-lg font-bold mt-4">
-          총 가격: {totalPrice.toLocaleString()}원
-        </p>
+      <h2 className="text-lg font-semibold mb-2">주문 내역</h2>
+      <div className="bg-custom-bg p-4 rounded-lg shadow-md mb-6 flex gap-4">
+        <div>
+          <Image
+            src={`${productImage}`}
+            alt={`${productImage}`}
+            width={100}
+            height={200}
+          />
+        </div>
+        <div>
+          <p className="text-sm">
+            <span className="font-bold">상품 명:</span> {productTitle}
+          </p>
+          <p className="text-sm">
+            <span className="font-bold">인원:</span> {quantity}명
+          </p>
+          <p className="text-sm">
+            <span className="font-bold">촬영 날짜:</span>{" "}
+            {selectedDate || "미선택"}
+          </p>
+          {selectedAddOptions.length > 0 && (
+            <div className="mt-4">
+              <h3 className="text-sm font-semibold mb-2">추가 옵션:</h3>
+              <ul>
+                {selectedAddOptions.map((option, idx) => (
+                  <li key={idx} className="text-sm">
+                    {option.name} - {option.price.toLocaleString()}원
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          <p className="text-lg font-bold mt-4">
+            총 가격: {totalPrice.toLocaleString()}원
+          </p>
+        </div>
       </div>
 
       {/* 홈으로 돌아가기 버튼 */}

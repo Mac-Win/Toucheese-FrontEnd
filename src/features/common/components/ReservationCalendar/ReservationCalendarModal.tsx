@@ -2,27 +2,22 @@
 
 import { useState } from "react";
 import ReservationCalendar from "./ReservationCalendar";
-
-interface ReservationCalendarModalProps {
-  businessHours: { start: string; end: string };
-  businessDays: number[];
-  onConfirm: (date: string, times: string[]) => void;
-}
+import { ReservationCalendarProps } from "@/types/ReservationCalendat.type";
 
 const ReservationCalendarModal = ({
-  businessHours,
+  OperatingHours,
   businessDays,
   onConfirm,
-}: ReservationCalendarModalProps) => {
+}: ReservationCalendarProps) => {
   const [isOpen, setIsOpen] = useState(false); // 모달 열림/닫힘 상태
   const [selectedDate, setSelectedDate] = useState<string | null>(null); // 선택된 날짜
-  const [selectedTimes, setSelectedTimes] = useState<string[]>([]); // 선택된 시간
+  const [selectedTime, setSelectedTime] = useState<string | null>(null); // 선택된 시간
 
-  const handleCalendarConfirm = (date: string, times: string[]) => {
+  const handleCalendarConfirm = (date: string, time: string) => {
     setSelectedDate(date);
-    setSelectedTimes(times);
+    setSelectedTime(time);
     setIsOpen(false); // 모달 닫기
-    onConfirm(date, times); // 부모 컴포넌트로 전달
+    onConfirm(date, time); // 부모 컴포넌트로 전달
   };
 
   return (
@@ -32,8 +27,8 @@ const ReservationCalendarModal = ({
         onClick={() => setIsOpen(true)}
       >
         <div>
-          {selectedDate
-            ? `${selectedDate} (${selectedTimes.join(", ")})`
+          {selectedDate && selectedTime
+            ? `${selectedDate} (${selectedTime})`
             : "희망 날짜와 시간을 선택해주세요."}
         </div>
       </div>
@@ -43,7 +38,7 @@ const ReservationCalendarModal = ({
           <div className="bg-custom-bg rounded-lg shadow-lg p-6 w-full max-w-custom">
             <h3 className="text-lg font-semibold mb-4">희망 날짜와 시간</h3>
             <ReservationCalendar
-              businessHours={businessHours}
+              OperatingHours={OperatingHours}
               businessDays={businessDays}
               onConfirm={handleCalendarConfirm}
             />

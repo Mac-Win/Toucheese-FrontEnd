@@ -21,6 +21,10 @@ const config: Config = {
       colors: {
         "custom-bg": "#FFFCF5",
         "cheese-bg": "#FFC000",
+        "btn-color": "#FFF2CC",
+      },
+      boxShadow: {
+        inner: "inset 0 0 0 5px #FFC000",
       },
       maxWidth: {
         custom: "var(--max-width)",

@@ -6,6 +6,7 @@ import { useProductsDetail } from "@/features/product/hooks/useProducts";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import useProductStore from "@/features/product/store/ProductStore";
 import { TopBar } from "@/features/common/components/topbar";
+
 function ProductDetailPage({
   params,
 }: {
@@ -35,8 +36,8 @@ function ProductDetailPage({
     }
   }, [
     productIdNumber,
-    setProductId,
     product,
+    setProductId,
     setProductTitle,
     setProductDescription,
     setProductImage,

@@ -8,7 +8,7 @@ function Header() {
   const pathname = usePathname(); // 현재 경로 가져오기
 
   return (
-    <header className="relative flex items-center justify-center my-6">
+    <header className="relative flex items-center justify-center my-6 w-full">
       {/* back icon은 "/"가 아닌 경우에만 표시 */}
       {pathname !== "/" && (
         <Link className="absolute -left-2" href="/">
@@ -23,6 +23,9 @@ function Header() {
           height={100}
           style={{ width: "auto", height: "auto" }}
         />
+      </Link>
+      <Link className="absolute right-2" href="/cart">
+        <Image src="/icons/cart.svg" alt="cart" width={36} height={36} />
       </Link>
     </header>
   );

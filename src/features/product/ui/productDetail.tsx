@@ -27,14 +27,18 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
   const handleOrder = () => {
     setOrderData({
+      productTitle: product.name,
       productId: product.id,
       quantity,
       selectedAddOptions,
       selectedDate,
       totalPrice: product.price * quantity,
+      name: product.name,
+      productImage: product.productImage,
     });
     router.push("/order/result");
   };
+
   const calculateTotalPrice = () => {
     const optionsTotal = selectedAddOptions.reduce(
       (sum, option) => sum + option.price,
@@ -55,10 +59,14 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       />
 
       <ReservationDate
-        onConfirm={(date, times) =>
-          setSelectedDate(`${date}, ${times.join(", ")}`)
-        }
+        onConfirm={(date, time) => setSelectedDate(`${date}, ${time}`)}
+        OperatingHours={{
+          start: "",
+          end: "",
+        }}
+        businessDays={[]}
       />
+
       <p className="mt-6 text-right">
         <strong>총 가격: {calculateTotalPrice().toLocaleString()}원</strong>
       </p>
