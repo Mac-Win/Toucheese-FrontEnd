@@ -8,6 +8,8 @@ interface ProductOrderState {
   selectedAddOptions: { name: string; price: number }[];
   selectedDate: string | null;
   totalPrice: number;
+  customerName: string;
+  phone: string;
   setQuantity: (value: number) => void;
   setOrderData: (data: {
     name: string | undefined;
@@ -18,6 +20,8 @@ interface ProductOrderState {
     selectedAddOptions: { name: string; price: number }[];
     selectedDate: string | null;
     totalPrice: number;
+    customerName: string;
+    phone: string;
   }) => void;
 }
 
@@ -29,6 +33,8 @@ const useProductOrderStore = create<ProductOrderState>((set) => ({
   selectedAddOptions: [],
   selectedDate: null,
   totalPrice: 0,
+  customerName: "",
+  phone: "",
   setQuantity: (value) => set({ quantity: value }),
   setOrderData: (data) =>
     set({
@@ -39,6 +45,8 @@ const useProductOrderStore = create<ProductOrderState>((set) => ({
       selectedAddOptions: data.selectedAddOptions,
       selectedDate: data.selectedDate,
       totalPrice: data.totalPrice,
+      customerName: data.customerName,
+      phone: data.phone,
     }),
 }));
 

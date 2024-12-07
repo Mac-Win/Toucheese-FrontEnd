@@ -1,5 +1,4 @@
-export interface ReservationCalendarProps {
-  OperatingHours: { start: string; end: string };
-  businessDays: number[]; // 영업일 (0 = 일요일, 1 = 월요일, ...)
-  onConfirm: (date: string, time: string) => void; // 단일 시간으로 수정
+export interface ReservationCalendarModalProps {
+  availableStartTimes: { time: string; available: boolean }[];
+  onConfirm: (selectedDate: string, selectedTime: string) => void; // 날짜와 시간을 함께 전달
 }

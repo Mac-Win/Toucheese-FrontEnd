@@ -1,7 +1,5 @@
-"use client";
-
 import { useState } from "react";
-import { ReservationCalendarProps } from "@/types/ReservationCalendat.type";
+import { ReservationCalendarModalProps } from "@/types/ReservationCalendat.type";
 
 import {
   startOfMonth,
@@ -12,9 +10,9 @@ import {
 } from "date-fns";
 
 const ReservationCalendar = ({
-  OperatingHours,
+  availableStartTimes,
   onConfirm,
-}: ReservationCalendarProps) => {
+}: ReservationCalendarModalProps) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -24,21 +22,10 @@ const ReservationCalendar = ({
     end: endOfMonth(currentMonth),
   });
 
-  const generateTimeSlots = () => {
-    const [startHour] = OperatingHours.start.split(":").map(Number);
-    const [endHour] = OperatingHours.end.split(":").map(Number);
-    const times = [];
-    for (let hour = startHour; hour < endHour; hour++) {
-      times.push(`${hour.toString().padStart(2, "0")}:00`);
-    }
-    times.push(`${endHour.toString().padStart(2, "0")}:00`);
-    return times;
-  };
-
   const handleDateClick = (date: Date) => {
     if (!isDayDisabled(date)) {
       setSelectedDate(date);
-      setSelectedTime(null); // 날짜 변경 시 선택된 시간 초기화
+      setSelectedTime(null);
     }
   };
 
@@ -58,9 +45,10 @@ const ReservationCalendar = ({
     onConfirm(format(selectedDate, "yyyy-MM-dd"), selectedTime);
   };
 
-  const isDayDisabled = (date: Date | null): boolean => {
-    if (!date) return true;
-    return date < new Date();
+  const isDayDisabled = (date: Date): boolean => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
   };
 
   const handleMonthChange = (direction: "prev" | "next") => {
@@ -73,29 +61,29 @@ const ReservationCalendar = ({
 
   return (
     <div className="reservation-calendar">
+      {/* 달력 헤더 */}
       <div className="calendar-header flex justify-between items-center mb-4">
         <button onClick={() => handleMonthChange("prev")}>◀</button>
         <h3>{format(currentMonth, "yyyy년 MM월")}</h3>
         <button onClick={() => handleMonthChange("next")}>▶</button>
       </div>
-      <div className="calendar-grid grid grid-cols-7 gap-2">
+
+      {/* 날짜 선택 */}
+      <div className="grid grid-cols-7 gap-2 justify-center">
         {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
-          <div
-            key={day}
-            className="text-center font-semibold text-gray-600 mb-2"
-          >
+          <div key={day} className="text-center font-semibold text-gray-600">
             {day}
           </div>
         ))}
         {daysInMonth.map((date) => (
           <button
-            key={date.toISOString()} // toISOString()은 null 가능성을 제거
-            className={`p-2 rounded ${
+            key={date.toISOString()}
+            className={`rounded-full w-10 h-10 mx-auto border ${
               isDayDisabled(date)
                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                : selectedDate && isSameDay(date, selectedDate) // selectedDate 확인
-                  ? "bg-cheese-bg text-white"
-                  : "bg-custom-bg"
+                : selectedDate && isSameDay(date, selectedDate)
+                  ? "border-yellow-400"
+                  : "border-gray-300"
             }`}
             onClick={() => handleDateClick(date)}
             disabled={isDayDisabled(date)}
@@ -105,35 +93,37 @@ const ReservationCalendar = ({
         ))}
       </div>
 
+      {/* 시간 선택 */}
       {selectedDate && (
         <div className="available-slots mt-4">
           <h4 className="text-lg font-semibold mb-2">
-            희망 시간 선택 (
-            {selectedDate
-              ? format(selectedDate, "yyyy-MM-dd")
-              : "날짜를 선택하세요"}
-            )
+            희망 시간 선택 ({format(selectedDate, "yyyy-MM-dd")})
           </h4>
           <div className="grid grid-cols-3 gap-2">
-            {generateTimeSlots().map((time) => (
+            {availableStartTimes.map((item, index) => (
               <button
-                key={time}
-                className={`p-2 rounded-full text-black ${
-                  selectedTime === time
-                    ? "bg-btn-color shadow-inner"
-                    : "bg-btn-color shadow-none"
+                key={`${item.time}-${index}`}
+                onClick={() => handleTimeClick(item.time)}
+                className={`p-2 rounded-full ${
+                  item.available
+                    ? selectedTime === item.time
+                      ? "shadow-inner bg-custom-bg"
+                      : "bg-gray-100 border"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
                 }`}
-                onClick={() => handleTimeClick(time)}
+                disabled={!item.available}
               >
-                {time}
+                {item.time}
               </button>
             ))}
           </div>
         </div>
       )}
+
+      {/* 확인 버튼 */}
       <div className="mt-8">
         <button
-          className="w-full bg-cheese-bg text-white py-2 rounded font-bold"
+          className="w-full bg-yellow-500 text-white py-2 rounded font-bold"
           onClick={handleConfirm}
         >
           예약 확인

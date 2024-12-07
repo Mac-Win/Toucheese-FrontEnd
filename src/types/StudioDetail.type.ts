@@ -12,4 +12,5 @@ export interface StudioDetail {
   notice: string;
   facilityImageUrls: string[]; // 단일 문자열 배열로 수정
   products: Product[]; // Product 타입 사용
+  operatingHours: { dayOfWeek: string; openTime: string; closeTime: string }[];
 }

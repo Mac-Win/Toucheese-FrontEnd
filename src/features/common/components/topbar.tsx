@@ -35,8 +35,8 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
   return (
     <>
       {/* TopBar */}
-      <div className="fixed z-10 w-full py-2 -left-1">
-        <div className="mx-auto max-w-custom px-6 flex items-center  ">
+      <div className="fixed z-10 w-full left-0 top-0">
+        <div className="mx-auto max-w-custom px-2 flex items-center bg-white py-4 ">
           <div className="flex items-center gap-2">
             <button onClick={() => router.back()}>
               <Image src="/icons/back.svg" alt="back" width={36} height={36} />
@@ -44,7 +44,7 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
             <span className="font-bold text-lg">{message}</span>
           </div>
           {showShare && (
-            <div className="ml-auto">
+            <div className="ml-auto flex items-center">
               <button onClick={handleModalOpen}>
                 <Image
                   src="/icons/share.svg"

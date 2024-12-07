@@ -12,6 +12,16 @@ import useStudioStore from "@/features/studios/store/StudioStore";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { TopBar } from "@/features/common/components/topbar";
 
+const dummyOperatingHours = [
+  { dayOfWeek: "월", openTime: "09:00", closeTime: "18:00" },
+  { dayOfWeek: "화", openTime: "09:00", closeTime: "18:00" },
+  { dayOfWeek: "수", openTime: "09:00", closeTime: "18:00" },
+  { dayOfWeek: "목", openTime: "09:00", closeTime: "18:00" },
+  { dayOfWeek: "금", openTime: "09:00", closeTime: "18:00" },
+  { dayOfWeek: "토", openTime: "09:00", closeTime: "18:00" },
+  { dayOfWeek: "일", openTime: "휴무", closeTime: "휴무" },
+];
+
 function StudioDetailPage({
   params,
 }: {
@@ -20,7 +30,8 @@ function StudioDetailPage({
   const { studioId } = use(params);
   const studioIdNumber = parseInt(studioId, 10);
   // const setStudioId = useStudioStore((state) => state.setStudioId);
-  const { activeTab, setStudioId } = useStudioStore();
+
+  const { activeTab, setStudioId, setOperatingHours } = useStudioStore();
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
   const { data: studioData, loading } = useStudioDetail(studioIdNumber);
   const { data: reviews } = useStudioReviews(studioIdNumber);
@@ -28,8 +39,9 @@ function StudioDetailPage({
   useEffect(() => {
     setStudioId(studioIdNumber);
     setShowGNB(false);
+    setOperatingHours(dummyOperatingHours); // 더미 데이터를 Zustand에 저장
     return () => setShowGNB(true);
-  }, [studioIdNumber, setStudioId, setShowGNB]);
+  }, [studioIdNumber, setStudioId, setShowGNB, setOperatingHours]);
 
   if (loading) return <div>로딩 중...</div>;
   if (!studioData) return <div>스튜디오 정보를 불러올 수 없습니다.</div>;
@@ -48,7 +60,7 @@ function StudioDetailPage({
         description={studioData.description}
         notice={studioData.notice}
         address={studioData.address}
-        operationHour={studioData.operationHour}
+        operatingHours={studioData.operatingHours}
       />
       <StudioTabs />
       {activeTab === "가격" && (
