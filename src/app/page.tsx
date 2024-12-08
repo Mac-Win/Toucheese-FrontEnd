@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Header from "@/features/common/components/header";
 import { defaultConcept } from "@/types/Concept.type";
 import { useConcept } from "@/features/studios/hooks/useConcept";
@@ -8,7 +10,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 const Home = () => {
+  const router = useRouter();
   const { data: conceptList, loading, error } = useConcept();
+
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      router.push("/members/login/");
+    }
+  }, [router]);
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다: {error}</div>;
