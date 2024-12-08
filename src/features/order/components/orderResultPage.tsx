@@ -13,8 +13,6 @@ function OrderResultPage() {
     selectedDate,
     totalPrice,
     productImage,
-    customerName, // 추가
-    phone, // 추가
   } = useProductOrderStore((state) => state);
 
   const router = useRouter();
@@ -59,12 +57,6 @@ function OrderResultPage() {
           <p className="text-sm">
             <span className="font-bold">촬영 날짜:</span>{" "}
             {selectedDate || "미선택"}
-          </p>
-          <p className="text-sm">
-            <span className="font-bold">예약자 이름:</span> {customerName}
-          </p>
-          <p className="text-sm">
-            <span className="font-bold">연락처:</span> {phone}
           </p>
           {selectedAddOptions.length > 0 && (
             <div className="mt-4">

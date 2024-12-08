@@ -3,6 +3,7 @@
 import React from "react";
 
 interface AddOption {
+  id: number;
   name: string;
   price: number;
 }
