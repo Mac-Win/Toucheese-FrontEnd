@@ -26,7 +26,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center w-full min-h-screen bg-white">
-      <Header />
+      <Header showCart={false} />
       <SearchBar />
       <div className="grid grid-cols-2 gap-4 w-full ">
         {conceptList.map((concept: defaultConcept, index: number) => (

@@ -5,7 +5,7 @@ import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapp
 
 export const metadata: Metadata = {
   title: "터치즈 MVP 기능구현",
-  description: "스프린트4단계",
+  description: "스프린트3단계",
   icons: {
     icon: "/icon.ico",
     shortcut: "/icon.ico",

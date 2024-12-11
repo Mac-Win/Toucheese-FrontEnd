@@ -30,8 +30,8 @@ apiClient.interceptors.response.use(
       if (status === 403 || status === 401) {
         if (typeof window !== "undefined") {
           // 클라이언트 환경에서만 동작
-          // alert("인증 문제가 발생했습니다. 로그인 페이지로 이동합니다.");
-          // window.location.href = status === 403 ? "/members/login" : "/login";
+          alert("인증 문제가 발생했습니다. 로그인 페이지로 이동합니다.");
+          window.location.href = status === 403 ? "/members/login" : "/login";
         } else {
           console.warn("서버 사이드에서 인증 오류 발생.");
         }
