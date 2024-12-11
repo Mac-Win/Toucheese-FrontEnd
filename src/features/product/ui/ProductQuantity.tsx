@@ -6,9 +6,9 @@ import useProductOrderStore from "../store/useProductOrderStore";
 import Image from "next/image";
 
 const ProductQuantity = ({ product }: { product: { standard: number } }) => {
-  const { quantity, setQuantity } = useProductOrderStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+  const { quantity, setQuantity } = useProductOrderStore();
 
   const handleIncrease = () => {
     if (quantity < product.standard) {
@@ -29,7 +29,7 @@ const ProductQuantity = ({ product }: { product: { standard: number } }) => {
   };
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center">
       <button
         onClick={handleDecrease}
         className="p-2 rounded"
@@ -45,8 +45,6 @@ const ProductQuantity = ({ product }: { product: { standard: number } }) => {
       >
         <Image src="/icons/plus.svg" alt="plus" width={24} height={24} />
       </button>
-
-      {/* 커스텀 알림 모달 */}
       <AlertModal
         isOpen={isModalOpen}
         message={modalMessage}

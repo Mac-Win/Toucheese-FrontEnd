@@ -45,7 +45,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     const reservationData = {
       productId: product.id,
       studioId,
-      memberId: 1,
       totalPrice: calculateTotalPrice(),
       createDate: selectedDate,
       createTime: selectedTime,
@@ -56,7 +55,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     const token = localStorage.getItem("authToken");
     try {
       const response = await fetch(
-        "https://api.toucheese-macwin.store/v1/reservations/carts",
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/members/carts`,
         {
           method: "POST",
           headers: {
@@ -121,17 +120,17 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       {/* 예약 날짜 모달을 위한 버튼 */}
       <button
         onClick={() => setIsModalOpen(true)} // 모달 열기
-        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+        className="mt-4 bg-gray-100 border text-gray-500 text-left py-2 px-4 rounded w-full"
       >
-        예약 날짜 선택
+        {selectedDate && selectedTime
+          ? `예약일 ${selectedDate} 예약시간 (${selectedTime})`
+          : "희망 날짜와 시간을 선택해주세요."}
       </button>
 
       {/* 모달이 열렸을 때만 ReservationDate 컴포넌트를 렌더링 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-custom">
-            <h3 className="text-xl font-bold">예약 날짜 선택</h3>
-
+          <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
             {/* ReservationDate 컴포넌트 전달된 selectedDate, selectedTime */}
             <ReservationDate
               studioId={studioId || 0}
@@ -149,16 +148,6 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               </button>
             </div>
           </div>
-        </div>
-      )}
-
-      {/* 선택된 예약 날짜와 시간 표시 */}
-      {selectedDate && selectedTime && (
-        <div className="mt-4">
-          <p>
-            예약한 날짜: <strong>{selectedDate}</strong> at{" "}
-            <strong>{selectedTime}</strong>
-          </p>
         </div>
       )}
 

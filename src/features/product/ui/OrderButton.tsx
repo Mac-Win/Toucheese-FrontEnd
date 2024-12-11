@@ -8,7 +8,7 @@ interface OrderButtonProps {
 const OrderButton = ({ onClick }: OrderButtonProps) => (
   <div className="mt-8">
     <button
-      className="w-full bg-yellow-500 text-white py-2 rounded font-bold"
+      className="w-full bg-cheese-bg text-white py-2 rounded font-bold"
       onClick={onClick}
     >
       주문하기

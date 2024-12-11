@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ProductDetail } from "../../../types/ProductDetail.type";
+import { ProductDetail } from "@/types/ProductDetail.type";
 
 interface ProductSummaryProps {
   product: ProductDetail;
