@@ -22,9 +22,6 @@ export function useCart() {
       // 오류 처리
       if (err instanceof Error) {
         // setError(err.message); // 오류 메시지를 상태로 설정
-        // Each child in a list should have a unique "key" prop.
-        // Check the render method of `CartPageRoute`.
-        // 고유의 아이디값을 사용하지 않음에따라 나오는 에러를 생략
       } else {
         setError("알 수 없는 오류가 발생했습니다.");
       }

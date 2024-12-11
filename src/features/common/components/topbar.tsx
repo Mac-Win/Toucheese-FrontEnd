@@ -50,12 +50,11 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
 
   return (
     <>
-      {/* TopBar */}
       <div
         className={`fixed z-10 w-full left-0 top-0 transition-colors duration-300 `}
       >
         <div
-          className={`mx-auto max-w-custom px-5 flex items-center py-2 transition-all pt-6 ${
+          className={`mx-auto max-w-custom px-2 flex items-center transition-all pt-6 ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
         >

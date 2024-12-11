@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { apiRequest } from "@/api/apiRequest";
-import { CalendarDataItem } from "@/types/ReservationCalendat.type"; // 분리된 타입 사용
+import { CalendarDataItem } from "@/types/CalendarData.type"; // 분리된 타입 사용
 import { format } from "date-fns";
 
 const useCalendarData = (studioId: number, currentDate: Date) => {

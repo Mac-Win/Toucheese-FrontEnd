@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
   webpack(config, { isServer }) {
     // 빌드에서 제외할 폴더 추가
     if (!isServer) {
-      config.resolve.alias["api/data"] = false;
+      config.resolve.alias["api/test"] = false;
     }
     return config;
   },
