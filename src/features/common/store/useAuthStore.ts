@@ -13,7 +13,7 @@ const zustandLocalStorage = {
     const item = localStorage.getItem(key);
     return item ? JSON.parse(item) : null;
   },
-  setItem: (key: string, value: any) => {
+  setItem: (key: string, value: unknown) => {
     localStorage.setItem(key, JSON.stringify(value));
   },
   removeItem: (key: string) => {

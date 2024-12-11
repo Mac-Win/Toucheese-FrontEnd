@@ -45,7 +45,6 @@ const useLogin = () => {
       setToken(token);
       localStorage.setItem("authToken", token);
 
-      console.log("로그인 성공, 토큰 저장 완료:", token);
       window.location.href = "/"; // 로그인 성공 후 리디렉션
     } catch (error) {
       console.error("로그인 실패:", error);

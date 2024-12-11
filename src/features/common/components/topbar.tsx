@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,7 +12,23 @@ type TopBarProps = {
 
 export function TopBar({ showShare = true, message }: TopBarProps) {
   const [activeShare, setActiveShare] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false); // 스크롤 여부 상태
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleModalOpen = () => {
     setActiveShare(true);
@@ -35,8 +51,14 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
   return (
     <>
       {/* TopBar */}
-      <div className="fixed z-10 w-full left-0 top-0">
-        <div className="mx-auto max-w-custom px-2 flex items-center bg-white py-4 ">
+      <div
+        className={`fixed z-10 w-full left-0 top-0 transition-colors duration-300 `}
+      >
+        <div
+          className={`mx-auto max-w-custom px-5 flex items-center py-2 transition-all pt-6 ${
+            isScrolled ? "bg-white shadow-md" : "bg-transparent"
+          }`}
+        >
           <div className="flex items-center gap-2">
             <button onClick={() => router.back()}>
               <Image src="/icons/back.svg" alt="back" width={36} height={36} />
@@ -65,7 +87,7 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
             animate={{ y: 0 }} // 화면에 나타날 때 위로 슬라이드
             exit={{ y: "100%" }} // 사라질 때 아래로 슬라이드
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
-            className="fixed bottom-0 right-0; left-0 z-50 w-full"
+            className="fixed bottom-0 right-0 left-0 z-50 w-full"
           >
             <div className="relative mx-auto bg-white p-4 rounded-t-lg shadow-lg max-w-custom w-full">
               {/* 닫기 버튼 */}

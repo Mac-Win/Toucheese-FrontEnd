@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { apiRequest } from "@/api/apiRequest"; // API 요청을 위한 함수
-import { ReservationCalendarModalProps } from "@/types/ReservationCalendat.type";
-import { format } from "date-fns"; // date-fns 사용
+import { apiRequest } from "@/api/apiRequest";
+import { CalendarDataItem } from "@/types/ReservationCalendat.type"; // 분리된 타입 사용
+import { format } from "date-fns";
 
 const useCalendarData = (studioId: number, currentDate: Date) => {
-  const [calendarData, setCalendarData] = useState<
-    ReservationCalendarModalProps["availableStartTimes"]
-  >([]);
+  const [calendarData, setCalendarData] = useState<CalendarDataItem[]>([]); // 명확한 타입 사용
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -23,9 +21,7 @@ const useCalendarData = (studioId: number, currentDate: Date) => {
         }
 
         const formattedMonth = format(currentDate, "yyyy-MM");
-        const data = await apiRequest<
-          ReservationCalendarModalProps["availableStartTimes"]
-        >(
+        const data = await apiRequest<CalendarDataItem[]>(
           "GET",
           `/v1/studios/${studioId}/calendars`,
           undefined,

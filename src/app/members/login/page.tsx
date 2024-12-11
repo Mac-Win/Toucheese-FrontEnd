@@ -14,7 +14,7 @@ function LoginPage() {
   } = useLogin();
 
   return (
-    <div className="flex-grow absolute w-full left-0 -top-20 bg-custom-bg h-full flex flex-col justify-center">
+    <div className="flex-grow absolute w-full left-0 -top-20 bg-btn-color h-full flex flex-col justify-center">
       <div className="mx-auto mb-10">
         <Image
           src="/symbols/toucheese_font_logo.svg"
