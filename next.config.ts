@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "i.toucheese-macwin.store",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack(config, { isServer }) {
