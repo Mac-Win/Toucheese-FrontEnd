@@ -4,16 +4,14 @@ import { use, useEffect } from "react";
 import ProductDetail from "@/features/product/ui/productDetail";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 import useProductStore from "@/features/product/store/ProductStore";
+import { TopBar } from "@/features/common/components/topbar";
 
 function ProductDetailPage({
   params,
 }: {
   params: Promise<{ productId: string }>;
 }) {
-  const router = useRouter();
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
   const { productId } = use(params);
   const productIdNumber = parseInt(productId, 10);
@@ -38,8 +36,8 @@ function ProductDetailPage({
     }
   }, [
     productIdNumber,
-    setProductId,
     product,
+    setProductId,
     setProductTitle,
     setProductDescription,
     setProductImage,
@@ -59,16 +57,7 @@ function ProductDetailPage({
 
   return (
     <>
-      <div className="fixed z-10 flex items-center justify-between max-w-[calc(var(--max-width)-2rem)] w-full p-2">
-        <div>
-          <button
-            onClick={() => router.back()}
-            className="flex items-center -ml-2"
-          >
-            <Image src="/icons/back.svg" alt="back" width={36} height={36} />
-          </button>
-        </div>
-      </div>
+      <TopBar showShare={false} />
       <ProductDetail product={product} />
     </>
   );

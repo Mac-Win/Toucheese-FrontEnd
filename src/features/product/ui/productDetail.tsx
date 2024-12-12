@@ -1,39 +1,102 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
-import { useRouter } from "next/navigation"; // App Router용 useRouter
+import { useRouter } from "next/navigation";
+import { ProductDetail } from "../../../types/ProductDetail.type";
 import useProductOrderStore from "../store/useProductOrderStore";
 import useStudioStore from "@/features/studios/store/StudioStore";
-import { ProductDetail } from "../../../types/ProductDetail.type";
-import Link from "next/link";
+import ProductCoverImage from "./ProductCoverImage";
+import ProductSummary from "./ProductSummary";
+import ProductOptions from "./ProductOptions";
+import ProductPrice from "./ProductPrice";
+import ReservationDate from "./ReservationDate";
+import OrderButton from "./OrderButton";
 
-interface AddOption {
-  name: string;
-  price: number;
-}
+type AddOption = ProductDetail["addOptions"][number];
+
 interface ProductDetailsProps {
   product: ProductDetail;
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
   const router = useRouter();
-  const [quantity, setQuantity] = useState(1);
-  const [selectedAddOptions, setSelectedAddOptions] = useState<AddOption[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { quantity, setOrderData } = useProductOrderStore();
   const studioId = useStudioStore((state) => state.studioId);
-  const setOrderData = useProductOrderStore((state) => state.setOrderData);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [selectedAddOptions, setSelectedAddOptions] = useState<AddOption[]>([]);
 
-  // 옵션 체크박스 처리
-  const handleOptionChange = (option: AddOption, isChecked: boolean) => {
-    setSelectedAddOptions((prev) =>
-      isChecked
-        ? [...prev, option]
-        : prev.filter((item) => item.name !== option.name)
-    );
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 모달 열기/닫기 상태
+
+  const handleDateTimeSelect = (date: string | null, time: string | null) => {
+    setSelectedDate(date); // 부모 컴포넌트에서 날짜 저장
+    setSelectedTime(time); // 부모 컴포넌트에서 시간 저장
+  };
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // 모달 닫기
   };
 
-  // 총 가격 계산
+  const handleOrder = async () => {
+    if (!selectedDate || !selectedTime || !studioId) {
+      alert("모든 예약 정보를 입력해주세요.");
+      return;
+    }
+
+    const reservationData = {
+      productId: product.id,
+      studioId,
+      totalPrice: calculateTotalPrice(),
+      createDate: selectedDate,
+      createTime: selectedTime,
+      personnel: quantity,
+      addOptions: selectedAddOptions.map((option) => option.id),
+    };
+
+    const token = localStorage.getItem("authToken");
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/v1/members/carts`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(reservationData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`상품담기 실패: ${response.status}`);
+      }
+
+      let result = null;
+      const contentType = response.headers.get("Content-Type");
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json();
+      }
+
+      alert("상품이 성공적으로 예약되었습니다.");
+      console.log("서버 응답:", result);
+
+      setOrderData({
+        name: product.name,
+        productTitle: product.name,
+        productImage: product.productImage,
+        productId: product.id,
+        quantity,
+        selectedAddOptions,
+        selectedDate,
+        totalPrice: calculateTotalPrice(),
+      });
+
+      router.push("/order/result");
+    } catch (error) {
+      console.error("예약 요청 중 오류 발생:", error);
+      alert("예약 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
   const calculateTotalPrice = () => {
     const optionsTotal = selectedAddOptions.reduce(
       (sum, option) => sum + option.price,
@@ -42,119 +105,60 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     return product.price * quantity + optionsTotal;
   };
 
-  // 주문하기 버튼 클릭 핸들러
-  const handleOrder = () => {
-    setOrderData({
-      productId: product.id,
-      quantity,
-      selectedAddOptions,
-      selectedDate,
-      totalPrice: calculateTotalPrice(),
-    });
-    router.push("/order/result"); // 결과 화면으로 이동
-  };
-
   return (
     <div>
-      <div className="flex flex-col items-center bg-custom-bg -m-4 p-4 pt-20">
-        <div className="relative aspect-[3/4] w-1/2 bg-gray-200 rounded-md overflow-hidden">
-          <Image
-            src={product.productImage}
-            alt={product.name}
-            className="object-cover"
-            fill
-          />
-        </div>
-        <h2 className="text-xl font-bold mt-4">{product.name}</h2>
-        <p className="text-gray-700">{product.description}</p>
-      </div>
+      <ProductCoverImage product={product} />
+      <ProductSummary product={product} studioId={studioId} />
 
-      <div className="mt-8">
-        <Link href={`/studios/${studioId}/products/${product.id}/reviews`}>
-          상품리뷰 {product.reviewCount}개 보기
-        </Link>
-        <div className="flex justify-between items-center border-b py-4">
-          <h3 className="text-lg font-semibold">가격</h3>
-          <p className="font-bold text-lg">
-            <span className="text-sm font-normal mr-2 text-gray-400">
-              {product.standard}인 기준
-            </span>
-            {product.price.toLocaleString()}원
-          </p>
-        </div>
-        {/* 인원 수 조절 */}
-        <div className="flex justify-between items-center py-4">
-          <h3 className="text-lg font-semibold">인원</h3>
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setQuantity((prev) => Math.max(1, prev - 1))}
-            >
-              <Image
-                src="/icons/minus.svg"
-                alt="minus"
-                width={24}
-                height={24}
-              />
-            </button>
-            <span>{quantity}명</span>
-            <button
-              onClick={() =>
-                setQuantity((prev) => Math.min(product.standard, prev + 1))
-              } // `standard` 기준 초과 제한
-              disabled={quantity >= product.standard} // 초과 시 비활성화
-            >
-              <Image src="/icons/plus.svg" alt="plus" width={24} height={24} />
-            </button>
+      <ProductPrice product={product} />
+      <ProductOptions
+        options={product.addOptions}
+        selectedOptions={selectedAddOptions}
+        setSelectedOptions={setSelectedAddOptions}
+      />
+
+      {/* 예약 날짜 모달을 위한 버튼 */}
+      <button
+        onClick={() => setIsModalOpen(true)} // 모달 열기
+        className="mt-4 bg-gray-100 border text-gray-500 text-left py-2 px-4 rounded w-full"
+      >
+        {selectedDate && selectedTime
+          ? `예약일 ${selectedDate} 예약시간 (${selectedTime})`
+          : "희망 날짜와 시간을 선택해주세요."}
+      </button>
+
+      {/* 모달이 열렸을 때만 ReservationDate 컴포넌트를 렌더링 */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
+            {/* ReservationDate 컴포넌트 전달된 selectedDate, selectedTime */}
+            <ReservationDate
+              studioId={studioId || 0}
+              onDateTimeSelect={handleDateTimeSelect}
+              onCloseModal={handleCloseModal} // 모달 닫기 함수 전달
+            />
+
+            {/* 모달 닫기 버튼 */}
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => setIsModalOpen(false)} // 모달 닫기
+                className="py-1 px-4 rounded w-full bg-custom-bg border"
+              >
+                닫기
+              </button>
+            </div>
           </div>
         </div>
-        {/* 추가 옵션 */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold">추가 옵션</h3>
-          <ul className="mt-4">
-            {product.addOptions.map((option, idx) => (
-              <li
-                key={idx}
-                className="flex justify-between items-center border-b py-2"
-              >
-                <label className="flex items-center space-x-2">
-                  <input
-                    type="checkbox"
-                    onChange={(e) =>
-                      handleOptionChange(option, e.target.checked)
-                    }
-                  />
-                  <span>{option.name}</span>
-                </label>
-                <span>{option.price.toLocaleString()}원</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* 촬영 날짜 */}
-        <div className="mt-8">
-          <h3 className="text-lg font-semibold">촬영 날짜</h3>
-          <input
-            type="date"
-            className="w-full border p-2 rounded"
-            value={selectedDate || ""}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
-          {selectedDate && (
-            <p className="mt-2 text-sm text-gray-600">
-              선택한 날짜: {selectedDate}
-            </p>
-          )}
-        </div>
-        {/* 주문 버튼 */}
-        <div className="mt-8">
-          <button
-            className="w-full bg-yellow-500 text-white py-2 rounded font-bold"
-            onClick={handleOrder}
-          >
-            주문하기 ({calculateTotalPrice().toLocaleString()}원)
-          </button>
-        </div>
-      </div>
+      )}
+
+      <p className="mt-6 text-right">
+        <strong>총 가격: {calculateTotalPrice().toLocaleString()}원</strong>
+      </p>
+
+      <OrderButton
+        totalPrice={product.price * quantity}
+        onClick={handleOrder}
+      />
     </div>
   );
 };

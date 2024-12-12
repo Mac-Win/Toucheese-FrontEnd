@@ -75,7 +75,6 @@ body {
   background-color: #fff2cc;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 10; /* 상위에 고정 */
-  padding: 8px 0; /* 위아래 여백 추가 */
 }
 
 .global_gnb button {

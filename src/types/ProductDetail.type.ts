@@ -8,7 +8,9 @@ export interface ProductDetail {
   price: number;
   studioId?: number;
   addOptions: {
+    id: number;
     name: string;
     price: number;
   }[];
+  availableStartTimes: [];
 }

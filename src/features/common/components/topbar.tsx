@@ -1,13 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
-export function TopBar() {
+type TopBarProps = {
+  showShare?: boolean; // 공유 버튼 표시 여부
+  message?: string;
+};
+
+export function TopBar({ showShare = true, message }: TopBarProps) {
   const [activeShare, setActiveShare] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false); // 스크롤 여부 상태
   const router = useRouter();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const handleModalOpen = () => {
     setActiveShare(true);
@@ -29,24 +50,32 @@ export function TopBar() {
 
   return (
     <>
-      {/* TopBar */}
-      <div className="fixed z-10 w-full py-2 -left-1">
-        <div className="mx-auto max-w-custom px-6 flex items-center  ">
-          <div>
+      <div
+        className={`fixed z-10 w-full left-0 top-0 transition-colors duration-300 `}
+      >
+        <div
+          className={`mx-auto max-w-custom px-2 flex items-center transition-all pt-6 ${
+            isScrolled ? "bg-white shadow-md py-6" : "bg-transparent"
+          }`}
+        >
+          <div className="flex items-center gap-2">
             <button onClick={() => router.back()}>
               <Image src="/icons/back.svg" alt="back" width={36} height={36} />
             </button>
+            <span className="font-bold text-lg">{message}</span>
           </div>
-          <div className="ml-auto">
-            <button onClick={handleModalOpen}>
-              <Image
-                src="/icons/share.svg"
-                alt="share"
-                width={36}
-                height={36}
-              />
-            </button>
-          </div>
+          {showShare && (
+            <div className="ml-auto flex items-center">
+              <button onClick={handleModalOpen}>
+                <Image
+                  src="/icons/share.svg"
+                  alt="share"
+                  width={36}
+                  height={36}
+                />
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -57,7 +86,7 @@ export function TopBar() {
             animate={{ y: 0 }} // 화면에 나타날 때 위로 슬라이드
             exit={{ y: "100%" }} // 사라질 때 아래로 슬라이드
             transition={{ type: "spring", stiffness: 100, damping: 15 }}
-            className="fixed bottom-0 right-0; left-0 z-50 w-full"
+            className="fixed bottom-0 right-0 left-0 z-50 w-full"
           >
             <div className="relative mx-auto bg-white p-4 rounded-t-lg shadow-lg max-w-custom w-full">
               {/* 닫기 버튼 */}

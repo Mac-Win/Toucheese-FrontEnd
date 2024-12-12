@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Review } from "@/types/Review.type";
 
-function ReviewList({ reviews }: { reviews: Review[] }) {
+function ReviewList({ reviews }: { reviews: Review[] | null }) {
   if (!reviews || reviews.length === 0) {
     return <div>현재 리뷰가 없습니다.</div>;
   }

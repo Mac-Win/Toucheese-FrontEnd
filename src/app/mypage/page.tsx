@@ -1,4 +1,5 @@
-function myPage() {
-  return 123;
+function MyPage() {
+  return <div>사용자페이지</div>;
 }
-export default myPage;
+
+export default MyPage;

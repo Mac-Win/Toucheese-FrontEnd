@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
+
 export const metadata: Metadata = {
   title: "터치즈 MVP 기능구현",
-  description: "스프린트2단계",
+  description: "스프린트3단계",
   icons: {
     icon: "/icon.ico",
     shortcut: "/icon.ico",
