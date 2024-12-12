@@ -8,10 +8,12 @@ import { useConcept } from "@/features/studios/hooks/useConcept";
 import SearchBar from "@/features/searchBar/searchBar";
 import Image from "next/image";
 import Link from "next/link";
+import { useConceptStore } from "@/features/common/store/useConceptStore";
 
 const Home = () => {
   const router = useRouter();
   const { data: conceptList, loading, error } = useConcept();
+  const { setConceptId } = useConceptStore();
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -28,13 +30,14 @@ const Home = () => {
     <div className="flex flex-col items-center w-full min-h-screen bg-white">
       <Header showCart={false} />
       <SearchBar />
-      <div className="grid grid-cols-2 gap-4 w-full ">
+      <div className="grid grid-cols-2 gap-4 w-full">
         {conceptList.map((concept: defaultConcept, index: number) => (
           <Link
             href={`/studios?conceptId=${concept.id}`}
             key={concept.id}
             className="relative rounded-lg overflow-hidden shadow-md group aspect-[3/4]"
             aria-label={concept.name}
+            onClick={() => setConceptId(concept.id)}
           >
             <Image
               src={`/concept${index + 1}.png`}

@@ -6,14 +6,14 @@ import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
 type TopBarProps = {
-  showShare?: boolean; // 공유 버튼 표시 여부
+  showShare?: boolean;
   message?: string;
   location?: string;
 };
 
 export function TopBar({ showShare = true, message, location }: TopBarProps) {
   const [activeShare, setActiveShare] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false); // 스크롤 여부 상태
+  const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
 
   useEffect(() => {

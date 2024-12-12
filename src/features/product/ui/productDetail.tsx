@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ProductDetail } from "../../../types/ProductDetail.type";
+import { ProductDetail } from "@/types/ProductDetail.type";
 import useProductOrderStore from "../store/useProductOrderStore";
 import useStudioStore from "@/features/studios/store/StudioStore";
 import ProductCoverImage from "./ProductCoverImage";
@@ -13,7 +13,6 @@ import ReservationDate from "./ReservationDate";
 import OrderButton from "./OrderButton";
 
 type AddOption = ProductDetail["addOptions"][number];
-
 interface ProductDetailsProps {
   product: ProductDetail;
 }
@@ -117,9 +116,8 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         setSelectedOptions={setSelectedAddOptions}
       />
 
-      {/* 예약 날짜 모달을 위한 버튼 */}
       <button
-        onClick={() => setIsModalOpen(true)} // 모달 열기
+        onClick={() => setIsModalOpen(true)}
         className="mt-4 bg-gray-100 border text-gray-500 text-left py-2 px-4 rounded w-full"
       >
         {selectedDate && selectedTime
@@ -127,21 +125,18 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
           : "희망 날짜와 시간을 선택해주세요."}
       </button>
 
-      {/* 모달이 열렸을 때만 ReservationDate 컴포넌트를 렌더링 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
-            {/* ReservationDate 컴포넌트 전달된 selectedDate, selectedTime */}
             <ReservationDate
               studioId={studioId || 0}
               onDateTimeSelect={handleDateTimeSelect}
-              onCloseModal={handleCloseModal} // 모달 닫기 함수 전달
+              onCloseModal={handleCloseModal}
             />
 
-            {/* 모달 닫기 버튼 */}
             <div className="flex justify-end mt-4">
               <button
-                onClick={() => setIsModalOpen(false)} // 모달 닫기
+                onClick={() => setIsModalOpen(false)}
                 className="py-1 px-4 rounded w-full bg-custom-bg border"
               >
                 닫기

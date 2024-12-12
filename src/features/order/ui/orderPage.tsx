@@ -25,13 +25,13 @@ const OrderPage = () => {
   if (!checkoutData) return <div>결제 정보가 없습니다.</div>;
 
   const handlePayment = async () => {
-    if (isProcessing) return; // 중복 호출 방지
-    setIsProcessing(true); // 로딩 상태 시작
+    if (isProcessing) return;
+    setIsProcessing(true);
 
     if (!cartIds) {
       alert("결제 정보가 없습니다.");
       router.push("/carts");
-      setIsProcessing(false); // 로딩 상태 해제
+      setIsProcessing(false);
       return;
     }
 
