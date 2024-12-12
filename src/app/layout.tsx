@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "스프린트3단계",
   icons: {
     icon: "/icon.ico",
-    shortcut: "/icon.ico",
+    shortcut: "/icon32.png",
   },
 };
 
