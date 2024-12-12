@@ -17,9 +17,9 @@ function LoginPage() {
     <div className="flex-grow absolute w-full left-0 -top-20 bg-btn-color h-full flex flex-col justify-center">
       <div className="mx-auto mb-10">
         <Image
-          src="/symbols/toucheese_font_logo.svg"
-          alt="터치즈심볼"
-          width={300}
+          src="/symbols/toucheese_kr_logo.svg"
+          alt="터치즈"
+          width={200}
           height={100}
         />
       </div>
