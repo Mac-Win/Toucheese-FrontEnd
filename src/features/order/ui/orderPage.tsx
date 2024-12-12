@@ -25,6 +25,7 @@ const OrderPage = () => {
   const handlePayment = async () => {
     if (!cartIds) {
       alert("결제 정보가 없습니다.");
+      router.push("/carts");
       return;
     }
 
@@ -47,7 +48,7 @@ const OrderPage = () => {
   );
 
   return (
-    <div className="mt-10">
+    <div className="mt-20">
       <UserInfo memberContactInfo={memberContactInfo} />
       <OrderProduct cartPaymentList={cartPaymentList} />
       <PaymentOptions />

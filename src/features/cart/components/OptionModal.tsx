@@ -117,12 +117,11 @@ const OptionModal: React.FC<OptionModalProps> = ({
 
         {/* Product Info */}
         <div className="flex bg-custom-bg p-4">
-          <div className="inline-flex items-center overflow-hidden">
+          <div className="relative max-w-48 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
             <Image
               src={cartItem.productImage}
               alt={cartItem.productName}
-              width={120}
-              height={180}
+              fill
               className="object-cover"
             />
           </div>

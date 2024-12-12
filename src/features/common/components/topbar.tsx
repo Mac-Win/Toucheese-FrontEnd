@@ -55,7 +55,7 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
       >
         <div
           className={`mx-auto max-w-custom px-2 flex items-center transition-all pt-6 ${
-            isScrolled ? "bg-white shadow-md" : "bg-transparent"
+            isScrolled ? "bg-white shadow-md py-6" : "bg-transparent"
           }`}
         >
           <div className="flex items-center gap-2">

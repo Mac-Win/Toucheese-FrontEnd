@@ -107,12 +107,11 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
         </div>
       </div>
       <div className="flex p-4">
-        <div className="inline-flex overflow-hidden">
+        <div className="relative max-w-48 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
           <Image
             src={productImage}
             alt={productName}
-            width={180}
-            height={280}
+            fill
             className="object-cover"
           />
         </div>
