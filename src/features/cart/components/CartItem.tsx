@@ -185,6 +185,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
             studioImage: item.studioImage,
             productImage: item.productImage,
             productPrice: item.productPrice,
+            productStandard: item.productStandard,
           }}
         />
       )}

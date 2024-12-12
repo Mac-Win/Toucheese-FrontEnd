@@ -29,6 +29,7 @@ interface OptionModalProps {
     totalPrice: number;
     personnel: number;
     productPrice: number;
+    productStandard: number;
   };
 }
 
@@ -56,15 +57,23 @@ const OptionModal: React.FC<OptionModalProps> = ({
   }, [initialValues]);
 
   const handlePersonnelChange = (type: "increase" | "decrease") => {
+    const maxPersonnel = cartItem.productStandard;
+    const minPersonnel = cartItem.productStandard;
+
     if (type === "increase") {
-      setPersonnel((prev) => prev + 1);
-      setTotalPrice((prevPrice) => prevPrice + cartItem.productPrice); // 1인당 가격 추가
-    } else {
-      if (personnel > 1) {
-        setPersonnel((prev) => prev - 1);
-        setTotalPrice((prevPrice) => prevPrice - cartItem.productPrice); // 1인당 가격 감소
+      if (personnel < maxPersonnel) {
+        setPersonnel((prev) => prev + 1);
+        setTotalPrice((prevPrice) => prevPrice + cartItem.productPrice);
       } else {
-        setModalMessage("최소 예약 인원은 1명입니다.");
+        setModalMessage(`최대 예약 인원은 ${maxPersonnel}명입니다.`);
+        setIsModalOpen(true);
+      }
+    } else {
+      if (personnel > minPersonnel) {
+        setPersonnel((prev) => prev - 1);
+        setTotalPrice((prevPrice) => prevPrice - cartItem.productPrice);
+      } else {
+        setModalMessage(`최소 예약 인원은 ${minPersonnel}명입니다.`);
         setIsModalOpen(true);
       }
     }
@@ -115,9 +124,8 @@ const OptionModal: React.FC<OptionModalProps> = ({
           <h3 className="text-lg font-bold">{cartItem.studioName}</h3>
         </div>
 
-        {/* Product Info */}
         <div className="flex bg-custom-bg p-4">
-          <div className="relative max-w-48 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
+          <div className="relative max-w-36 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
             <Image
               src={cartItem.productImage}
               alt={cartItem.productName}
@@ -125,21 +133,33 @@ const OptionModal: React.FC<OptionModalProps> = ({
               className="object-cover"
             />
           </div>
-          <div className="flex-1 px-4 flex flex-col">
-            <p className="text-lg font-bold">{cartItem.productName}</p>
+          <div className="flex-1 px-4 flex flex-col gap-1">
+            <p className="text-lg font-bold mb-4">
+              상품명
+              <span className="ml-2">{cartItem.productName}</span>
+            </p>
             <p className="text-gray-500">
               예약 날짜: {cartItem.reservationDate}
             </p>
             <p className="text-gray-500">
               예약 시간: {cartItem.reservationTime}
             </p>
+            <p className="text-gray-500 ">예약 인원: {cartItem.personnel}명</p>
+            <p className="mt-auto text-lg font-bold">
+              전체 가격: {totalPrice.toLocaleString()}원
+            </p>
           </div>
         </div>
 
         <div className="p-4">
           <div className="flex justify-between text-lg font-bold border-b py-4">
-            <span>총 가격:</span>
-            <span>{totalPrice.toLocaleString()}원</span>
+            가격
+            <p>
+              <span className="text-sm font-medium text-gray-400 mr-2">
+                {cartItem.productStandard}인 기준
+              </span>
+              <span>{cartItem.productPrice}원</span>
+            </p>
           </div>
           <div className="flex justify-between items-center mb-4 border-b py-4">
             <span className="text-gray-700 text-lg font-bold">인원</span>
