@@ -4,10 +4,13 @@ import { CartPaymentItem } from "@/types/Checkout.type";
 interface ProductListProps {
   cartPaymentList: CartPaymentItem[];
 }
-
 export const OrderProduct: React.FC<ProductListProps> = ({
   cartPaymentList,
 }) => {
+  if (!cartPaymentList || cartPaymentList.length === 0) {
+    return <div>표시할 상품이 없습니다.</div>;
+  }
+
   return (
     <div className="mb-6">
       <h2 className="text-md font-bold">상품 확인</h2>

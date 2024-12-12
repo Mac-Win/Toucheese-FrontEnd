@@ -9,40 +9,35 @@ import CartItem from "@/features/cart/components/CartItem";
 
 function CartPage() {
   const { cartData, loading, error } = useCart();
-  const [selectedItems, setSelectedItems] = useState<number[]>([]); // 선택된 항목 관리
-  const [localCartData, setLocalCartData] = useState<CartItemType[]>([]); // 로컬 상태로 관리
-  const router = useRouter(); // useRouter 훅 사용
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [localCartData, setLocalCartData] = useState<CartItemType[]>([]);
+  const router = useRouter();
 
-  // cartData와 localCartData 동기화
   useEffect(() => {
     if (cartData) {
       setLocalCartData(cartData);
     }
   }, [cartData]);
 
-  // 총 금액 계산
   const totalAmount = selectedItems.length
     ? localCartData
-        .filter((item) => selectedItems.includes(item.cartId)) // 선택된 항목만 계산
+        .filter((item) => selectedItems.includes(item.cartId))
         .reduce((sum, item) => sum + item.totalPrice, 0)
-    : localCartData.reduce((sum, item) => sum + item.totalPrice, 0); // 전체 금액 계산
+    : localCartData.reduce((sum, item) => sum + item.totalPrice, 0);
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러가 발생했습니다: {error}</div>;
   if (!localCartData || localCartData.length === 0)
     return <div>장바구니가 비어 있습니다.</div>;
 
-  // 항목 선택 처리
   const handleSelect = (cartId: number, isSelected: boolean) => {
-    setSelectedItems(
-      (prevSelected) =>
-        isSelected
-          ? [...prevSelected, cartId] // 선택된 항목 추가
-          : prevSelected.filter((id) => id !== cartId) // 선택 해제
+    setSelectedItems((prevSelected) =>
+      isSelected
+        ? [...prevSelected, cartId]
+        : prevSelected.filter((id) => id !== cartId)
     );
   };
 
-  // 옵션 저장
   const handleSave = (updatedItem: {
     cartId: number;
     totalPrice: number;
@@ -51,23 +46,19 @@ function CartPage() {
   }) => {
     setLocalCartData((prev) =>
       prev.map((item) =>
-        item.cartId === updatedItem.cartId
-          ? { ...item, ...updatedItem } // 업데이트된 항목 교체
-          : item
+        item.cartId === updatedItem.cartId ? { ...item, ...updatedItem } : item
       )
     );
   };
 
-  // 항목 삭제
   const handleDelete = (id: number) => {
     setLocalCartData((prev) => prev.filter((item) => item.cartId !== id));
   };
 
-  // 상품 주문하기
   const handleOrder = () => {
     const itemsToOrder = selectedItems.length
-      ? localCartData.filter((item) => selectedItems.includes(item.cartId)) // 선택된 항목만
-      : localCartData; // 선택되지 않은 경우 전체 항목
+      ? localCartData.filter((item) => selectedItems.includes(item.cartId))
+      : localCartData;
 
     const cartIds = itemsToOrder.map((item) => item.cartId).join(",");
 
@@ -78,11 +69,14 @@ function CartPage() {
     <>
       <ul>
         {localCartData.map((item) => (
-          <li key={item.cartId}>
+          <li
+            key={item.cartId}
+            className={`${selectedItems.includes(item.cartId) ? "border-blue-500" : "border-gray-300"}`}
+          >
             <CartItem
               item={item}
-              isSelected={selectedItems.includes(item.cartId)} // 선택 여부 확인
-              onSelect={handleSelect} // 선택 이벤트 핸들러 전달
+              isSelected={selectedItems.includes(item.cartId)}
+              onSelect={handleSelect}
               onSave={handleSave}
               onDelete={handleDelete}
             />

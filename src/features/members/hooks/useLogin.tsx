@@ -30,7 +30,6 @@ const useLogin = () => {
         }
       );
 
-      // Authorization 헤더에서 토큰 추출
       const authorization = response.headers["authorization"];
       if (!authorization) {
         throw new Error("서버로부터 유효한 토큰을 받지 못했습니다.");
@@ -40,12 +39,10 @@ const useLogin = () => {
       if (!token) {
         throw new Error("토큰 형식이 올바르지 않습니다.");
       }
-
-      // Zustand와 로컬스토리지에 토큰 저장
       setToken(token);
       localStorage.setItem("authToken", token);
 
-      window.location.href = "/"; // 로그인 성공 후 리디렉션
+      window.location.href = "/";
     } catch (error) {
       console.error("로그인 실패:", error);
 

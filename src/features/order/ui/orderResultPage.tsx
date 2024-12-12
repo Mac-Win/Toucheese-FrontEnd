@@ -17,7 +17,6 @@ function OrderResultPage() {
 
   const router = useRouter();
 
-  // 주문 데이터가 없을 경우 처리
   if (!productId) {
     return (
       <div className="p-4">
@@ -36,7 +35,6 @@ function OrderResultPage() {
     <div className="p-4 w-full mx-auto">
       <h1 className="text-2xl font-bold mb-6">주문 완료</h1>
 
-      {/* 주문 요약 */}
       <h2 className="text-lg font-semibold mb-2">주문 내역</h2>
       <div className="bg-custom-bg p-4 rounded-lg shadow-md mb-6 flex gap-4">
         <div>
@@ -78,7 +76,6 @@ function OrderResultPage() {
         </div>
       </div>
 
-      {/* 홈으로 돌아가기 버튼 */}
       <button
         onClick={() => router.push("/")}
         className="bg-cheese-bg w-full text-white py-2 rounded font-bold"

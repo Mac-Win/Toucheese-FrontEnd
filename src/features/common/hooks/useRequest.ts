@@ -19,14 +19,14 @@ function useRequest<T, D = unknown>() {
       try {
         const response = await apiRequest<T, D>(method, endpoint, body, params);
         setData(response);
-        return response; // 호출한 곳에서 결과 사용 가능
+        return response;
       } catch (err: unknown) {
         if (err instanceof Error) {
           setError(err.message);
         } else {
           setError("알 수 없는 에러가 발생했습니다.");
         }
-        throw err; // 호출한 곳에서 에러 핸들링 가능
+        throw err;
       } finally {
         setLoading(false);
       }

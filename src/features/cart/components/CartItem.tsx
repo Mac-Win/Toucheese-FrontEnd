@@ -67,27 +67,24 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
         throw new Error("유효하지 않은 데이터입니다.");
       }
 
-      // API 요청 데이터 생성
       const apiData = {
         totalPrice: data.totalPrice,
         personnel: data.personnel,
         addOptions: data.selectAddOptions.map(
           (option) => option.selectOptionId
-        ), // ID만 전송
+        ),
       };
 
-      // API 호출
       await handleRequest("PUT", `/v1/members/carts/${cartId}`, apiData);
 
-      // UI 상태 업데이트
       onSave({
         cartId,
         totalPrice: data.totalPrice,
         personnel: data.personnel,
-        selectAddOptions: data.selectAddOptions, // 원본 데이터 전달
+        selectAddOptions: data.selectAddOptions,
       });
 
-      setUpdatePanel(false); // 패널 닫기
+      setUpdatePanel(false);
     } catch (err) {
       console.error("옵션 업데이트 실패:", err);
     }
@@ -168,8 +165,8 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
               type: "save",
               data: {
                 ...data,
-                addOptions: item.addOptions, // 기존 옵션 유지
-                selectOptions: data.selectOptions, // 선택된 옵션만 업데이트
+                addOptions: item.addOptions,
+                selectOptions: data.selectOptions,
               },
             })
           }

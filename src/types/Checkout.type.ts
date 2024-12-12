@@ -22,6 +22,6 @@ export interface MemberContactInfo {
 }
 
 export interface CheckoutResponse {
-  cartPaymentList: CartPaymentItem[];
+  CheckoutCartItems: CartPaymentItem[];
   memberContactInfo: MemberContactInfo;
 }

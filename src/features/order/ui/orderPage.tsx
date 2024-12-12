@@ -14,18 +14,14 @@ const OrderPage = () => {
   const searchParams = useSearchParams();
   const cartIds = searchParams.get("cartIds");
 
-  // 결제 데이터 가져오기
   const { data: checkoutData, loading, error } = useFetchCheckoutData(cartIds);
 
-  // 결제 요청 훅
   const { makePayment } = usePaymentRequest();
 
-  // 로딩 및 에러 처리
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!checkoutData) return <div>결제 정보가 없습니다.</div>;
 
-  // 결제 처리 핸들러
   const handlePayment = async () => {
     if (!cartIds) {
       alert("결제 정보가 없습니다.");
@@ -44,9 +40,9 @@ const OrderPage = () => {
     }
   };
 
-  const { cartPaymentList, memberContactInfo } = checkoutData;
+  const { cartPaymentList = [], memberContactInfo } = checkoutData;
   const totalAmount = cartPaymentList.reduce(
-    (sum, item) => sum + item.totalPrice,
+    (sum, item) => sum + (item.totalPrice || 0),
     0
   );
 

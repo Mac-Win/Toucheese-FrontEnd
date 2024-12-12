@@ -197,8 +197,6 @@ const OptionModal: React.FC<OptionModalProps> = ({
             </ul>
           </div>
         </div>
-
-        {/* Actions */}
         <div className="flex gap-4 p-4">
           <button
             className="flex-1 bg-cheese-bg text-white py-2 rounded font-bold hover:bg-yellow-500"
@@ -213,8 +211,6 @@ const OptionModal: React.FC<OptionModalProps> = ({
             취소
           </button>
         </div>
-
-        {/* Alert Modal */}
         <AlertModal
           isOpen={isModalOpen}
           message={modalMessage}

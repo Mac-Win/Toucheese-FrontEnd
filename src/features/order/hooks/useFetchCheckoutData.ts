@@ -16,15 +16,29 @@ function useFetchCheckoutData(cartIds: string | null) {
           undefined,
           new URLSearchParams({ cartIds })
         );
-      } catch {
-        // 에러는 내부 상태에서 관리되므로 추가 처리 불필요
+      } catch (err) {
+        console.error("Fetch error:", err);
       }
     };
 
     fetchData();
   }, [cartIds, request]);
 
-  return { data, loading, error };
+  // 기본값 처리 추가
+  return {
+    data: data
+      ? {
+          cartPaymentList: data.CheckoutCartItems || [],
+          memberContactInfo: data.memberContactInfo || {
+            email: "",
+            name: "",
+            phone: "",
+          },
+        }
+      : null,
+    loading,
+    error,
+  };
 }
 
 export default useFetchCheckoutData;
