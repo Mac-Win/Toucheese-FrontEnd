@@ -4,7 +4,7 @@ import { TopBar } from "@/features/common/components/topbar";
 const CartPageRoute = () => {
   return (
     <>
-      <TopBar message="장바구니" showShare={false} />
+      <TopBar message="장바구니" showShare={false} location="/" />
       <div className="mt-20">
         <CartPage />
       </div>

@@ -8,9 +8,10 @@ import { AnimatePresence, motion } from "framer-motion";
 type TopBarProps = {
   showShare?: boolean; // 공유 버튼 표시 여부
   message?: string;
+  location?: string;
 };
 
-export function TopBar({ showShare = true, message }: TopBarProps) {
+export function TopBar({ showShare = true, message, location }: TopBarProps) {
   const [activeShare, setActiveShare] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false); // 스크롤 여부 상태
   const router = useRouter();
@@ -58,20 +59,31 @@ export function TopBar({ showShare = true, message }: TopBarProps) {
             isScrolled ? "bg-white shadow-md py-6" : "bg-transparent"
           }`}
         >
-          <div className="flex items-center gap-2">
-            <button onClick={() => router.back()}>
-              <Image src="/icons/back.svg" alt="back" width={36} height={36} />
+          <div className="flex items-center gap-2 flex-1">
+            <button
+              className="relative max-w-10 w-full max-h-10 h-full aspect-3/4 overflow-hidden"
+              onClick={() => (location ? router.push(location) : router.back())}
+            >
+              <Image
+                src="/icons/back.svg"
+                alt="back"
+                fill
+                className="object-cover"
+              />
             </button>
             <span className="font-bold text-lg">{message}</span>
           </div>
           {showShare && (
-            <div className="ml-auto flex items-center">
-              <button onClick={handleModalOpen}>
+            <div className="ml-auto flex items-center flex-1 justify-end">
+              <button
+                className="relative max-w-10 w-full max-h-10 h-full aspect-3/4 overflow-hidden"
+                onClick={handleModalOpen}
+              >
                 <Image
                   src="/icons/share.svg"
                   alt="share"
-                  width={36}
-                  height={36}
+                  fill
+                  className="object-cover"
                 />
               </button>
             </div>

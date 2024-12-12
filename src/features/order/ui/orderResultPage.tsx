@@ -37,12 +37,12 @@ function OrderResultPage() {
 
       <h2 className="text-lg font-semibold mb-2">주문 내역</h2>
       <div className="bg-custom-bg p-4 rounded-lg shadow-md mb-6 flex gap-4">
-        <div>
+        <div className="relative max-w-48 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
           <Image
-            src={`${productImage}`}
-            alt={`${productImage}`}
-            width={180}
-            height={200}
+            src={productImage}
+            alt={productTitle}
+            fill
+            className="object-cover"
           />
         </div>
         <div className="flex-1">
@@ -76,12 +76,20 @@ function OrderResultPage() {
         </div>
       </div>
 
-      <button
-        onClick={() => router.push("/")}
-        className="bg-cheese-bg w-full text-white py-2 rounded font-bold"
-      >
-        홈으로 돌아가기
-      </button>
+      <div className="flex flex-col gap-2">
+        <button
+          onClick={() => router.push("/cart")}
+          className="bg-custom-bg w-full text-black py-2 rounded font-bold border-2 border-gray-100"
+        >
+          장바구니로 이동하기
+        </button>
+        <button
+          onClick={() => router.push("/")}
+          className="bg-cheese-bg w-full text-white py-2 rounded font-bold"
+        >
+          홈으로 돌아가기
+        </button>
+      </div>
     </div>
   );
 }
