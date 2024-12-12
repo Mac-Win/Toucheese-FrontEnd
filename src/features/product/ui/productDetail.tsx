@@ -67,7 +67,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       );
 
       if (!response.ok) {
-        throw new Error(`예약 요청 실패: ${response.status}`);
+        throw new Error(`상품담기 실패: ${response.status}`);
       }
 
       let result = null;
@@ -76,7 +76,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         result = await response.json();
       }
 
-      alert("예약이 완료되었습니다!");
+      alert("상품이 성공적으로 예약되었습니다.");
       console.log("서버 응답:", result);
 
       setOrderData({

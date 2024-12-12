@@ -1,73 +1,50 @@
 "use client";
-import { CheckoutResponse } from "@/types/Checkout.type";
-import { useEffect, useState } from "react";
+
 import { useSearchParams } from "next/navigation";
 import { UserInfo } from "../components/UserInfo";
 import { PaymentOptions } from "../components/PaymentOptions";
 import { TotalAmountButton } from "../components/TotalAmountButton";
 import { OrderProduct } from "../components/OrderProduct";
+import usePaymentRequest from "../hooks/usePaymentRequest";
+import useFetchCheckoutData from "../hooks/useFetchCheckoutData";
+import { useRouter } from "next/navigation";
 
 const OrderPage = () => {
-  const [checkoutData, setCheckoutData] = useState<CheckoutResponse | null>(
-    null
-  );
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   const cartIds = searchParams.get("cartIds");
 
-  useEffect(() => {
-    if (!cartIds) {
-      setError("결제할 장바구니 항목이 없습니다.");
-      setLoading(false);
-      return;
-    }
+  // 결제 데이터 가져오기
+  const { data: checkoutData, loading, error } = useFetchCheckoutData(cartIds);
 
-    const fetchCheckoutData = async () => {
-      try {
-        setLoading(true);
+  // 결제 요청 훅
+  const { makePayment } = usePaymentRequest();
 
-        const token = localStorage.getItem("authToken");
-        const response = await fetch(
-          `https://api.toucheese-macwin.store/v1/members/carts/checkout-items?cartIds=${cartIds}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("결제 정보 조회에 실패했습니다.");
-        }
-
-        const data: CheckoutResponse = await response.json();
-        setCheckoutData(data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCheckoutData();
-  }, [cartIds]);
-
-  const handlePayment = () => {
-    alert("결제 페이지로 이동하도록 스프린트 예정입니다.");
-  };
-
+  // 로딩 및 에러 처리
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div className="text-red-500">{error}</div>;
   if (!checkoutData) return <div>결제 정보가 없습니다.</div>;
 
-  const { cartPaymentList, memberContactInfo } = checkoutData;
+  // 결제 처리 핸들러
+  const handlePayment = async () => {
+    if (!cartIds) {
+      alert("결제 정보가 없습니다.");
+      return;
+    }
 
+    try {
+      const result = await makePayment(cartIds);
+      alert("주문이 성공적으로 완료되었습니다!");
+      console.log(result);
+      router.push(`/reservation`);
+    } catch (err) {
+      alert(
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
+      );
+    }
+  };
+
+  const { cartPaymentList, memberContactInfo } = checkoutData;
   const totalAmount = cartPaymentList.reduce(
     (sum, item) => sum + item.totalPrice,
     0

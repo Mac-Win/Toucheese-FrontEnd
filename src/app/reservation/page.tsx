@@ -1,4 +1,6 @@
-function reservation() {
-  return 123;
+import ReservationPage from "@/features/reservation/ui/ReservationPage";
+
+function ReservationRouterPage() {
+  return <ReservationPage />;
 }
-export default reservation;
+export default ReservationRouterPage;
