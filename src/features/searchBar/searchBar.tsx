@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useState, useEffect } from "react";
 import { useSearch } from "@/features/searchBar/hooks/useSearch";
 
 function SearchBar() {
-  const [searchQuery, setSearchQuery] = useState<string>(""); // 현재 입력 값
-  const [debouncedQuery, setDebouncedQuery] = useState<string>(""); // 디바운싱된 검색어
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [debouncedQuery, setDebouncedQuery] = useState<string>("");
   const { data: results, loading, error } = useSearch(debouncedQuery);
 
-  // 디바운스 처리
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(searchQuery);
     }, 250);
 
     return () => {
-      clearTimeout(handler); // 이전 타이머를 클리어하여 무효화
+      clearTimeout(handler);
     };
   }, [searchQuery]);
 
@@ -25,12 +24,11 @@ function SearchBar() {
 
   // 폼 제출 방지
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // 기본 동작 방지
+    e.preventDefault();
   };
 
   return (
     <div className="w-full relative min-h-16 mb-4">
-      {/* 검색창 */}
       <div className="z-20 absolute top-0 w-full rounded-3xl bg-yellow-400 p-4">
         <form
           onSubmit={handleSubmit}
@@ -58,17 +56,14 @@ function SearchBar() {
           </button>
         </form>
 
-        {/* 로딩 스피너 */}
         {loading && (
           <div className="flex justify-center items-center py-4">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
           </div>
         )}
 
-        {/* 에러 메시지 */}
         {error && <div className="p-4 text-red-500">{error}</div>}
 
-        {/* 검색 결과 */}
         <div aria-live="polite">
           {!loading &&
             debouncedQuery.trim() &&
@@ -102,7 +97,6 @@ function SearchBar() {
               </ul>
             )}
 
-          {/* 검색 결과 없음 */}
           {!loading &&
             debouncedQuery.trim() &&
             (!Array.isArray(results) || results.length === 0) && (
