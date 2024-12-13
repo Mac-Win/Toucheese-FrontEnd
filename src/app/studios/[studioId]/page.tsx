@@ -8,19 +8,9 @@ import { StudioSummary } from "@/features/studios/ui/StudioSummary";
 import { StudioTabs } from "@/features/studios/ui/StudioTabs";
 import { StudioProducts } from "@/features/studios/ui/StudioProducts";
 import { StudioReviews } from "@/features/studios/ui/StudioReviews";
-import useStudioStore from "@/features/studios/store/StudioStore";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { TopBar } from "@/features/common/components/topbar";
-
-const dummyOperatingHours = [
-  { dayOfWeek: "월", openTime: "09:00", closeTime: "18:00" },
-  { dayOfWeek: "화", openTime: "09:00", closeTime: "18:00" },
-  { dayOfWeek: "수", openTime: "09:00", closeTime: "18:00" },
-  { dayOfWeek: "목", openTime: "09:00", closeTime: "18:00" },
-  { dayOfWeek: "금", openTime: "09:00", closeTime: "18:00" },
-  { dayOfWeek: "토", openTime: "09:00", closeTime: "18:00" },
-  { dayOfWeek: "일", openTime: "휴무", closeTime: "휴무" },
-];
+import useStudioStore from "@/features/studios/store/StudioStore";
 
 function StudioDetailPage({
   params,
@@ -39,7 +29,6 @@ function StudioDetailPage({
   useEffect(() => {
     setStudioId(studioIdNumber);
     setShowGNB(false);
-    setOperatingHours(dummyOperatingHours); // 더미 데이터를 Zustand에 저장
     return () => setShowGNB(true);
   }, [studioIdNumber, setStudioId, setShowGNB, setOperatingHours]);
 
