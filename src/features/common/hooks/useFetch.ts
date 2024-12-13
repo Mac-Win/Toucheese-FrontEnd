@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import { apiFetch } from "@/api/apiFetch";
 
 function useFetch<T>(endpoint: string | null, params?: URLSearchParams) {
-  const [data, setData] = useState<T | undefined>(undefined);
+  const [data, setData] = useState<T | null>(null); // 초기값을 null로 설정
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,7 +25,7 @@ function useFetch<T>(endpoint: string | null, params?: URLSearchParams) {
 
       setLoading(true);
       setError(null);
-      setData(undefined);
+      setData(null); // 데이터 초기화
 
       try {
         const response = await apiFetch<T>(memoizedUrl);

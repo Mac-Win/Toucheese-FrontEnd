@@ -17,12 +17,10 @@ function SearchBar() {
     };
   }, [searchQuery]);
 
-  // 검색어 변경 시 처리
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 
-  // 폼 제출 방지
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
