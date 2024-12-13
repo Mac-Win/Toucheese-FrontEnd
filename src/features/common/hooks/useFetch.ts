@@ -6,7 +6,6 @@ function useFetch<T>(endpoint: string | null, params?: URLSearchParams) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // 환경 변수로 기본 API URL 가져오기
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
   const memoizedUrl = useMemo(() => {
