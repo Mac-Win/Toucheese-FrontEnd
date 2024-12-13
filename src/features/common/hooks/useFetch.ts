@@ -1,23 +1,35 @@
 import { useState, useEffect, useMemo } from "react";
 import { apiFetch } from "@/api/apiFetch";
 
-function useFetch<T>(endpoint: string, params?: URLSearchParams) {
-  const [data, setData] = useState<T | null>(null);
+function useFetch<T>(endpoint: string | null, params?: URLSearchParams) {
+  const [data, setData] = useState<T | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const memoizedParams = useMemo(() => params?.toString() || "", [params]);
+  // 환경 변수로 기본 API URL 가져오기
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+
+  const memoizedUrl = useMemo(() => {
+    if (!endpoint || !baseUrl) return null;
+
+    const url = new URL(endpoint, baseUrl);
+    if (params) {
+      params.forEach((value, key) => url.searchParams.set(key, value));
+    }
+
+    return url.toString();
+  }, [endpoint, params, baseUrl]);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!memoizedUrl) return;
+
       setLoading(true);
       setError(null);
+      setData(undefined);
 
       try {
-        const response = await apiFetch<T>(
-          endpoint,
-          new URLSearchParams(memoizedParams)
-        );
+        const response = await apiFetch<T>(memoizedUrl);
         setData(response);
       } catch (err: unknown) {
         if (err instanceof Error) {
@@ -30,10 +42,8 @@ function useFetch<T>(endpoint: string, params?: URLSearchParams) {
       }
     };
 
-    if (endpoint) {
-      fetchData();
-    }
-  }, [endpoint, memoizedParams]);
+    fetchData();
+  }, [memoizedUrl]);
 
   return { data, loading, error };
 }
