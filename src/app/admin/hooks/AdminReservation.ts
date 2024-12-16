@@ -15,7 +15,7 @@ export function useAdminReservation(page: number = 1) {
     try {
       const response = await apiRequest<ReservationResponse>(
         "GET",
-        `/v1/admin/reservations?status=예약접수&page=${page - 1}`
+        `/v1/admin/reservations?&page=${page - 1}`
       );
 
       setReservations(response.content);

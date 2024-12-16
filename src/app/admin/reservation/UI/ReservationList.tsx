@@ -11,15 +11,15 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
       <table className="hidden md:table min-w-full text-sm text-gray-800 border-collapse">
         <thead className="bg-gray-200">
           <tr>
-            <th className="px-2 py-2 text-left">이름</th>
-            <th className="px-2 py-2 text-left">전화번호</th>
-            <th className="px-2 py-2 text-left">스튜디오 이름</th>
-            <th className="px-2 py-2 text-left">예약 내용</th>
-            <th className="px-2 py-2 text-left">예약 날짜</th>
-            <th className="px-2 py-2 text-left">총 가격</th>
-            <th className="px-2 py-2 text-left">상품 가격</th>
+            <th className="px-2 py-2 text-center">이름</th>
+            <th className="px-2 py-2 text-center">전화번호</th>
+            <th className="px-2 py-2 text-center">스튜디오 이름</th>
+            <th className="px-2 py-2 text-center">예약 내용</th>
+            <th className="px-2 py-2 text-center">예약 날짜</th>
+            <th className="px-2 py-2 text-center">총 가격</th>
+            <th className="px-2 py-2 text-center">상품 가격</th>
             <th className="px-2 py-2 text-left">선택 옵션</th>
-            <th className="px-2 py-2 text-left">예약 상태</th>
+            <th className="px-2 py-2 text-center">예약 상태</th>
           </tr>
         </thead>
         <tbody>
@@ -30,16 +30,33 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
                 index % 2 === 0 ? "bg-gray-100" : "bg-white"
               } hover:bg-gray-50`}
             >
-              <td className="px-2 py-2">{reservation.customerName}</td>
-              <td className="px-2 py-2">{reservation.customerPhone}</td>
-              <td className="px-2 py-2">{reservation.studioName}</td>
-              <td className="px-2 py-2">{reservation.productName}</td>
-              <td className="px-2 py-2">{reservation.createDate}</td>
-              <td className="px-2 py-2">{reservation.totalPrice}</td>
-              <td className="px-2 py-2">{reservation.productPrice}</td>
+              <td className="py-4 px-2 border-r text-center">
+                {reservation.customerName}
+              </td>
+              <td className="py-4 px-2 border-r text-center">
+                {reservation.customerPhone}
+              </td>
+              <td className="py-4 px-2 border-r text-center">
+                {reservation.studioName}
+              </td>
+              <td className="py-4 px-2 border-r text-center">
+                {reservation.productName}
+              </td>
+              <td className="py-4 px-2 border-r text-center">
+                {reservation.createDate}
+              </td>
+              <td className="py-4 px-2 border-r text-center">
+                {reservation.totalPrice}
+              </td>
+              <td className="py-4 my-2 border-r text-center">
+                {reservation.productPrice}
+              </td>
               <td>
                 {reservation.selectAddOptions.map((selectAddOption) => (
-                  <p key={selectAddOption.selectOptionId} className="px-4 py-1">
+                  <p
+                    key={selectAddOption.selectOptionId}
+                    className="px-2 py-1 text-left border-r"
+                  >
                     {selectAddOption.selectOptionId}
                     {selectAddOption.selectOptionName} -{" "}
                     {selectAddOption.selectOptionPrice}원
@@ -50,7 +67,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
                 <select
                   name="status"
                   id={`status-${reservation.reservationId}`}
-                  className="px-3 py-2 border rounded-md"
+                  className="px-4 py-2 border rounded-md"
                   defaultValue={reservation.status}
                   onChange={(e) =>
                     handleStatusChange(
@@ -69,7 +86,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
         </tbody>
       </table>
 
-      <div className="md:hidden ">
+      <div className="md:hidden">
         {reservations.map((reservation, index) => (
           <div
             key={index}
