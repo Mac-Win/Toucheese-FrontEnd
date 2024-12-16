@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="flex justify-center ">
+      <body className="flex flex-col align-center justify-center">
         <Suspense>
           <main
             id="main"
