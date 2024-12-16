@@ -12,9 +12,11 @@ function AdminLayout({ children }: { children: React.ReactNode }) {
   }, [setShowGNB]);
 
   return (
-    <div className="fixed flex left-0 top-0 bottom-0 right-0 z-50 max-w-screen-xl w-full m-auto ">
+    <div className="md:fixed flex left-0 top-0 bottom-0 right-0 z-50 max-w-screen-xl w-full m-auto ">
       <SideBar />
-      <div className="flex-1 bg-gray-100 p-4 overflow-y-scroll">{children}</div>
+      <div className="flex-1 bg-gray-100 md:p-4 py-28 px-4 md:overflow-y-scroll ">
+        {children}
+      </div>
     </div>
   );
 }

@@ -13,13 +13,11 @@ export function useAdminReservation(page: number = 1) {
     setError(null);
 
     try {
-      // API 요청
       const response = await apiRequest<ReservationResponse>(
         "GET",
         `/v1/admin/reservations?status=예약접수&page=${page - 1}`
       );
 
-      // 데이터 상태 업데이트
       setReservations(response.content);
       setTotalPages(response.totalPages);
     } catch (err) {
