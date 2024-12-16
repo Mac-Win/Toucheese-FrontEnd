@@ -7,7 +7,7 @@ const ReservationItems = [
     reservationId: "1",
     profileImage: "/images/studio1.jpg",
     studioname: "어디스튜디오",
-    status: true,
+    status: "예약대기",
     createDate: "2024-12-16",
   },
   {
@@ -15,7 +15,7 @@ const ReservationItems = [
     reservationId: "2",
     profileImage: "/images/studio2.jpg",
     studioname: "여기스튜디오",
-    status: true,
+    status: "예약확정",
     createDate: "2024-12-16",
   },
   {
@@ -23,7 +23,7 @@ const ReservationItems = [
     reservationId: "3",
     profileImage: "/images/studio3.jpg",
     studioname: "저기스튜디오",
-    status: true,
+    status: "예약취소",
     createDate: "2024-12-16",
   },
 ];
@@ -38,26 +38,28 @@ function ReservationPage() {
   }
 
   return (
-    <div>
+    <div className="mt-20">
       <TopBar message="예약일정" showShare={false} />
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {ReservationItems.map((reservation) => (
-          <div
-            key={reservation.reservationId}
-            className="relative w-full overflow-hidden aspect-square cursor-pointer"
-          >
-            <Image
-              src={reservation.profileImage}
-              alt={`${reservation.studioname} 예약 이미지`}
-              className="object-cover w-full h-full hover:scale-105 transition-transform duration-200"
-              fill
-            />
-            <div className="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white text-sm px-2 py-1 rounded">
-              {reservation.studioname}
+      {ReservationItems.map((reservation) => (
+        <div key={reservation.reservationId} className="p-4 bg-blue-50  my-4">
+          <div className="relative flex items-center justify-between gap-4">
+            <div className="w-10 h-10 rounded-full bg-black relative overflow-hidden">
+              <Image
+                src={reservation.profileImage}
+                alt={`${reservation.studioname} `}
+                fill
+              />
             </div>
+            <div className="mr-auto">
+              <p className="font-semibold ">{reservation.studioname}</p>
+              <p className="text-gray-500 font-medium">
+                {reservation.createDate}
+              </p>
+            </div>
+            <div>{reservation.status}</div>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
     </div>
   );
 }
