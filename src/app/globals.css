@@ -56,7 +56,6 @@ body {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-bottom: 200px; /* 하단 여유 공간 추가 */
 }
 
 @media (max-width: 480px) {

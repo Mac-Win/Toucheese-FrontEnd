@@ -72,7 +72,7 @@ const StudioList = ({
         <>
           {studios.map((studio) => (
             <Link href={`/studios/${studio.id}`} key={studio.id}>
-              <div className="flex flex-col gap-4 border-b border-gray-100 -mx-4 p-4 hover:shadow-md transition-all duration-300">
+              <div className="flex flex-col gap-4 border-b border-gray-100 p-4 hover:shadow-md transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <div className="max-h-16 max-w-16 overflow-hidden rounded-full flex items-center">
                     <Image

@@ -23,7 +23,7 @@ export default function RootLayout({
         <Suspense>
           <main
             id="main"
-            className="relative bg-white pb-28 p-4 flex flex-col min-h-screen w-full max-w-[var(--max-width)]"
+            className="relative bg-white flex flex-col min-h-screen max-w-[var(--max-width)]"
             style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
           >
             {children}

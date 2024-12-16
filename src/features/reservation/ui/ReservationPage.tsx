@@ -1,32 +1,6 @@
-import { TopBar } from "@/features/common/components/topbar";
+import Link from "next/link";
 import Image from "next/image";
-
-const ReservationItems = [
-  {
-    studioId: "42",
-    reservationId: "1",
-    profileImage: "/images/studio1.jpg",
-    studioname: "어디스튜디오",
-    status: "예약대기",
-    createDate: "2024-12-16",
-  },
-  {
-    studioId: "43",
-    reservationId: "2",
-    profileImage: "/images/studio2.jpg",
-    studioname: "여기스튜디오",
-    status: "예약확정",
-    createDate: "2024-12-16",
-  },
-  {
-    studioId: "44",
-    reservationId: "3",
-    profileImage: "/images/studio3.jpg",
-    studioname: "저기스튜디오",
-    status: "예약취소",
-    createDate: "2024-12-16",
-  },
-];
+import { ReservationItems } from "@/api/test/ReservationItem";
 
 function ReservationPage() {
   if (!ReservationItems || ReservationItems.length === 0) {
@@ -38,10 +12,12 @@ function ReservationPage() {
   }
 
   return (
-    <div className="mt-20">
-      <TopBar message="예약일정" showShare={false} />
+    <div className="mt-20 bg-gray-100 -mx-4 min-h-screen p-4 pb-24">
       {ReservationItems.map((reservation) => (
-        <div key={reservation.reservationId} className="p-4 bg-blue-50  my-4">
+        <div
+          key={reservation.reservationId}
+          className="p-4 bg-white my-4 rounded-md"
+        >
           <div className="relative flex items-center justify-between gap-4">
             <div className="w-10 h-10 rounded-full bg-black relative overflow-hidden">
               <Image
@@ -52,11 +28,45 @@ function ReservationPage() {
             </div>
             <div className="mr-auto">
               <p className="font-semibold ">{reservation.studioname}</p>
-              <p className="text-gray-500 font-medium">
+              <p className="text-gray-500 font-medium flex gap-1 items-center">
+                <Image
+                  src="/icons/event.svg"
+                  alt="back"
+                  width={20}
+                  height={20}
+                  className="object-cover"
+                />
                 {reservation.createDate}
               </p>
             </div>
-            <div>{reservation.status}</div>
+            <div
+              className={`self-start px-2 py-1 mt-2 rounded-md bg-gray-200 font-medium ${
+                reservation.status === "예약확정"
+                  ? "bg-yellow-500 text-black"
+                  : reservation.status === "촬영완료"
+                    ? "text-blue-500"
+                    : reservation.status === "예약취소"
+                      ? "text-red-500"
+                      : "text-black"
+              }`}
+            >
+              {reservation.status}
+            </div>
+          </div>
+          {/* Buttons */}
+          <div className="mt-4 flex justify-between gap-2">
+            <Link
+              href={`/studios/${reservation.studioId}`}
+              className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-md font-semibold "
+            >
+              스튜디오 홈
+            </Link>
+            <Link
+              href={`/reservation/${reservation.reservationId}`}
+              className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-md font-semibold "
+            >
+              옵션 변경
+            </Link>
           </div>
         </div>
       ))}
