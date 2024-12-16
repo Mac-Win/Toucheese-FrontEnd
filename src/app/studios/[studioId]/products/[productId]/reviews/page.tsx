@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import useProductStore from "@/features/product/store/ProductStore";
-import { ProductState } from "@/features/review/hooks/ProductState";
+import { useProductReviews } from "@/features/review/hooks/ProductState";
 import ReviewList from "@/features/review/ui/reviewList";
 
 import { useRouter } from "next/navigation";
@@ -16,8 +16,15 @@ const ReviewsPage = () => {
     (state) => state.productDescription
   );
 
-  const { data: reviews } = ProductState();
-  // 리뷰 데이터 가져오기
+  const { data: reviews, loading, error } = useProductReviews();
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>에러 발생: {error}</div>;
+  }
 
   return (
     <>
@@ -39,7 +46,7 @@ const ReviewsPage = () => {
         <p className="text-gray-700">{productDescription || "상품 설명"}</p>
       </div>
       <div className="mt-10">
-        <ReviewList reviews={reviews} />
+        <ReviewList reviews={reviews || []} />
       </div>
     </>
   );

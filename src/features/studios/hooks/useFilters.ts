@@ -1,28 +1,42 @@
-import useFetch from "@/features/common/hooks/useFetch";
+import { useEffect } from "react";
+import useRequest from "@/features/common/hooks/useRequest";
 import { StudiosByConceptResponse } from "../types/studioResponse.type";
+
+interface Filters {
+  price?: number;
+  rating?: number;
+  locations?: string[];
+}
 
 export function useFilters(
   conceptId: number,
-  filters: {
-    price?: number;
-    rating?: number;
-    locations?: string[];
-  },
+  filters: Filters,
   pageNumber: number = 1
 ) {
-  const params = new URLSearchParams();
-  params.set("page", pageNumber.toString());
+  const { data, loading, error, request } =
+    useRequest<StudiosByConceptResponse>();
 
-  if (filters.price) params.set("price", filters.price.toString());
-  if (filters.rating) params.set("rating", filters.rating.toString());
-  if (filters.locations) {
-    filters.locations.forEach((location) =>
-      params.append("locations", location)
-    );
-  }
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("page", pageNumber.toString());
 
-  return useFetch<StudiosByConceptResponse>(
-    `/v1/concepts/${conceptId}/studios/filters`,
-    params
-  );
+    if (filters.price) params.set("price", filters.price.toString());
+    if (filters.rating) params.set("rating", filters.rating.toString());
+    if (filters.locations) {
+      filters.locations.forEach((location) =>
+        params.append("locations", location)
+      );
+    }
+
+    if (conceptId) {
+      request(
+        "GET",
+        `/v1/concepts/${conceptId}/studios/filters`,
+        undefined,
+        params
+      );
+    }
+  }, [conceptId, filters, pageNumber, request]);
+
+  return { data, loading, error };
 }
