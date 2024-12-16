@@ -19,7 +19,6 @@ function StudioDetailPage({
 }) {
   const { studioId } = use(params);
   const studioIdNumber = parseInt(studioId, 10);
-  // const setStudioId = useStudioStore((state) => state.setStudioId);
 
   const { activeTab, setStudioId, setOperatingHours } = useStudioStore();
   const setShowGNB = useGNBStore((state) => state.setShowGNB);

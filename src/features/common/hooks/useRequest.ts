@@ -1,5 +1,11 @@
 import { useState, useCallback } from "react";
 import { apiRequest } from "@/api/apiRequest";
+import { ResponseType } from "axios";
+
+interface ApiRequestOptions {
+  headers?: Record<string, string>;
+  responseType?: ResponseType;
+}
 
 function useRequest<T, D = unknown>() {
   const [data, setData] = useState<T | null>(null);
@@ -11,13 +17,25 @@ function useRequest<T, D = unknown>() {
       method: "GET" | "POST" | "PUT" | "DELETE",
       endpoint: string,
       body?: D,
-      params?: URLSearchParams
+      params?: URLSearchParams,
+      options?: ApiRequestOptions
     ) => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await apiRequest<T, D>(method, endpoint, body, params);
+        // URL에 params 추가 처리
+        const queryString = params?.toString();
+        const url = queryString ? `${endpoint}?${queryString}` : endpoint;
+
+        // API 호출
+        const response = await apiRequest<T, D>(
+          method,
+          url,
+          body,
+          undefined,
+          options
+        );
         setData(response);
         return response;
       } catch (err: unknown) {

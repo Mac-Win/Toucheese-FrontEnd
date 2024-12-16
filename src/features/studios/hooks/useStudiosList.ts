@@ -1,4 +1,5 @@
-import useFetch from "@/features/common/hooks/useFetch";
+import { useEffect } from "react";
+import useRequest from "@/features/common/hooks/useRequest";
 import { StudiosByConceptResponse } from "../types/studioResponse.type";
 
 export function useStudioList(
@@ -6,12 +7,18 @@ export function useStudioList(
   pageNumber: number = 1,
   pageSize: number = 10
 ) {
-  const params = new URLSearchParams();
-  params.set("page", pageNumber.toString());
-  params.set("size", pageSize.toString());
+  const { data, loading, error, request } =
+    useRequest<StudiosByConceptResponse>();
 
-  return useFetch<StudiosByConceptResponse>(
-    `/v1/concepts/${conceptId}/studios`,
-    params
-  );
+  useEffect(() => {
+    const params = new URLSearchParams();
+    params.set("page", pageNumber.toString());
+    params.set("size", pageSize.toString());
+
+    if (conceptId) {
+      request("GET", `/v1/concepts/${conceptId}/studios`, undefined, params);
+    }
+  }, [conceptId, pageNumber, pageSize, request]);
+
+  return { data, loading, error };
 }

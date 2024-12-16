@@ -18,7 +18,7 @@ const useStudioStore = create<StudioStore>()(
   persist(
     (set) => ({
       studioId: null,
-      activeTab: "가격", // 기본값
+      activeTab: "가격",
       operatingHours: [],
       setOperatingHours: (hours) => set(() => ({ operatingHours: hours })),
       setStudioId: (id) => set({ studioId: id }),

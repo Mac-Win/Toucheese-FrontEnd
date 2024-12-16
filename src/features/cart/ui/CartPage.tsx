@@ -8,16 +8,23 @@ import CartSummary from "../components/CartSummary";
 import CartItem from "@/features/cart/components/CartItem";
 
 function CartPage() {
-  const { cartData, loading, error } = useCart();
+  const { cartData, loading, error, refetch } = useCart();
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [localCartData, setLocalCartData] = useState<CartItemType[]>([]);
   const router = useRouter();
 
+  // cartData 동기화 및 상태 업데이트
   useEffect(() => {
     if (cartData) {
       setLocalCartData(cartData);
     }
   }, [cartData]);
+
+  // 옵션 업데이트나 삭제 시 localCartData 변경 감지
+  useEffect(() => {
+    // 추가적인 로직을 넣을 수 있음 (예: 서버 동기화)
+    console.log("localCartData가 변경되었습니다.", localCartData);
+  }, [localCartData]);
 
   const totalAmount = selectedItems.length
     ? localCartData
@@ -53,6 +60,7 @@ function CartPage() {
 
   const handleDelete = (id: number) => {
     setLocalCartData((prev) => prev.filter((item) => item.cartId !== id));
+    refetch(); // 서버 동기화
   };
 
   const handleOrder = () => {
@@ -71,7 +79,11 @@ function CartPage() {
         {localCartData.map((item) => (
           <li
             key={item.cartId}
-            className={`${selectedItems.includes(item.cartId) ? "border-blue-500" : "border-gray-300"}`}
+            className={`${
+              selectedItems.includes(item.cartId)
+                ? "border-blue-500"
+                : "border-gray-300"
+            }`}
           >
             <CartItem
               item={item}
@@ -83,7 +95,7 @@ function CartPage() {
           </li>
         ))}
       </ul>
-      <div className="mt-4 fixed  max-w-custom w-full p-4 left-1/2 bottom-0 -translate-x-1/2 ">
+      <div className="mt-4 fixed max-w-custom w-full p-4 left-1/2 bottom-0 -translate-x-1/2">
         <CartSummary totalAmount={totalAmount} handleOrder={handleOrder} />
       </div>
     </>

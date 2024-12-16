@@ -1,4 +1,5 @@
-import useFetch from "@/features/common/hooks/useFetch";
+import { useEffect } from "react";
+import useRequest from "@/features/common/hooks/useRequest";
 import useProductStore from "@/features/product/store/ProductStore";
 import useStudioStore from "@/features/studios/store/StudioStore";
 
@@ -7,11 +8,17 @@ export interface Review {
   firstImage: string;
 }
 
-export function ProductState() {
+export function useProductReviews() {
   const studioId = useStudioStore((state) => state.studioId);
   const productId = useProductStore((state) => state.productId);
 
-  return useFetch<Review[]>(
-    `/v1/studios/${studioId}/products/${productId}/reviews`
-  );
+  const { data, loading, error, request } = useRequest<Review[]>();
+
+  useEffect(() => {
+    if (studioId && productId) {
+      request("GET", `/v1/studios/${studioId}/products/${productId}/reviews`);
+    }
+  }, [studioId, productId, request]);
+
+  return { data, loading, error };
 }
