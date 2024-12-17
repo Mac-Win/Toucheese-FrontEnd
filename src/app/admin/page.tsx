@@ -1,5 +1,38 @@
-function AdminRouterPage() {
-  return <h1>터치즈 관리자 페이지입니다.</h1>;
-}
+"use client";
 
-export default AdminRouterPage;
+import { useState } from "react";
+import ReservationList from "./reservation/UI/ReservationList";
+import Pagination from "./components/pagination";
+import { useAdminReservation } from "./hooks/AdminReservation";
+
+const AdminReservationPage = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const { reservations, totalPages, loading, error, refetch } =
+    useAdminReservation(currentPage);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  return (
+    <div>
+      <h1 className="text-3xl font-bold mb-4">예약 조회</h1>
+
+      <ReservationList reservations={reservations} />
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={(page) => {
+          setCurrentPage(page);
+          refetch(page);
+        }}
+      />
+    </div>
+  );
+};
+
+export default AdminReservationPage;

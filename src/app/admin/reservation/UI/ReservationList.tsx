@@ -16,6 +16,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
             <th className="px-2 py-2 text-center">스튜디오 이름</th>
             <th className="px-2 py-2 text-center">예약 내용</th>
             <th className="px-2 py-2 text-center">예약 날짜</th>
+            <th className="px-2 py-2 text-center">예약 시간</th>
             <th className="px-2 py-2 text-center">총 가격</th>
             <th className="px-2 py-2 text-center">상품 가격</th>
             <th className="px-2 py-2 text-left">선택 옵션</th>
@@ -46,22 +47,31 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
                 {reservation.createDate}
               </td>
               <td className="py-4 px-2 border-r text-center">
+                {reservation.createTime}
+              </td>
+              <td className="py-4 px-2 border-r text-center">
                 {reservation.totalPrice}
               </td>
               <td className="py-4 my-2 border-r text-center">
                 {reservation.productPrice}
               </td>
               <td>
-                {reservation.selectAddOptions.map((selectAddOption) => (
-                  <p
-                    key={selectAddOption.selectOptionId}
-                    className="px-2 py-1 text-left border-r"
-                  >
-                    {selectAddOption.selectOptionId}
-                    {selectAddOption.selectOptionName} -{" "}
-                    {selectAddOption.selectOptionPrice}원
+                {!reservation.selectAddOptions ||
+                reservation.selectAddOptions.length === 0 ? (
+                  <p className=" px-2 py-1 text-left border-r">
+                    선택된 옵션이 없습니다.
                   </p>
-                ))}
+                ) : (
+                  reservation.selectAddOptions.map((selectAddOption) => (
+                    <p
+                      key={selectAddOption.selectOptionId}
+                      className="px-2 py-1 text-left border-r"
+                    >
+                      {selectAddOption.selectOptionName} -{" "}
+                      {selectAddOption.selectOptionPrice}원
+                    </p>
+                  ))
+                )}
               </td>
               <td className="px-4 py-2 font-semibold">
                 <select
@@ -98,6 +108,7 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
             <p>전화번호: {reservation.customerPhone}</p>
             <p>스튜디오 이름: {reservation.studioName}</p>
             <p>예약 날짜: {reservation.createDate}</p>
+            <p>예약 시간: {reservation.createTime}</p>
             <p>총 가격: {reservation.totalPrice}원</p>
             <details>
               <summary className="cursor-pointer font-semibold text-blue-600">
