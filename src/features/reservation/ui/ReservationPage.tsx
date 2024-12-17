@@ -27,15 +27,15 @@ function ReservationPage() {
   }
 
   return (
-    <div className="mt-20 bg-gray-100 -mx-4 min-h-screen p-4 pb-24">
+    <div className="min-h-screen pb-24">
       {reservationItems && reservationItems.length > 0 ? (
         reservationItems.map((reservation) => (
           <div
             key={reservation.reservationId}
-            className="p-4 bg-white my-4 rounded-md"
+            className="p-4 bg-white my-4 rounded-lg border border-gray-200"
           >
-            <div className="relative flex items-center justify-between gap-4">
-              <div className="w-10 h-10 rounded-full bg-black relative overflow-hidden">
+            <div className="relative flex items-center justify-between gap-3">
+              <div className="w-12 h-12 rounded-full relative overflow-hidden">
                 <Image
                   src={reservation.studioImage}
                   alt={`${reservation.studioImage} `}
@@ -56,7 +56,7 @@ function ReservationPage() {
                 </p>
               </div>
               <div
-                className={`self-start px-2 py-1 mt-2 rounded-md bg-gray-200 font-medium ${
+                className={`self-start px-2 py-1 mt-2 rounded-lg border border-gray-200 bg-gray-200 font-medium ${
                   reservation.status === "예약확정"
                     ? "bg-yellow-500 text-black"
                     : reservation.status === "촬영완료"
@@ -73,13 +73,13 @@ function ReservationPage() {
               <div className="mt-4 flex justify-between gap-2">
                 <Link
                   href={`/studios/${reservation.studioId}`}
-                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-md font-semibold"
+                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
                 >
                   스튜디오 홈
                 </Link>
                 <Link
                   href={`/review/${reservation.reservationId}`}
-                  className="px-4 py-4 bg-yellow-500 w-1/2 text-center rounded-md font-semibold text-black"
+                  className="px-4 py-4 bg-yellow-500 w-1/2 text-center rounded-lg border border-gray-200 font-semibold text-black"
                 >
                   리뷰 쓰기
                 </Link>
@@ -89,13 +89,13 @@ function ReservationPage() {
               <div className="mt-4 flex justify-between gap-2">
                 <Link
                   href={`/studios/${reservation.studioId}`}
-                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-md font-semibold"
+                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
                 >
                   스튜디오 홈
                 </Link>
                 <Link
                   href={`/review/${reservation.reservationId}`}
-                  className="px-4 py-4 bg-yellow-500 w-1/2 text-center rounded-md font-semibold text-black"
+                  className="px-4 py-4 bg-yellow-500 w-1/2 text-center rounded-lg border border-gray-200 font-semibold text-black"
                 >
                   리뷰 쓰기
                 </Link>
@@ -104,13 +104,13 @@ function ReservationPage() {
               <div className="mt-4 flex justify-between gap-2">
                 <Link
                   href={`/studios/${reservation.studioId}`}
-                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-md font-semibold"
+                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
                 >
                   스튜디오 홈
                 </Link>
                 <Link
-                  href={`/reservation/${reservation.reservationId}`}
-                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-md font-semibold"
+                  href={`/reservation/${reservation.reservationId - 1}`}
+                  className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
                 >
                   예약 수정
                 </Link>
