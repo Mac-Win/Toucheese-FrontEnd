@@ -18,6 +18,7 @@ export interface Reservation {
   productName: string; // 상품명
   productPrice: number; // 상품 가격
   selectAddOptions: SelectAddOption[]; // 선택 옵션 배열
+  createTime: string;
 }
 
 // 페이징 관련 정렬 정보 인터페이스

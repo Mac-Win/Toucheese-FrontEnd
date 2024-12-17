@@ -23,14 +23,14 @@ function SideBar() {
     <>
       <button
         onClick={toggleSidebar}
-        className="md:hidden fixed top-4 left-4 z-20 bg-gray-900 text-white p-2 rounded"
+        className=" fixed top-4 left-4 z-20 bg-gray-900 text-white p-2 rounded"
       >
-        {isOpen ? "닫기" : "열기"}
+        {isOpen ? "메뉴닫기" : "메뉴열기"}
       </button>
 
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-10 md:hidden"
+          className="fixed inset-0 bg-black bg-opacity-50 z-10 "
           onClick={toggleSidebar}
         ></div>
       )}
@@ -38,7 +38,7 @@ function SideBar() {
       <aside
         className={`fixed top-0 left-0 h-full bg-gray-900 text-white p-4 flex flex-col transform transition-transform duration-300 z-20 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:relative md:translate-x-0 w-3/4 md:w-1/4`}
+        } `}
       >
         <nav>
           <ul>
