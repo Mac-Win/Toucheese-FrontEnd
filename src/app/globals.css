@@ -53,10 +53,10 @@ body {
   min-width: 320px;
   max-width: var(--max-width);
   padding: 16px; /* 좌우 간격 추가 */
+  padding-bottom: 120px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding-bottom: 200px; /* 하단 여유 공간 추가 */
 }
 
 @media (max-width: 480px) {

@@ -57,7 +57,7 @@ const StudiosPage = () => {
   }
 
   return (
-    <div>
+    <div className="flex flex-col pb-28 bg-white">
       <Header />
       <FilterGroup
         filters={{
