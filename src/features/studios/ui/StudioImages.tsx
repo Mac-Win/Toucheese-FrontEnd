@@ -21,12 +21,10 @@ export function StudioImages({
           type: "fraction",
         }}
         modules={[Pagination]}
-        className="w-full h-full" // Swiper에 height 100% 적용
+        className="w-full h-full"
       >
         {facilityImageUrls.map((image, idx) => (
           <SwiperSlide key={idx} className="h-full">
-            {" "}
-            {/* SwiperSlide에도 height 설정 */}
             <div className="relative w-full h-full">
               <Image
                 src={image}

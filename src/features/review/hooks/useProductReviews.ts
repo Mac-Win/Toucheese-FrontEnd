@@ -1,4 +1,5 @@
-import useFetch from "@/features/common/hooks/useFetch";
+import { useEffect } from "react";
+import useRequest from "@/features/common/hooks/useRequest";
 
 export interface Review {
   id: number;
@@ -6,11 +7,11 @@ export interface Review {
 }
 
 export function useProductReviews(studioId: string, productId: string) {
-  if (!studioId || !productId) {
-    throw new Error("Studio ID 또는 Product ID가 설정되지 않았습니다.");
-  }
+  const { data, loading, error, request } = useRequest<Review[]>();
 
-  return useFetch<Review[]>(
-    `/v1/studios/${studioId}/products/${productId}/reviews`
-  );
+  useEffect(() => {
+    request("GET", `/v1/studios/${studioId}/products/${productId}/reviews`);
+  }, [studioId, productId, request]);
+
+  return { data, loading, error };
 }

@@ -1,11 +1,16 @@
-import useFetch from "@/features/common/hooks/useFetch";
+import { useEffect } from "react";
+import useRequest from "@/features/common/hooks/useRequest";
 import { Search } from "@/features/searchBar/types/search.type";
 
 export function useSearch(keyword: string) {
-  const params = keyword.trim() ? new URLSearchParams({ keyword }) : undefined;
+  const { data, loading, error, request } = useRequest<Search[]>();
 
-  return useFetch<Search[]>(
-    params ? `/v1/studios?${params.toString()}` : null,
-    params
-  );
+  useEffect(() => {
+    if (keyword.trim()) {
+      const params = new URLSearchParams({ keyword });
+      request("GET", `/v1/studios?${params.toString()}`);
+    }
+  }, [keyword, request]);
+
+  return { data, loading, error };
 }

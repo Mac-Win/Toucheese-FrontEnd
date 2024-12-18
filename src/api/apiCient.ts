@@ -31,7 +31,8 @@ apiClient.interceptors.response.use(
         if (typeof window !== "undefined") {
           // 클라이언트 환경에서만 동작
           alert("토큰이 만료되어 재로그인 부탁드립니다.");
-          window.location.href = status === 403 ? "/members/login" : "/login";
+          window.location.href =
+            status === 403 ? "/members/login" : "/members/login";
         } else {
           console.warn("서버 사이드에서 인증 오류 발생.");
         }

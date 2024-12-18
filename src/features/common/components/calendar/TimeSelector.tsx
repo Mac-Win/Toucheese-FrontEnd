@@ -15,7 +15,6 @@ const TimeSelector = ({
   onTimeClick,
   isTimeDisabled,
 }: TimeSelectorProps) => {
-  // 현재 날짜에 대한 times 가져오기
   const availableTimes =
     calendarData.find((item) => item.date === selectedDate)?.times || [];
 

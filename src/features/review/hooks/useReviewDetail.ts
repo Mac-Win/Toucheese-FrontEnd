@@ -1,4 +1,5 @@
-import useFetch from "@/features/common/hooks/useFetch";
+import { useEffect } from "react";
+import useRequest from "@/features/common/hooks/useRequest";
 import useStudioStore from "@/features/studios/store/StudioStore";
 
 interface ReviewDetail {
@@ -10,8 +11,13 @@ interface ReviewDetail {
 
 export function useReviewDetail(reviewId: number) {
   const studioId = useStudioStore((state) => state.studioId);
+  const { data, loading, error, request } = useRequest<ReviewDetail>();
 
-  console.log("studioId from store:", studioId); // 디버깅 로그
+  useEffect(() => {
+    if (studioId && reviewId) {
+      request("GET", `/v1/studios/${studioId}/reviews/${reviewId}`);
+    }
+  }, [studioId, reviewId, request]);
 
-  return useFetch<ReviewDetail>(`/v1/studios/${studioId}/reviews/${reviewId}`);
+  return { data, loading, error };
 }
