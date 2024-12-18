@@ -47,8 +47,8 @@ const Home = () => {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority
             />
-            <div className="absolute bottom-0 w-full bg-black bg-opacity-50 py-2 text-center">
-              <h1 className="text-white text-sm sm:text-base font-medium">
+            <div className="absolute bottom-0 w-full bg-gradient-to-b from-transparent to-black py-2 sm:py-6 text-center">
+              <h1 className="text-white sm:text-lg font-semibold">
                 {concept.name}
               </h1>
             </div>

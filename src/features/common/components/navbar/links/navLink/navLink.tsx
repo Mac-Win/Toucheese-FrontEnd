@@ -20,10 +20,10 @@ const NavLink = ({ item }: NavLinkProps) => {
       <Image
         src={item.icon}
         alt={`${item.title} icon`}
-        width={40}
-        height={40}
+        width={30}
+        height={30}
       />
-      <p className="text-black">{item.title}</p>
+      <p className="text-gray-500">{item.title}</p>
     </Link>
   );
 };
