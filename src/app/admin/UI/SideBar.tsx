@@ -52,6 +52,11 @@ function SideBar() {
                 예약일정확인
               </Link>
             </li>
+            <li>
+              <Link href="/admin/contact" className="block py-2">
+                문의내역확인
+              </Link>
+            </li>
           </ul>
         </nav>
         <Link

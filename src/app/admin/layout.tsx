@@ -2,7 +2,7 @@
 
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { useEffect } from "react";
-import SideBar from "./UI/SideBar";
+import SideBar from "./ui/SideBar";
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
