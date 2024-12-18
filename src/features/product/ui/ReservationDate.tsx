@@ -70,17 +70,23 @@ const ReservationDate = ({
   };
 
   if (loading) {
-    return <div className="text-center py-4 aspect-square">로딩 중...</div>;
+    return (
+      <div className="aspect-3/4 max-w-custom w-full bg-white p-4 flex flex-col rounded-lg">
+        로딩 중...
+      </div>
+    );
   }
 
   if (error) {
     return (
-      <div className="text-center text-red-500 py-4 aspect-square">{error}</div>
+      <div className="aspect-3/4 max-w-custom w-full bg-white text-red-500 p-4 flex flex-col rounded-lg">
+        {error}
+      </div>
     );
   }
 
   return (
-    <div className="w-full">
+    <div className="aspect-3/4 max-w-custom w-full bg-white p-4 flex flex-col rounded-lg">
       <CalendarHeader
         currentMonth={currentMonth}
         onPrevious={() => setCurrentMonth(subMonths(currentMonth, 1))}
@@ -102,7 +108,17 @@ const ReservationDate = ({
           isTimeDisabled={isTimeDisabled}
         />
       )}
-      <ConfirmButton onConfirm={handleConfirm} />
+      <div className="mt-auto flex gap-2">
+        <ConfirmButton onConfirm={handleConfirm} />
+        <div className="flex w-1/2 ">
+          <button
+            onClick={onCloseModal}
+            className=" flex-1 py-4 rounded-lg bg-gray-200 border border-gray-300"
+          >
+            닫기
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
