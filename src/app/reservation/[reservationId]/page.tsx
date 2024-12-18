@@ -25,7 +25,7 @@ function ReservationEditPage() {
   return (
     <>
       <TopBar showShare={false} />
-      <ReservationEdit reservationId={reservationId as string} />
+      <ReservationEdit />
     </>
   );
 }

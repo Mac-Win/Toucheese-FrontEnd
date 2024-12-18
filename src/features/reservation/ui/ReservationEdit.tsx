@@ -1,39 +1,82 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import useReservatedList from "../hooks/useReservatedList";
+import useCalendarData from "@/features/product/hooks/useCalendar";
+import { handleReservationUpdate } from "../hooks/useUpdateReservation";
+import ReservationInfo from "../components/ReservationInfo";
+import WeekCalendarGrid from "../components/weekCalendar";
+import TimeSelector from "../components/TimeSelector";
+import ReservationActions from "../components/ReservationAction";
+import ReservationDate from "@/features/product/ui/ReservationDate";
+import Image from "next/image";
+import { parseISO } from "date-fns";
 
-function ReservationEdit() {
-  const { data: reservatedList } = useReservatedList();
+const ReservationEdit = () => {
+  const pageSize = 10;
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const {
+    data: reservatedList,
+    loading,
+    refetch,
+  } = useReservatedList(currentPage);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  const [selectedDate, setSelectedDate] = useState("2024-12-28");
-  const [selectedTime, setSelectedTime] = useState("14:30");
-  const { reservationId } = useParams();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 모달 열기/닫기 상태
 
-  const reservation = reservatedList?.content[Number(reservationId)];
-  // 인덱스 기반으로 데이터 선택
-
-  if (!reservation) {
-    return (
-      <div className="text-center mt-20">예약 정보를 찾을 수 없습니다.</div>
-    );
-  }
-
-  const availableTimes = {
-    morning: ["10:00", "11:00"],
-    afternoon: ["12:00", "14:30", "15:30", "17:00", "17:30", "18:00"],
-  };
-
-  const handleDateChange = (date: string) => {
+  const handleDateTimeSelect = (date: string | null, time: string | null) => {
     setSelectedDate(date);
-  };
-
-  const handleTimeChange = (time: string) => {
     setSelectedTime(time);
   };
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const { reservationId } = useParams();
+  const router = useRouter();
+  const today = new Date();
+
+  const reservation = reservatedList?.content.find(
+    (item) => item.reservationId === Number(reservationId)
+  );
+  const reservationDate = reservation?.createDate
+    ? parseISO(reservation.createDate)
+    : today;
+
+  useEffect(() => {
+    if (!reservation) {
+      const targetPage = Math.floor((Number(reservationId) - 1) / pageSize);
+      setCurrentPage(targetPage);
+      refetch(targetPage);
+    } else {
+      setSelectedDate(reservation.createDate);
+    }
+  }, [reservationId, reservation, refetch]);
+  const { calendarData } = useCalendarData(
+    reservation?.studioId || 0,
+    reservationDate
+  );
+
+  const handleUpdateReservation = async () => {
+    if (!selectedDate || !selectedTime || !reservation) {
+      alert("날짜와 시간을 선택하세요.");
+      return;
+    }
+    await handleReservationUpdate(
+      reservation.reservationId,
+      selectedDate,
+      selectedTime
+    );
+    router.push("/reservation");
+  };
+
+  const isDayDisabled = (date: Date) => date < today;
+
+  if (loading) {
+    return <div className="text-center mt-20">로딩 중...</div>;
+  }
 
   if (!reservation) {
     return (
@@ -42,115 +85,70 @@ function ReservationEdit() {
   }
 
   return (
-    <div className="mt-20 min-h-screen pb-24 flex flex-col">
-      <div className="p-4 bg-white rounded-lg shadow mb-6">
-        <div className="relative flex items-center justify-between gap-4 py-4 px-2 border-b border-b-gray-100">
-          <div className="w-12 h-12 rounded-full bg-black relative overflow-hidden">
-            <Image
-              src={reservation.studioImage}
-              alt={`${reservation.studioName} `}
-              fill
-            />
-          </div>
-          <div className="mr-auto">
-            <p className="font-semibold">{reservation.studioName}</p>
-            <p className="text-gray-500 font-medium flex gap-1 items-center">
-              <Image
-                src="/icons/event.svg"
-                alt="back"
-                width={20}
-                height={20}
-                className="object-cover"
-              />
-              {reservation.createDate}
-            </p>
-          </div>
-          <div
-            className={`self-start px-2 py-1 mt-2 rounded-md bg-gray-200 font-medium ${
-              reservation.status === "예약확정"
-                ? "bg-yellow-500 text-black"
-                : reservation.status === "촬영완료"
-                  ? "text-blue-500"
-                  : reservation.status === "예약취소"
-                    ? "text-red-500"
-                    : "text-black"
-            }`}
+    <div className="mt-20 min-h-screen pb-24 flex flex-col gap-4">
+      <div className="p-4 bg-white rounded-lg shadow mb-6 flex flex-col gap-4">
+        <ReservationInfo reservation={reservation} />
+        <div>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className=" flex items-center border border-gray-300 text-gray-500 py-3 px-4 rounded-lg"
           >
-            {reservation.status}
-          </div>
+            <Image
+              src="/icons/event.svg"
+              alt="calendar icon"
+              width={20}
+              height={20}
+              className="object-contain mr-2"
+            />
+            <span>
+              {selectedDate && selectedTime
+                ? `예약일 ${selectedDate} 예약시간 (${selectedTime})`
+                : selectedDate || "날짜를 선택해주세요"}
+            </span>
+          </button>
         </div>
 
-        <div className="my-6">
-          <label className="block mb-2 font-semibold">날짜 선택</label>
-          <div className="flex items-center gap-2">
-            {["2024-12-27", "2024-12-28", "2024-12-29"].map((date) => (
+        <WeekCalendarGrid
+          createDate={reservation.createDate}
+          selectedDate={selectedDate}
+          onDateClick={setSelectedDate}
+          isDayDisabled={isDayDisabled}
+        />
+        <TimeSelector
+          calendarData={calendarData}
+          selectedDate={selectedDate}
+          selectedTime={selectedTime}
+          setSelectedTime={setSelectedTime}
+        />
+      </div>
+
+      <ReservationActions
+        onCancel={() => router.push("/reservation")}
+        onUpdate={handleUpdateReservation}
+      />
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
+            <ReservationDate
+              studioId={reservation.studioId || 0}
+              onDateTimeSelect={handleDateTimeSelect}
+              onCloseModal={handleCloseModal}
+            />
+
+            <div className="flex justify-end mt-4">
               <button
-                key={date}
-                onClick={() => handleDateChange(date)}
-                className={`px-3 py-2 rounded ${
-                  selectedDate === date
-                    ? "bg-yellow-500 text-black"
-                    : "bg-gray-200"
-                }`}
+                onClick={() => setIsModalOpen(false)}
+                className="py-1 px-4 rounded w-full bg-custom-bg border"
               >
-                {date.slice(5).replace("-", "월 ") + "일"}
+                닫기
               </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="mb-6">
-          <label className="block mb-2 font-semibold">예약 가능한 시간대</label>
-          <div>
-            <p className="mb-2">오전</p>
-            <div className="flex gap-2 mb-4">
-              {availableTimes.morning.map((time) => (
-                <button
-                  key={time}
-                  onClick={() => handleTimeChange(time)}
-                  className={`px-3 py-2 rounded ${
-                    selectedTime === time
-                      ? "bg-yellow-500 text-black"
-                      : "bg-gray-200"
-                  }`}
-                >
-                  {time}
-                </button>
-              ))}
-            </div>
-            <p className="mb-2">오후</p>
-            <div className="flex gap-2">
-              {availableTimes.afternoon.map((time) => (
-                <button
-                  key={time}
-                  onClick={() => handleTimeChange(time)}
-                  className={`px-3 py-2 rounded ${
-                    selectedTime === time
-                      ? "bg-yellow-500 text-black"
-                      : "bg-gray-200"
-                  }`}
-                >
-                  {time}
-                </button>
-              ))}
             </div>
           </div>
         </div>
-      </div>
-
-      <div className="mt-auto flex gap-2">
-        <Link
-          href={`/reservation`}
-          className="px-4 py-2 w-1/2 bg-gray-700 text-white rounded text-center"
-        >
-          예약 취소
-        </Link>
-        <button className="px-4 py-2 w-1/2 bg-yellow-500 text-black rounded">
-          예약 변경
-        </button>
-      </div>
+      )}
     </div>
   );
-}
+};
 
 export default ReservationEdit;

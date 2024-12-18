@@ -18,17 +18,17 @@ export interface Reservation {
   studioName: string;
   studioImage: string;
   productName: string;
-  createDate: string; // ISO 형식 날짜
-  createTime: Time;
+  createDate: string;
+  createTime: string;
   status: string;
 }
 
-interface Time {
-  hour: number;
-  minute: number;
-  second: number;
-  nano: number;
-}
+// interface Time {
+//   hour: number;
+//   minute: number;
+//   second: number;
+//   nano: number;
+// }
 
 interface Sort {
   empty: boolean;
