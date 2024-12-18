@@ -41,7 +41,7 @@ const TimeSelector = ({
                 onClick={() => setSelectedTime(time)}
                 className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
                   selectedTime === time
-                    ? "bg-yellow-500 text-black"
+                    ? "bg-yellow-400 text-black"
                     : "bg-gray-200"
                 }`}
               >
@@ -65,7 +65,7 @@ const TimeSelector = ({
                 onClick={() => setSelectedTime(time)}
                 className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
                   selectedTime === time
-                    ? "bg-yellow-500 text-black"
+                    ? "bg-yellow-400 text-black"
                     : "bg-gray-200"
                 }`}
               >

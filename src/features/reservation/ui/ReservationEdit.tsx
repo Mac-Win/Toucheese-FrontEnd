@@ -12,6 +12,7 @@ import ReservationActions from "../components/ReservationAction";
 import ReservationDate from "@/features/product/ui/ReservationDate";
 import Image from "next/image";
 import { parseISO } from "date-fns";
+import ConfirmModal from "@/features/cart/components/ConfirmModal";
 
 const ReservationEdit = () => {
   const pageSize = 10;
@@ -24,7 +25,8 @@ const ReservationEdit = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 모달 열기/닫기 상태
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 날짜 선택 모달 상태
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false); // 컴펌 모달 상태
 
   const handleDateTimeSelect = (date: string | null, time: string | null) => {
     setSelectedDate(date);
@@ -54,6 +56,7 @@ const ReservationEdit = () => {
       setSelectedDate(reservation.createDate);
     }
   }, [reservationId, reservation, refetch]);
+
   const { calendarData } = useCalendarData(
     reservation?.studioId || 0,
     reservationDate
@@ -64,12 +67,18 @@ const ReservationEdit = () => {
       alert("날짜와 시간을 선택하세요.");
       return;
     }
-    await handleReservationUpdate(
-      reservation.reservationId,
-      selectedDate,
-      selectedTime
-    );
-    router.push("/reservation");
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmUpdate = async () => {
+    if (selectedDate && selectedTime && reservation) {
+      await handleReservationUpdate(
+        reservation.reservationId,
+        selectedDate,
+        selectedTime
+      );
+      router.push("/reservation");
+    }
   };
 
   const isDayDisabled = (date: Date) => date < today;
@@ -127,6 +136,7 @@ const ReservationEdit = () => {
         onUpdate={handleUpdateReservation}
       />
 
+      {/* 날짜 선택 모달 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
@@ -135,10 +145,9 @@ const ReservationEdit = () => {
               onDateTimeSelect={handleDateTimeSelect}
               onCloseModal={handleCloseModal}
             />
-
             <div className="flex justify-end mt-4">
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={handleCloseModal}
                 className="py-1 px-4 rounded w-full bg-custom-bg border"
               >
                 닫기
@@ -146,6 +155,18 @@ const ReservationEdit = () => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* 확인 모달 */}
+      {isConfirmModalOpen && (
+        <ConfirmModal
+          message={`\n예약날짜${selectedDate}\n예약시간: ${selectedTime}`}
+          onConfirm={() => {
+            setIsConfirmModalOpen(false);
+            handleConfirmUpdate();
+          }}
+          onCancel={() => setIsConfirmModalOpen(false)}
+        />
       )}
     </div>
   );
