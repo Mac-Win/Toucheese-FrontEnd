@@ -139,21 +139,11 @@ const ReservationEdit = () => {
       {/* 날짜 선택 모달 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
-            <ReservationDate
-              studioId={reservation.studioId || 0}
-              onDateTimeSelect={handleDateTimeSelect}
-              onCloseModal={handleCloseModal}
-            />
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={handleCloseModal}
-                className="py-1 px-4 rounded w-full bg-custom-bg border"
-              >
-                닫기
-              </button>
-            </div>
-          </div>
+          <ReservationDate
+            studioId={reservation.studioId || 0}
+            onDateTimeSelect={handleDateTimeSelect}
+            onCloseModal={handleCloseModal}
+          />
         </div>
       )}
 

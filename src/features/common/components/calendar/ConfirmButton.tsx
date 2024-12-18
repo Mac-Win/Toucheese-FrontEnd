@@ -4,9 +4,9 @@ interface ConfirmButtonProps {
 
 const ConfirmButton = ({ onConfirm }: ConfirmButtonProps) => {
   return (
-    <div className="mt-8">
+    <div className="w-1/2 ">
       <button
-        className="w-full bg-yellow-500 text-white py-1 rounded font-bold"
+        className="w-full bg-yellow-500 text-white py-4 rounded-lg font-bold"
         onClick={onConfirm}
       >
         예약 확인
