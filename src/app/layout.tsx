@@ -26,7 +26,7 @@ export default function RootLayout({
             className="relative flex flex-col min-h-screen max-w-[var(--max-width)] pb-28"
             style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
           >
-            {children}
+            <div className="pb-28 pt-16">{children}</div>
           </main>
           <ClientGNBWrapper />
         </Suspense>

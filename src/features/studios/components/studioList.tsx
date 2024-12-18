@@ -72,9 +72,9 @@ const StudioList = ({
         <>
           {studios.map((studio) => (
             <Link href={`/studios/${studio.id}`} key={studio.id}>
-              <div className="flex flex-col gap-4 border-b border-gray-100 p-4 hover:shadow-md transition-all duration-300">
+              <div className="flex flex-col gap-4 border-b py-4 border-gray-100 transition-all duration-300">
                 <div className="flex items-center gap-4">
-                  <div className="max-h-16 max-w-16 overflow-hidden rounded-full flex items-center">
+                  <div className="max-h-12 max-w-12 overflow-hidden rounded-full flex items-center">
                     <Image
                       src={studio.profileImage}
                       alt={`${studio.name} profile`}
@@ -82,22 +82,36 @@ const StudioList = ({
                       height={64}
                     />
                   </div>
-                  <div className="flex-1">
-                    <h2 className="text-black text-lg font-bold">
+                  <div>
+                    <h2 className="text-gray-800 text-lg font-semibold">
                       {studio.name}
                     </h2>
-                    <div className="flex items-center text-yellow-500 text-sm">
-                      <span>⭐ {studio.rating}</span>
-                    </div>
                   </div>
-                  <div>
+                </div>
+                <div className="flex items-center gap-4 font-medium">
+                  <div className=" flex items-center px-2 py-1 bg-gray-50 rounded-lg border">
+                    <Image
+                      src="/icons/studio/star.svg"
+                      alt={`${studio.name}의 평점${studio.rating}`}
+                      width={24}
+                      height={24}
+                    />
+                    <span>{studio.rating}</span>
+                  </div>
+                  <div className="flex items-center gap-1 px-2 py-1 bg-gray-50 rounded-lg border">
+                    <Image
+                      src="/icons/studio/credit_card.svg"
+                      alt={`${studio.name}의 평점${studio.rating}`}
+                      width={24}
+                      height={24}
+                    />
                     <span>{studio.price.toLocaleString()}원</span>
                   </div>
                 </div>
                 <div className="w-full max-w-[600px] overflow-hidden">
                   <Swiper
                     slidesPerView={3}
-                    spaceBetween={20}
+                    spaceBetween={10}
                     grabCursor={true}
                     freeMode={true}
                     modules={[Navigation, Pagination, FreeMode]}
@@ -105,13 +119,12 @@ const StudioList = ({
                     {studio.imageUrls.map((image: string, idx: number) => (
                       <SwiperSlide
                         key={idx}
-                        className="aspect-square overflow-hidden max-w-40 rounded-lg"
+                        className="relative aspect-3/4 overflow-hidden max-w-40 rounded-lg"
                       >
                         <Image
                           src={image}
                           alt={`${studio.name} image ${idx + 1}`}
-                          width={200}
-                          height={200}
+                          fill
                         />
                       </SwiperSlide>
                     ))}

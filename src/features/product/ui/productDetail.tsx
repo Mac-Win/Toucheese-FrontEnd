@@ -28,11 +28,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 모달 열기/닫기 상태
 
   const handleDateTimeSelect = (date: string | null, time: string | null) => {
-    setSelectedDate(date); // 부모 컴포넌트에서 날짜 저장
-    setSelectedTime(time); // 부모 컴포넌트에서 시간 저장
+    setSelectedDate(date);
+    setSelectedTime(time);
   };
   const handleCloseModal = () => {
-    setIsModalOpen(false); // 모달 닫기
+    setIsModalOpen(false);
   };
 
   const handleOrder = async () => {

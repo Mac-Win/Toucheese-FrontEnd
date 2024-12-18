@@ -12,10 +12,10 @@ export function StudioImages({
   facilityImageUrls: string[];
 }) {
   return (
-    <div className="relative w-full h-[300px]">
+    <div className="relative h-[300px] -mx-4">
       <Swiper
         slidesPerView={1}
-        spaceBetween={20}
+        spaceBetween={0}
         grabCursor={true}
         pagination={{
           type: "fraction",
@@ -25,11 +25,11 @@ export function StudioImages({
       >
         {facilityImageUrls.map((image, idx) => (
           <SwiperSlide key={idx} className="h-full">
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full ">
               <Image
                 src={image}
                 alt={`Facility image ${idx + 1}`}
-                className="object-cover rounded-lg shadow-xl bg-red-200"
+                className="object-cover shadow-xl"
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
