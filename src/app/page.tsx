@@ -27,7 +27,7 @@ const Home = () => {
   if (error) return <div>에러가 발생했습니다: {error}</div>;
 
   return (
-    <div className="flex flex-col items-center  ">
+    <div className="flex flex-col items-center -mt-20">
       <Header showCart={false} />
       <SearchBar />
       <div className="grid grid-cols-2 gap-4 w-full">
