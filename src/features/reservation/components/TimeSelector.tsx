@@ -16,7 +16,6 @@ const TimeSelector = ({
   const availableTimes =
     calendarData.find((item) => item.date === selectedDate)?.times || [];
 
-  // 오전(00:00~11:59)과 오후(12:00~23:59)로 나누기
   const morningTimes = availableTimes.filter(
     (time) => parseInt(time.split(":")[0], 10) < 12
   );
@@ -41,7 +40,7 @@ const TimeSelector = ({
                 onClick={() => setSelectedTime(time)}
                 className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
                   selectedTime === time
-                    ? "bg-yellow-500 text-black"
+                    ? "bg-yellow-400 text-black"
                     : "bg-gray-200"
                 }`}
               >
@@ -65,7 +64,7 @@ const TimeSelector = ({
                 onClick={() => setSelectedTime(time)}
                 className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
                   selectedTime === time
-                    ? "bg-yellow-500 text-black"
+                    ? "bg-yellow-400 text-black"
                     : "bg-gray-200"
                 }`}
               >
