@@ -1,12 +1,12 @@
 "use client";
 
-import ContactList from "./ui/ContactList";
+import AdminContactList from "./ui/ContactList";
 
 const AdminContactPage = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold mb-4">
-        <ContactList />
+        <AdminContactList />
       </h1>
     </div>
   );
