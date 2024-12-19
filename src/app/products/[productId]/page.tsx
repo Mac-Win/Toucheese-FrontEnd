@@ -26,13 +26,13 @@ function ProductDetailPage({
 
   useEffect(() => {
     if (!isNaN(productIdNumber)) {
-      setProductId(productIdNumber); // productId 상태 저장
+      setProductId(productIdNumber);
       console.log(productIdNumber);
     }
     if (product) {
-      setProductTitle(product.name); // product의 이름 저장
-      setProductDescription(product.description); // product의 설명 저장
-      setProductImage(product.productImage); // product의 이미지 저장
+      setProductTitle(product.name);
+      setProductDescription(product.description);
+      setProductImage(product.productImage);
     }
   }, [
     productIdNumber,
@@ -56,10 +56,10 @@ function ProductDetailPage({
   if (!product) return <div>상품이 존재하지 않습니다.</div>;
 
   return (
-    <div>
+    <>
       <TopBar showShare={false} />
       <ProductDetail product={product} />
-    </div>
+    </>
   );
 }
 

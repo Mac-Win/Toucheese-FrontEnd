@@ -82,7 +82,7 @@ const StudioList = ({
         <>
           {studios.map((studio) => (
             <Link href={`/studios/${studio.id}`} key={studio.id}>
-              <div className="flex flex-col gap-4 border-b py-4 border-gray-100 transition-all duration-300">
+              <div className="flex flex-col gap-4 border-b-8 py-4 border-gray-1 transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <div className="max-h-12 max-w-12 overflow-hidden rounded-full flex items-center">
                     <Image
@@ -93,13 +93,13 @@ const StudioList = ({
                     />
                   </div>
                   <div>
-                    <h2 className="text-gray-800 text-lg font-semibold">
+                    <h2 className="text-gray-8 text-lg font-semibold">
                       {studio.name}
                     </h2>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 font-medium">
-                  <div className=" flex items-center px-2 py-1 bg-gray-50 rounded-lg border">
+                  <div className=" flex items-center px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/star.svg"
                       alt={`${studio.name}의 평점${studio.rating}`}
@@ -108,7 +108,7 @@ const StudioList = ({
                     />
                     <span>{studio.rating}</span>
                   </div>
-                  <div className="flex items-center gap-1 px-2 py-1 bg-gray-50 rounded-lg border">
+                  <div className="flex items-center gap-1 px-2 py-1 bg-gray-1 rounded-lg border">
                     <Image
                       src="/icons/studio/credit_card.svg"
                       alt={`${studio.name}의 평점${studio.rating}`}
@@ -129,7 +129,7 @@ const StudioList = ({
                     {studio.imageUrls.map((image: string, idx: number) => (
                       <SwiperSlide
                         key={idx}
-                        className="relative aspect-3/4 overflow-hidden max-w-40 rounded-lg"
+                        className="relative aspect-3/4 overflow-hidden max-w-40 rounded-lg border-gray-2 border"
                       >
                         <Image
                           src={image}

@@ -4,11 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface HeaderProps {
-  showCart?: boolean;
-}
-
-function Header({ showCart = true }: HeaderProps) {
+function Header() {
   const pathname = usePathname();
 
   return (
@@ -31,16 +27,6 @@ function Header({ showCart = true }: HeaderProps) {
           height={100}
         />
       </Link>
-      {showCart && (
-        <Link className="absolute right-2" href="/cart">
-          <Image
-            src="/icons/shopping_bag.svg"
-            alt="cart"
-            width={36}
-            height={36}
-          />
-        </Link>
-      )}
     </header>
   );
 }
