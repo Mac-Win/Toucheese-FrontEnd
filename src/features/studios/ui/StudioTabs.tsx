@@ -14,7 +14,7 @@ export function StudioTabs() {
           onClick={() => setActiveTab(tab)}
           className={`flex-1 text-center py-2 mx-4 outline-none rounded-t-2xl font-semibold transition-all ${
             activeTab === tab
-              ? "border-b-4 border-btn-color"
+              ? "border-b-4 border-primary-5"
               : "border-b-4 border-transparent"
           }`}
         >

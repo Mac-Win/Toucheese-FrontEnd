@@ -29,7 +29,7 @@ const NewContact = () => {
       <div className="mb-4">
         <label
           htmlFor="title"
-          className="block text-sm font-medium text-gray-700 mb-2"
+          className="block text-sm font-medium text-gray-7 mb-2"
         >
           제목
         </label>
@@ -37,14 +37,14 @@ const NewContact = () => {
           type="text"
           id="title"
           placeholder="제목을 입력해주세요."
-          className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color "
+          className="w-full border border-gray-3 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color "
         />
       </div>
 
       <div className="mb-4">
         <label
           htmlFor="description"
-          className="block text-sm font-medium text-gray-700 mb-2"
+          className="block text-sm font-medium text-gray-7 mb-2"
         >
           문의 내용
         </label>
@@ -52,16 +52,16 @@ const NewContact = () => {
           id="description"
           placeholder="문의 내용을 입력해주세요."
           rows={10}
-          className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color resize-none"
+          className="w-full border border-gray-3 rounded-lg p-2 text-sm focus:outline-none focus:ring focus:ring-btn-color resize-none"
         />
       </div>
 
       <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+        <label className="block text-sm font-medium text-gray-7 mb-2">
           이미지 첨부
         </label>
         <div className="flex items-center space-x-2">
-          <label className="flex flex-col items-center justify-center w-20 h-20 bg-gray-200 rounded-lg cursor-pointer border border border-gray-400">
+          <label className="flex flex-col items-center justify-center w-20 h-20 bg-gray-200 rounded-lg cursor-pointer border border-gray-4">
             <input
               type="file"
               multiple

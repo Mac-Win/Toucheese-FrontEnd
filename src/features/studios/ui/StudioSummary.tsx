@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Image from "next/image";
 import { formatContent } from "@/utils/formatContent";
 
-export function StudioSummary({
+function StudioSummary({
   profileImage,
   name,
   totalReviews,
@@ -25,66 +25,59 @@ export function StudioSummary({
   const [isNoticeExpanded, setIsNoticeExpanded] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // 오늘 요일 계산 (한국 기준)
-  const todayIndex = new Date().getDay(); // 일요일(0) ~ 토요일(6)
-  const currentTime = new Date();
-  const currentHours = currentTime.getHours();
-  const currentMinutes = currentTime.getMinutes();
+  const todayIndex = new Date().getDay();
 
-  // 요일 매핑 (한국어 요일 순서와 일치)
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
 
-  // 오늘의 영업시간 계산
   const today = daysOfWeek[todayIndex];
   const todayOperatingHours = operatingHours.find(
     (item) => item.dayOfWeek === today
   );
 
-  const isOpen =
-    todayOperatingHours?.openTime !== "휴무" &&
-    todayOperatingHours &&
-    (() => {
-      const [openHours, openMinutes] = todayOperatingHours.openTime
-        .split(":")
-        .map(Number);
-      const [closeHours, closeMinutes] = todayOperatingHours.closeTime
-        .split(":")
-        .map(Number);
+  const isOpen = useMemo(() => {
+    if (!todayOperatingHours || todayOperatingHours.openTime === "휴무") {
+      return false; // 휴무
+    }
 
-      const openTime = openHours * 60 + openMinutes;
-      const closeTime = closeHours * 60 + closeMinutes;
-      const currentTimeInMinutes = currentHours * 60 + currentMinutes;
+    const [openHours, openMinutes] = todayOperatingHours.openTime
+      .split(":")
+      .map(Number);
+    const [closeHours, closeMinutes] = todayOperatingHours.closeTime
+      .split(":")
+      .map(Number);
 
-      return (
-        currentTimeInMinutes >= openTime && currentTimeInMinutes < closeTime
-      );
-    })();
+    const openTime = openHours * 60 + openMinutes;
+    const closeTime = closeHours * 60 + closeMinutes;
 
-  // 영업시간 정렬 (오늘 요일이 첫 번째로 오게 정렬)
+    const currentTime = new Date();
+    const currentMinutes =
+      currentTime.getHours() * 60 + currentTime.getMinutes();
+
+    console.log("Current Time (in minutes):", currentMinutes);
+    console.log("Open Time:", openTime, "Close Time:", closeTime);
+
+    return currentMinutes >= openTime && currentMinutes < closeTime;
+  }, [todayOperatingHours]);
   const sortedOperatingHours = useMemo(() => {
     const todayIndexInData = operatingHours.findIndex(
       (item) => item.dayOfWeek === today
     );
-    if (todayIndexInData === -1) return operatingHours; // 데이터에 오늘 요일이 없을 경우 원래 순서 유지
+    if (todayIndexInData === -1) return operatingHours;
 
-    // 오늘 요일 기준으로 배열 정렬
     return [
       ...operatingHours.slice(todayIndexInData),
       ...operatingHours.slice(0, todayIndexInData),
     ];
   }, [operatingHours, today]);
 
-  // 설명 내용을 문단 단위로 포맷팅
   const formattedContent = formatContent(description);
 
-  // 표시할 내용 결정
   const visibleContent = isExpanded
     ? formattedContent
-    : formattedContent.slice(0, 2); // 처음 두 문단만 표시
+    : formattedContent.slice(0, 1);
 
   return (
-    <div>
-      {/* 프로필 섹션 */}
+    <div className="border-b-8 border-gray-1">
       <div className="flex items-center gap-4 my-4">
         <div className="w-12 h-12 overflow-hidden rounded-full">
           <Image
@@ -96,70 +89,95 @@ export function StudioSummary({
         </div>
         <h2 className="text-lg font-bold">{name}</h2>
       </div>
-      <div>
-        <p>❤️ 리뷰 {totalReviews}개</p>
-        <p>🗺️ 주소 {address}</p>
-      </div>
-      {/* 영업 상태 섹션 */}
-      <div className="mt-2">
-        <button
-          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          className="flex items-center justify-betweenp-3  cursor-pointer"
-        >
-          <span
-            className={`font-bold ${isOpen ? "text-green-500" : "text-red-500"}`}
-          >
-            {isOpen ? "🕒 영업 중" : "🕒 휴무"}
-          </span>
-          <span className="text-gray-500 text-sm ml-2">
-            {isDropdownOpen ? "▲" : "▼"}
-          </span>
-        </button>
-        {isDropdownOpen && (
-          <ul className="bg-white shadow-md rounded-md p-2">
-            {sortedOperatingHours.map(
-              ({ dayOfWeek, openTime, closeTime }, idx) => (
-                <li key={idx} className="flex gap-4 py-1 px-">
-                  <span
-                    className={`font-semibold ${idx === 0 ? "text-blue-500" : ""}`}
-                  >
-                    {dayOfWeek}
-                  </span>
-                  {openTime === "휴무" ? (
-                    <span>휴무</span>
-                  ) : (
-                    <span>
-                      {openTime} - {closeTime}
-                    </span>
-                  )}
-                </li>
-              )
-            )}
-          </ul>
-        )}
-      </div>
-      {/* 설명 섹션 */}
-      <div className="mt-2">
-        {visibleContent.map((paragraph, idx) => (
-          <p key={idx} className="leading-relaxed mb-1">
-            {paragraph}.
-          </p>
-        ))}
-        {formattedContent.length > 2 && (
+      <div className="mt-2 flex bg-primary-1 py-2 px-6  rounded-lg">
+        <div>
+          {visibleContent.map((paragraph, idx) => (
+            <p
+              key={idx}
+              className={`leading-relaxed transition-all duration-300 mr-4 ${
+                isExpanded ? "line-clamp-none" : "line-clamp-1"
+              }`}
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+        {formattedContent.length > 1 && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className="text-cheese-bg text-sm font-semibold"
+            className="text-primary-5 text-sm font-semibold absolute right-10"
           >
-            {isExpanded ? "간략히 보기" : "자세히 보기"}
+            {isExpanded ? "▲" : "▼"}
           </button>
         )}
       </div>
-      {/* 공지사항 섹션 */}
-      <div className="my-4 bg-gray-200 p-4 rounded-lg flex items-start gap-2">
-        <div className="flex-grow text-sm text-gray-700">
+      <div className="mt-2 flex flex-col gap-2">
+        <p className="text-gray-5">리뷰 {totalReviews}개</p>
+        <p className="flex gap-1">
+          <Image
+            src="/icons/studiodetail/location_on.svg"
+            alt={`${name} profile`}
+            width={20}
+            height={20}
+          />
+          주소 {address}
+        </p>
+        <div>
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex items-center justify-between gap-2 cursor-pointer"
+          >
+            <Image
+              src="/icons/studiodetail/clock.svg"
+              alt={`${name} profile`}
+              width={20}
+              height={20}
+            />
+            <span
+              className={`font-bold ${isOpen ? "text-red-500" : " text-blue-500"}`}
+            >
+              {isOpen ? "휴무" : " 영업 중"}
+            </span>
+            <span className="text-blue-500 text-sm ml-2">
+              {isDropdownOpen ? "▲" : "▼"}
+            </span>
+          </button>
+          {isDropdownOpen && (
+            <ul className="bg-white shadow-md rounded-md p-2">
+              {sortedOperatingHours.map(
+                ({ dayOfWeek, openTime, closeTime }, idx) => (
+                  <li key={idx} className="flex gap-4 py-1 px-">
+                    <span
+                      className={`font-semibold ${idx === 0 ? "text-blue-500" : ""}`}
+                    >
+                      ({dayOfWeek})
+                    </span>
+                    {openTime === "휴무" ? (
+                      <span>휴무</span>
+                    ) : (
+                      <span>
+                        {openTime} - {closeTime}
+                      </span>
+                    )}
+                  </li>
+                )
+              )}
+            </ul>
+          )}
+        </div>
+      </div>
+      <div className="my-4 bg-gray-1 p-4 rounded-lg relative">
+        <div className="flex gap-4 text-lg text-gray-7">
+          <Image
+            src="/icons/studiodetail/volume.svg"
+            alt={`${name} profile`}
+            width={20}
+            height={20}
+          />
           <p
-            className={`${
-              isNoticeExpanded ? "line-clamp-none" : "line-clamp-2"
+            className={`mr-10 ${
+              isNoticeExpanded ? "line-clamp-none" : "line-clamp-1"
             } overflow-hidden transition-all`}
           >
             {notice}
@@ -167,7 +185,7 @@ export function StudioSummary({
         </div>
         <button
           onClick={() => setIsNoticeExpanded(!isNoticeExpanded)}
-          className="text-gray-500 text-xs flex-shrink-0"
+          className="text-gray-5 text-sm absolute right-4 top-5"
         >
           {isNoticeExpanded ? "▲" : "▼"}
         </button>
@@ -175,3 +193,4 @@ export function StudioSummary({
     </div>
   );
 }
+export default StudioSummary;
