@@ -8,7 +8,7 @@ interface ProductImageProps {
 }
 
 const ProductCoverImage = ({ product }: ProductImageProps) => (
-  <div className="relative aspect-3/4 w-1/3 bg-gray-200 rounded-md shadow-sm overflow-hidden">
+  <div className="relative aspect-3/4 w-1/3 bg-gray-200 rounded-md shadow-sm overflow-hidden mx-auto">
     <Image
       src={product.productImage}
       alt={product.name}

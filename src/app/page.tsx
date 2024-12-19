@@ -30,7 +30,7 @@ const Home = () => {
     <div className="flex flex-col items-center -mt-16">
       <Header showCart={false} />
       <SearchBar />
-      <div className="grid grid-cols-2 gap-4 w-full">
+      <div className="grid grid-cols-2 gap-4 w-full pb-4">
         {conceptList.map((concept: defaultConcept, index: number) => (
           <Link
             href={`/studios?conceptId=${concept.id}`}

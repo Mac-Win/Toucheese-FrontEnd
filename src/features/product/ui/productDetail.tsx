@@ -106,10 +106,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
   return (
     <>
-      <ProductCoverImage product={product} />
-      <ProductSummary product={product} studioId={studioId} />
-
-      <ProductPrice product={product} />
+      <div className="p-4 border shadow-sm rounded-lg">
+        <ProductCoverImage product={product} />
+        <ProductSummary product={product} studioId={studioId} />
+        <ProductPrice product={product} />
+      </div>
       <ProductOptions
         options={product.addOptions}
         selectedOptions={selectedAddOptions}
@@ -135,13 +136,9 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         </div>
       )}
 
-      <p className="mt-6 text-right">
-        <strong>총 가격: {calculateTotalPrice().toLocaleString()}원</strong>
-      </p>
-
       <OrderButton
-        totalPrice={product.price * quantity}
         onClick={handleOrder}
+        calculateTotalPrice={calculateTotalPrice}
       />
     </>
   );

@@ -56,7 +56,7 @@ function ProductDetailPage({
   if (!product) return <div>상품이 존재하지 않습니다.</div>;
 
   return (
-    <div className="flex flex-col  bg-white">
+    <div>
       <TopBar showShare={false} />
       <ProductDetail product={product} />
     </div>
