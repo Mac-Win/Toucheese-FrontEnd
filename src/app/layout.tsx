@@ -23,7 +23,7 @@ export default function RootLayout({
         <Suspense>
           <main
             id="main"
-            className="relative flex flex-col min-h-screen max-w-[var(--max-width)] pb-28"
+            className="relative flex flex-col justify-center min-h-screen max-w-[var(--max-width)] px-4"
             style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
           >
             <div className="pb-28 pt-16">{children}</div>

@@ -105,7 +105,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   };
 
   return (
-    <div>
+    <>
       <ProductCoverImage product={product} />
       <ProductSummary product={product} studioId={studioId} />
 
@@ -143,7 +143,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
         totalPrice={product.price * quantity}
         onClick={handleOrder}
       />
-    </div>
+    </>
   );
 };
 

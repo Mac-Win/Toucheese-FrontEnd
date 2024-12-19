@@ -21,7 +21,7 @@ const CartPageRoute = () => {
         showShare={false}
         location={conceptId ? `/studios?conceptId=${conceptId}` : "/"}
       />
-      <div className="mt-20">
+      <div className="bg-gray-100 -mx-4 p-4 flex-1 -mb-28">
         <CartPage />
       </div>
     </>

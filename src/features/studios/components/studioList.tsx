@@ -7,11 +7,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import PaginationComponent from "@/features/studios/components/pagination";
 import { useStudioList } from "../hooks/useStudiosList";
 import { useFilters } from "@/features/studios/hooks/useFilters";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import CommonPagination from "@/features/common/components/pagination";
 
 const StudioList = ({
   conceptId,
@@ -20,20 +20,22 @@ const StudioList = ({
   conceptId: number;
   filters: { price?: number; rating?: number; locations?: string[] };
 }) => {
-  const [pageNumber, setPageNumber] = useState(0); // 1-based index
-  const [totalPages, setTotalPages] = useState(0); // 초기 totalPages
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const {
     data: allStudiosData,
     loading: allStudiosLoading,
     error: allStudiosError,
-  } = useStudioList(conceptId, pageNumber); // 0-based index
+    refetch: refetchAllStudios,
+  } = useStudioList(conceptId, currentPage);
 
   const {
     data: filteredStudiosData,
     loading: filteredStudiosLoading,
     error: filteredStudiosError,
-  } = useFilters(conceptId, filters, pageNumber);
+    refetch: refetchFilteredStudios,
+  } = useFilters(conceptId, filters, currentPage);
 
   const isFilterApplied =
     filters.price !== undefined ||
@@ -41,12 +43,19 @@ const StudioList = ({
     (filters.locations && filters.locations.length > 0);
 
   useEffect(() => {
-    // `totalPages` 업데이트
     const data = isFilterApplied ? filteredStudiosData : allStudiosData;
     if (data) {
       setTotalPages(data.totalPages || 1);
     }
   }, [isFilterApplied, filteredStudiosData, allStudiosData]);
+
+  const refetch = (page: number) => {
+    if (isFilterApplied) {
+      refetchFilteredStudios(page);
+    } else {
+      refetchAllStudios(page);
+    }
+  };
 
   if (isFilterApplied && filteredStudiosLoading)
     return <p>로딩 중 (필터 적용)...</p>;
@@ -63,7 +72,8 @@ const StudioList = ({
     : allStudiosData?.content || [];
 
   const handlePageChange = (newPage: number) => {
-    setPageNumber(newPage);
+    setCurrentPage(newPage - 1); // 페이지 번호를 0-based로 변경
+    refetch(newPage - 1); // 새 페이지로 데이터 로드
   };
 
   return (
@@ -133,8 +143,9 @@ const StudioList = ({
               </div>
             </Link>
           ))}
-          <PaginationComponent
-            pageNumber={pageNumber}
+
+          <CommonPagination
+            currentPage={currentPage + 1} // 페이지 인덱스는 0부터 시작하므로 +1
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />

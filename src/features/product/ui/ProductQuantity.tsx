@@ -35,7 +35,7 @@ const ProductQuantity = ({ product }: { product: { standard: number } }) => {
         className="p-2 rounded"
         disabled={quantity <= 0}
       >
-        <Image src="/icons/minus.svg" alt="minus" width={24} height={24} />
+        <Image src="/icons/remove.svg" alt="minus" width={24} height={24} />
       </button>
       <span>{quantity}</span>
       <button
@@ -43,7 +43,7 @@ const ProductQuantity = ({ product }: { product: { standard: number } }) => {
         className="p-2 rounded"
         disabled={quantity >= product.standard}
       >
-        <Image src="/icons/plus.svg" alt="plus" width={24} height={24} />
+        <Image src="/icons/add.svg" alt="plus" width={24} height={24} />
       </button>
       <AlertModal
         isOpen={isModalOpen}

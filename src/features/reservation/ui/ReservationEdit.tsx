@@ -94,7 +94,7 @@ const ReservationEdit = () => {
   }
 
   return (
-    <div className="mt-20 flex flex-col gap-4">
+    <div className="flex flex-col gap-4">
       <div className="p-4 bg-white rounded-lg shadow mb-6 flex flex-col gap-4">
         <ReservationInfo reservation={reservation} />
         <div>

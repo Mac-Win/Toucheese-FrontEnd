@@ -65,7 +65,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
         setPersonnel((prev) => prev + 1);
         setTotalPrice((prevPrice) => prevPrice + cartItem.productPrice);
       } else {
-        setModalMessage(`최대 예약 인원은 ${maxPersonnel}명입니다.`);
+        setModalMessage(`상품의 최대 예약 인원이 ${maxPersonnel}명입니다.`);
         setIsModalOpen(true);
       }
     } else {
@@ -73,7 +73,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
         setPersonnel((prev) => prev - 1);
         setTotalPrice((prevPrice) => prevPrice - cartItem.productPrice);
       } else {
-        setModalMessage(`최소 예약 인원은 ${minPersonnel}명입니다.`);
+        setModalMessage(`싱픔의 최소 예약 인원이 ${minPersonnel}명입니다.`);
         setIsModalOpen(true);
       }
     }
@@ -111,7 +111,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end justify-center">
       <div className="bg-white w-full max-w-custom rounded-t-lg">
-        <div className="flex items-center gap-4 bg-cheese-bg bg-opacity-40 px-4 py-2">
+        {/* <div className="flex items-center gap-4 bg-cheese-bg bg-opacity-40 px-4 py-2">
           <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
             <Image
               src={cartItem.studioImage}
@@ -122,7 +122,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
             />
           </div>
           <h3 className="text-lg font-bold">{cartItem.studioName}</h3>
-        </div>
+        </div> */}
 
         <div className="flex bg-custom-bg p-4">
           <div className="relative max-w-36 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
@@ -169,8 +169,8 @@ const OptionModal: React.FC<OptionModalProps> = ({
                 className="p-2 rounde"
               >
                 <Image
-                  src="/icons/minus.svg"
-                  alt="minus"
+                  src="/icons/remove.svg"
+                  alt="인원감소"
                   width={24}
                   height={24}
                 />
@@ -181,8 +181,8 @@ const OptionModal: React.FC<OptionModalProps> = ({
                 className="p-2 rounde"
               >
                 <Image
-                  src="/icons/plus.svg"
-                  alt="plus"
+                  src="/icons/add.svg"
+                  alt="인원추가"
                   width={24}
                   height={24}
                 />

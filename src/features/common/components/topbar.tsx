@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 
 type TopBarProps = {
+  showBack?: boolean;
   showShare?: boolean;
   message?: string;
   location?: string;
@@ -14,6 +15,7 @@ type TopBarProps = {
 };
 
 export function TopBar({
+  showBack = true,
   showShare = true,
   message,
   location,
@@ -59,26 +61,30 @@ export function TopBar({
   return (
     <>
       <div
-        className={`fixed z-10 w-full left-0 top-0 transition-colors duration-300 `}
+        className={`fixed z-10 w-full left-0 top-0 right-0 transition-colors duration-300 `}
       >
         <div
           className={`mx-auto max-w-custom px-4 flex justify-between items-center transition-all py-4 ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
         >
-          <button
-            className="relative max-w-10 w-full max-h-10 h-full overflow-hidden"
-            onClick={() => (location ? router.push(location) : router.back())}
-          >
-            <Image
-              src="/icons/arrow_back_ios_new.svg"
-              alt="back"
-              width={24}
-              height={24}
-              className="object-cover"
-            />
-          </button>
-          <span className="font-bold text-lg">{message}</span>
+          {showBack && (
+            <button
+              className="relative max-w-10 w-full max-h-10 h-full overflow-hidden"
+              onClick={() => (location ? router.push(location) : router.back())}
+            >
+              <Image
+                src="/icons/arrow_back_ios_new.svg"
+                alt="back"
+                width={24}
+                height={24}
+                className="object-cover"
+              />
+            </button>
+          )}
+          <span className="font-bold text-lg justify-self-center ml-auto mr-auto">
+            {message}
+          </span>
           {showShare && (
             <div className="ml-auto flex items-center flex-1 justify-end">
               <button

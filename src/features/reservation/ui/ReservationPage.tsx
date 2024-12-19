@@ -4,22 +4,22 @@ import Image from "next/image";
 import useReservatedList from "../hooks/useReservatedList";
 import { useEffect, useState } from "react";
 import { Reservation } from "@/types/Reservated.type";
-import Pagination from "@/features/common/components/pagination";
+import CommonPagination from "@/features/common/components/pagination";
 
 function ReservationPage() {
-  const [currentPage, setCurrentPage] = useState<number>(0); // 현재 페이지 상태
+  const [currentPage, setCurrentPage] = useState<number>(0);
   const {
     data: ReservationItems,
     loading,
     error,
     refetch,
-  } = useReservatedList(currentPage); // `useReservatedList`에 페이지 전달
+  } = useReservatedList(currentPage);
 
   const [reservationItems, setReservationItems] = useState<Reservation[]>([]);
 
   useEffect(() => {
     if (ReservationItems && ReservationItems.content) {
-      setReservationItems(ReservationItems.content); // content 배열만 설정
+      setReservationItems(ReservationItems.content);
     }
   }, [ReservationItems]);
 
@@ -36,7 +36,7 @@ function ReservationPage() {
   }
 
   return (
-    <div className="min-h-screen pb-24">
+    <div className="">
       {reservationItems.map((reservation) => (
         <div
           key={reservation.reservationId}
@@ -111,7 +111,7 @@ function ReservationPage() {
         </div>
       ))}
 
-      <Pagination
+      <CommonPagination
         currentPage={currentPage + 1} // 페이지 인덱스는 0부터 시작하므로 +1
         totalPages={totalPages}
         onPageChange={(page) => {

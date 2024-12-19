@@ -74,7 +74,7 @@ function CartPage() {
   };
 
   return (
-    <>
+    <div className="h-screen">
       <ul>
         {localCartData.map((item) => (
           <li
@@ -98,7 +98,7 @@ function CartPage() {
       <div className="mt-4 fixed max-w-custom w-full p-4 left-1/2 bottom-0 -translate-x-1/2">
         <CartSummary totalAmount={totalAmount} handleOrder={handleOrder} />
       </div>
-    </>
+    </div>
   );
 }
 
