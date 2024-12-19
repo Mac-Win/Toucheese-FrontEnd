@@ -61,10 +61,10 @@ export function TopBar({
   return (
     <>
       <div
-        className={`fixed z-10 w-full left-0 top-0 right-0 transition-colors duration-300 `}
+        className={`fixed z-10 w-full left-0 top-0 right-0 transition-colors duration-300`}
       >
         <div
-          className={`mx-auto max-w-custom px-4 flex justify-between items-center transition-all py-4 ${
+          className={`mx-auto max-w-custom px-4 flex justify-between items-center transition-all py-4 md:min-h-16 h-full ${
             isScrolled ? "bg-white shadow-md" : "bg-transparent"
           }`}
         >

@@ -40,9 +40,9 @@ function ReservationPage() {
       {reservationItems.map((reservation) => (
         <div
           key={reservation.reservationId}
-          className="p-4 bg-white my-4 rounded-lg border border-gray-200"
+          className="p-4 my-4 rounded-lg border bg-white border-gray-200"
         >
-          <div className="relative flex items-center justify-between gap-3">
+          <div className="relative flex items-center justify-betweens gap-3">
             <div className="w-12 h-12 rounded-full relative overflow-hidden">
               <Image
                 src={reservation.studioImage}
