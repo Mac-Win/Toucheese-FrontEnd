@@ -5,7 +5,7 @@ import ReservationList from "./ui/ReservationList";
 import Pagination from "../components/pagination";
 import { useAdminReservation } from "../hooks/AdminReservation";
 
-const AdminReservationPage = () => {
+const AdminReservationCheck = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { reservations, totalPages, loading, error, refetch } =
     useAdminReservation(currentPage);
@@ -35,4 +35,4 @@ const AdminReservationPage = () => {
   );
 };
 
-export default AdminReservationPage;
+export default AdminReservationCheck;

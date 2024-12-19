@@ -5,7 +5,9 @@ type ReservationListProps = {
   reservations: Reservation[];
 };
 
-const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
+const ReservationCheckList: React.FC<ReservationListProps> = ({
+  reservations,
+}) => {
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg">
       <table className="hidden md:table min-w-full text-sm text-gray-800 border-collapse">
@@ -152,4 +154,4 @@ const ReservationList: React.FC<ReservationListProps> = ({ reservations }) => {
   );
 };
 
-export default ReservationList;
+export default ReservationCheckList;
