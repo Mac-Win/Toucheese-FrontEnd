@@ -44,14 +44,14 @@ const CalendarGrid = ({
         day ? (
           <button
             key={day.toString()}
-            className={`rounded-full w-10 h-10 mx-auto border ${
+            className={`rounded-full w-10 h-10 mx-auto ${
               selectedDate === format(day, "yyyy-MM-dd")
-                ? "bg-cheese-bg"
+                ? "bg-cheese-bg font-semibold"
                 : isToday(day)
-                  ? "border-yellow-400 border-4 bg-custom-bg"
+                  ? " bg-custom-bg"
                   : isDayDisabled(day)
-                    ? "bg-gray-300 text-gray-400 cursor-not-allowed"
-                    : "bg-custom-bg"
+                    ? "text-gray-300 cursor-not-allowed"
+                    : ""
             }`}
             onClick={() => onDateClick(format(day, "yyyy-MM-dd"))}
             disabled={isDayDisabled(day)}

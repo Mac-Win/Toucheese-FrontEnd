@@ -23,10 +23,10 @@ export default function RootLayout({
         <Suspense>
           <main
             id="main"
-            className="relative bg-gray-50 flex flex-col min-h-screen max-w-[var(--max-width)]"
+            className="relative flex flex-col justify-center min-h-screen max-w-[var(--max-width)] px-4"
             style={{ boxShadow: "0 0 0 1px rgba(209, 213, 219)" }}
           >
-            {children}
+            <div className="pb-24 pt-16 flex-1 flex flex-col">{children}</div>
           </main>
           <ClientGNBWrapper />
         </Suspense>

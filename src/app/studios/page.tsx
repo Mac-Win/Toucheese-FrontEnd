@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import Header from "@/features/common/components/header";
 import FilterGroup from "@/features/studios/components/filterGroup";
 import StudioList from "@/features/studios/components/studioList";
+import { TopBar } from "@/features/common/components/topbar";
 
 const StudiosPage = () => {
   const searchParams = useSearchParams();
@@ -24,7 +24,6 @@ const StudiosPage = () => {
     locations: [],
   });
 
-  // 필터 적용 핸들러
   const handleApplyFilters = (newFilters: {
     price?: string[];
     rating?: string[];
@@ -48,7 +47,7 @@ const StudiosPage = () => {
   if (!conceptId) {
     return (
       <div>
-        <Header />
+        <TopBar />
         <div className="text-center mt-10 text-red-500">
           conceptId가 유효하지 않습니다.
         </div>
@@ -57,8 +56,13 @@ const StudiosPage = () => {
   }
 
   return (
-    <div className="flex flex-col pb-28 bg-white">
-      <Header />
+    <div className="flex flex-col bg-white pb-4">
+      <TopBar
+        showShare={false}
+        showCart={true}
+        message={`${conceptId}`}
+        location={"/"}
+      />
       <FilterGroup
         filters={{
           price: filters.price ? [filters.price.toString()] : [],

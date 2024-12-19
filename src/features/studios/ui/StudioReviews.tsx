@@ -8,5 +8,9 @@ export function StudioReviews({ reviews }: { reviews: Review[] | null }) {
     return <div>리뷰가 없습니다.</div>;
   }
 
-  return <ReviewList reviews={reviews} />;
+  return (
+    <div className="mt-4 -mx-4">
+      <ReviewList reviews={reviews} />
+    </div>
+  );
 }

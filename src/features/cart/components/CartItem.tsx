@@ -91,10 +91,10 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
   };
 
   return (
-    <div className="bg-custom-bg mb-4 rounded-lg shadow-md overflow-hidden">
-      <div className="flex items-center justify-between bg-cheese-bg bg-opacity-40 px-4 py-2">
+    <>
+      <div className="flex items-center justify-betwee bg-opacity-40 py-4">
         <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden">
+          <div className="w-10 h-10 rounded-full bg-gray-300 overflow-hidden">
             <Image
               src={studioImage}
               alt={studioName}
@@ -106,54 +106,61 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
           <h3 className="text-lg font-bold">{studioName}</h3>
         </div>
       </div>
-      <div className="flex p-4">
-        <div className="relative max-w-48 w-full h-full aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
-          <Image
-            src={productImage}
-            alt={productName}
-            fill
-            className="object-cover"
+      <div className="bg-white mb-4 rounded-lg shadow-md overflow-hidden">
+        <div className="p-4 flex items-start gap-4">
+          <input
+            type="checkbox"
+            className="w-6 h-6 bg-yellow-500 text-white border-gray-300 rounded focus:ring-2 focus:ring-yellow-400"
           />
-        </div>
-        <div className="flex-1 px-4 flex flex-col">
-          <p className="text-lg font-bold">{productName}</p>
-          <p className="text-gray-500">예약 인원: {personnel}명</p>
-          <p className="text-gray-500">예약 날짜: {reservationDate}</p>
-          <p className="text-gray-500">예약 시간: {reservationTime}</p>
-          <p className="text-lg font-bold mt-auto">
-            총 {totalPrice.toLocaleString()}원
-          </p>
-          <div className="mt-4">
-            <h4 className="text-md font-bold">선택된 옵션:</h4>
-            {selectAddOptions.length > 0 ? (
-              <ul>
-                {selectAddOptions.map((option) => (
-                  <li key={option.selectOptionId} className="text-gray-500">
-                    {option.selectOptionName} -{" "}
-                    {option.selectOptionPrice.toLocaleString()}원
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">선택된 옵션이 없습니다.</p>
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col items-end">
-          <button onClick={() => setConfirmModal({ type: "delete" })}>
-            <Image
-              src="./icons/trash.svg"
+          <div className="px-4 flex">
+            <div className="relative max-w-48 w-32 aspect-3/4 overflow-hidden rounded-lg bg-gray-200">
+              <Image
+                src={productImage}
+                alt={productName}
+                fill
+                className="object-cover"
+              />
+            </div>
+            {/* <button onClick={() => setConfirmModal({ type: "delete" })}>
+              <Image
+              src="./icons/delete.svg"
               alt="삭제버튼"
               width={20}
               height={20}
-            />
-          </button>
-          <button
-            className="text-cheese-bg text-sm hover:underline mt-auto"
-            onClick={() => setUpdatePanel(true)}
-          >
-            옵션 변경
-          </button>
+              />
+              </button> */}
+          </div>
+          <div className="flex flex-col flex-1">
+            <p className="text-lg font-bold">{productName}</p>
+            <p className="text-gray-500">예약 인원: {personnel}명</p>
+            <p className="text-gray-500">예약 날짜: {reservationDate}</p>
+            <p className="text-gray-500">예약 시간: {reservationTime}</p>
+
+            <div className="mt-4">
+              <h4 className="text-md font-bold">선택된 옵션:</h4>
+              {selectAddOptions.length > 0 ? (
+                <ul>
+                  {selectAddOptions.map((option) => (
+                    <li key={option.selectOptionId} className="text-gray-500">
+                      {option.selectOptionName} -{" "}
+                      {option.selectOptionPrice.toLocaleString()}원
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-500">선택된 옵션이 없습니다.</p>
+              )}
+            </div>
+            <p className="text-lg font-bold mt-auto ml-auto">
+              총 {totalPrice.toLocaleString()}원
+            </p>
+            <button
+              className="bg-gray-100 w-full py-2 border-2 rounded-lg font-semibold text-lg mt-4"
+              onClick={() => setUpdatePanel(true)}
+            >
+              옵션 변경
+            </button>
+          </div>
         </div>
       </div>
       {updatePanel && (
@@ -218,7 +225,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
           onCancel={() => setConfirmModal({ type: null })}
         />
       )}
-    </div>
+    </>
   );
 };
 

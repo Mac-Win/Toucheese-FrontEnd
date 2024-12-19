@@ -28,11 +28,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // 모달 열기/닫기 상태
 
   const handleDateTimeSelect = (date: string | null, time: string | null) => {
-    setSelectedDate(date); // 부모 컴포넌트에서 날짜 저장
-    setSelectedTime(time); // 부모 컴포넌트에서 시간 저장
+    setSelectedDate(date);
+    setSelectedTime(time);
   };
   const handleCloseModal = () => {
-    setIsModalOpen(false); // 모달 닫기
+    setIsModalOpen(false);
   };
 
   const handleOrder = async () => {
@@ -105,11 +105,12 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
   };
 
   return (
-    <div>
-      <ProductCoverImage product={product} />
-      <ProductSummary product={product} studioId={studioId} />
-
-      <ProductPrice product={product} />
+    <>
+      <div className="p-4 border shadow-sm rounded-lg">
+        <ProductCoverImage product={product} />
+        <ProductSummary product={product} studioId={studioId} />
+        <ProductPrice product={product} />
+      </div>
       <ProductOptions
         options={product.addOptions}
         selectedOptions={selectedAddOptions}
@@ -127,34 +128,19 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-custom-bg p-6 rounded-lg w-full max-w-custom">
-            <ReservationDate
-              studioId={studioId || 0}
-              onDateTimeSelect={handleDateTimeSelect}
-              onCloseModal={handleCloseModal}
-            />
-
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={() => setIsModalOpen(false)}
-                className="py-1 px-4 rounded w-full bg-custom-bg border"
-              >
-                닫기
-              </button>
-            </div>
-          </div>
+          <ReservationDate
+            studioId={studioId || 0}
+            onDateTimeSelect={handleDateTimeSelect}
+            onCloseModal={handleCloseModal}
+          />
         </div>
       )}
 
-      <p className="mt-6 text-right">
-        <strong>총 가격: {calculateTotalPrice().toLocaleString()}원</strong>
-      </p>
-
       <OrderButton
-        totalPrice={product.price * quantity}
         onClick={handleOrder}
+        calculateTotalPrice={calculateTotalPrice}
       />
-    </div>
+    </>
   );
 };
 

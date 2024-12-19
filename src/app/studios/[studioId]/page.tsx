@@ -36,7 +36,7 @@ function StudioDetailPage({
 
   return (
     <div>
-      <TopBar showShare={true} />
+      <TopBar showShare={true} showCart={false} />
       <StudioImages facilityImageUrls={studioData.facilityImageUrls} />
       <StudioSummary
         profileImage={studioData.profileImage}

@@ -13,16 +13,12 @@ const CalendarHeader = ({
 }: CalendarHeaderProps) => {
   return (
     <div className="flex justify-center gap-4 items-center mb-4">
-      <button
-        onClick={onPrevious}
-        className="px-2 py-2 bg-cheese-bg rounded"
-        aria-label="이전 달"
-      >
+      <button onClick={onPrevious} className="px-2 py-2" aria-label="이전 달">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
           viewBox="0 0 20 20"
-          fill="#ffffff"
+          fill="#BFBFBF"
         >
           <path
             fillRule="evenodd"
@@ -32,16 +28,12 @@ const CalendarHeader = ({
         </svg>
       </button>
       <h2 className="text-lg font-bold">{format(currentMonth, "yyyy-MM")}</h2>
-      <button
-        onClick={onNext}
-        className="px-2 py-2 bg-cheese-bg rounded"
-        aria-label="다음 달"
-      >
+      <button onClick={onNext} className="px-2 py-2" aria-label="다음 달">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-5 w-5"
           viewBox="0 0 20 20"
-          fill="#ffffff"
+          fill="#BFBFBF"
         >
           <path
             fillRule="evenodd"

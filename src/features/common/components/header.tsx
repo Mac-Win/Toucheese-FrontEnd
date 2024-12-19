@@ -15,22 +15,30 @@ function Header({ showCart = true }: HeaderProps) {
     <header className="relative flex items-center justify-center my-6 w-full">
       {pathname !== "/" && (
         <Link className="absolute -left-2" href="/">
-          <Image src="/icons/back.svg" alt="back" width={36} height={36} />
+          <Image
+            src="/icons/arrow_back_ios_new.svg"
+            alt="back"
+            width={36}
+            height={36}
+          />
         </Link>
       )}
       <Link href="/">
         <Image
-          src="/TOUCHEESE_Y.png"
-          alt="TOUCHEESE_Y"
-          width={150}
+          src="/symbols/toucheese_font_logo.svg"
+          alt="터치즈"
+          width={250}
           height={100}
-          style={{ width: "auto", height: "auto" }}
         />
       </Link>
-      {/* showCart가 true일 때만 장바구니 아이콘 표시 */}
       {showCart && (
         <Link className="absolute right-2" href="/cart">
-          <Image src="/icons/cart.svg" alt="cart" width={36} height={36} />
+          <Image
+            src="/icons/shopping_bag.svg"
+            alt="cart"
+            width={36}
+            height={36}
+          />
         </Link>
       )}
     </header>

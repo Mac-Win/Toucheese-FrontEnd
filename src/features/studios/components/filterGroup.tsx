@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { SelectedFilters } from "@/features/studios/types/filters.type";
 import { filterConfigs } from "@/api/constants/filterConfigs";
@@ -50,10 +51,16 @@ const FilterGroup = ({
       {filterConfigs.map((config) => (
         <div key={config.key}>
           <button
-            className="px-4 py-2 rounded-full bg-yellow-300 text-white"
+            className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 flex items-center gap-1"
             onClick={() => toggleDropdown(config.key)}
           >
             {config.label}
+            <Image
+              src="/icons/keyboard_arrow_down.svg"
+              alt="필터메뉴버튼"
+              width={20}
+              height={20}
+            />
           </button>
           {activeDropdown === config.key && (
             <ul className="absolute z-10 w-full flex flex-wrap gap-4 left-0 mt-2 bg-custom-bg shadow rounded px-2 py-4">

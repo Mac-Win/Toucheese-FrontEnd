@@ -1,14 +1,17 @@
+import { TopBar } from "@/features/common/components/topbar";
 import ReservationPage from "@/features/reservation/ui/ReservationPage";
 
 function ReservationRouterPage() {
   return (
-    <>
-      <div className="flex items-center h-16 justify-center">
-        <h1 className="font-bold text-2xl text-center">예약일정</h1>
-      </div>
-
+    <div className="bg-gray-100 -mx-4 p-4 flex-1">
+      <TopBar
+        message="예약일정"
+        showCart={false}
+        showShare={false}
+        showBack={false}
+      />
       <ReservationPage />
-    </>
+    </div>
   );
 }
 export default ReservationRouterPage;
