@@ -7,11 +7,11 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import PaginationComponent from "@/features/studios/components/pagination";
 import { useStudioList } from "../hooks/useStudiosList";
 import { useFilters } from "@/features/studios/hooks/useFilters";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import CommonPagination from "@/features/common/components/pagination";
 
 const StudioList = ({
   conceptId,
@@ -20,20 +20,22 @@ const StudioList = ({
   conceptId: number;
   filters: { price?: number; rating?: number; locations?: string[] };
 }) => {
-  const [pageNumber, setPageNumber] = useState(0); // 1-based index
-  const [totalPages, setTotalPages] = useState(0); // 초기 totalPages
+  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   const {
     data: allStudiosData,
     loading: allStudiosLoading,
     error: allStudiosError,
-  } = useStudioList(conceptId, pageNumber); // 0-based index
+    refetch: refetchAllStudios,
+  } = useStudioList(conceptId, currentPage);
 
   const {
     data: filteredStudiosData,
     loading: filteredStudiosLoading,
     error: filteredStudiosError,
-  } = useFilters(conceptId, filters, pageNumber);
+    refetch: refetchFilteredStudios,
+  } = useFilters(conceptId, filters, currentPage);
 
   const isFilterApplied =
     filters.price !== undefined ||
@@ -41,12 +43,19 @@ const StudioList = ({
     (filters.locations && filters.locations.length > 0);
 
   useEffect(() => {
-    // `totalPages` 업데이트
     const data = isFilterApplied ? filteredStudiosData : allStudiosData;
     if (data) {
       setTotalPages(data.totalPages || 1);
     }
   }, [isFilterApplied, filteredStudiosData, allStudiosData]);
+
+  const refetch = (page: number) => {
+    if (isFilterApplied) {
+      refetchFilteredStudios(page);
+    } else {
+      refetchAllStudios(page);
+    }
+  };
 
   if (isFilterApplied && filteredStudiosLoading)
     return <p>로딩 중 (필터 적용)...</p>;
@@ -63,7 +72,8 @@ const StudioList = ({
     : allStudiosData?.content || [];
 
   const handlePageChange = (newPage: number) => {
-    setPageNumber(newPage);
+    setCurrentPage(newPage - 1); // 페이지 번호를 0-based로 변경
+    refetch(newPage - 1); // 새 페이지로 데이터 로드
   };
 
   return (
@@ -72,9 +82,9 @@ const StudioList = ({
         <>
           {studios.map((studio) => (
             <Link href={`/studios/${studio.id}`} key={studio.id}>
-              <div className="flex flex-col gap-4 border-b border-gray-100 p-4 hover:shadow-md transition-all duration-300">
+              <div className="flex flex-col gap-4 border-b py-4 border-gray-100 transition-all duration-300">
                 <div className="flex items-center gap-4">
-                  <div className="max-h-16 max-w-16 overflow-hidden rounded-full flex items-center">
+                  <div className="max-h-12 max-w-12 overflow-hidden rounded-full flex items-center">
                     <Image
                       src={studio.profileImage}
                       alt={`${studio.name} profile`}
@@ -82,22 +92,36 @@ const StudioList = ({
                       height={64}
                     />
                   </div>
-                  <div className="flex-1">
-                    <h2 className="text-black text-lg font-bold">
+                  <div>
+                    <h2 className="text-gray-800 text-lg font-semibold">
                       {studio.name}
                     </h2>
-                    <div className="flex items-center text-yellow-500 text-sm">
-                      <span>⭐ {studio.rating}</span>
-                    </div>
                   </div>
-                  <div>
+                </div>
+                <div className="flex items-center gap-4 font-medium">
+                  <div className=" flex items-center px-2 py-1 bg-gray-50 rounded-lg border">
+                    <Image
+                      src="/icons/studio/star.svg"
+                      alt={`${studio.name}의 평점${studio.rating}`}
+                      width={24}
+                      height={24}
+                    />
+                    <span>{studio.rating}</span>
+                  </div>
+                  <div className="flex items-center gap-1 px-2 py-1 bg-gray-50 rounded-lg border">
+                    <Image
+                      src="/icons/studio/credit_card.svg"
+                      alt={`${studio.name}의 평점${studio.rating}`}
+                      width={24}
+                      height={24}
+                    />
                     <span>{studio.price.toLocaleString()}원</span>
                   </div>
                 </div>
                 <div className="w-full max-w-[600px] overflow-hidden">
                   <Swiper
                     slidesPerView={3}
-                    spaceBetween={20}
+                    spaceBetween={10}
                     grabCursor={true}
                     freeMode={true}
                     modules={[Navigation, Pagination, FreeMode]}
@@ -105,13 +129,12 @@ const StudioList = ({
                     {studio.imageUrls.map((image: string, idx: number) => (
                       <SwiperSlide
                         key={idx}
-                        className="aspect-square overflow-hidden max-w-40 rounded-lg"
+                        className="relative aspect-3/4 overflow-hidden max-w-40 rounded-lg"
                       >
                         <Image
                           src={image}
                           alt={`${studio.name} image ${idx + 1}`}
-                          width={200}
-                          height={200}
+                          fill
                         />
                       </SwiperSlide>
                     ))}
@@ -120,8 +143,9 @@ const StudioList = ({
               </div>
             </Link>
           ))}
-          <PaginationComponent
-            pageNumber={pageNumber}
+
+          <CommonPagination
+            currentPage={currentPage + 1} // 페이지 인덱스는 0부터 시작하므로 +1
             totalPages={totalPages}
             onPageChange={handlePageChange}
           />

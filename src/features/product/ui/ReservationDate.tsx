@@ -109,7 +109,6 @@ const ReservationDate = ({
         />
       )}
       <div className="mt-auto flex gap-2">
-        <ConfirmButton onConfirm={handleConfirm} />
         <div className="flex w-1/2 ">
           <button
             onClick={onCloseModal}
@@ -118,6 +117,7 @@ const ReservationDate = ({
             닫기
           </button>
         </div>
+        <ConfirmButton onConfirm={handleConfirm} />
       </div>
     </div>
   );

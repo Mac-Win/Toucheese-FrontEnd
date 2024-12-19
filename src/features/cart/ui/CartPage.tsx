@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/features/cart/hook/useCart";
 import { CartItem as CartItemType, SelectAddOption } from "@/types/Cart.type";
@@ -13,18 +13,15 @@ function CartPage() {
   const [localCartData, setLocalCartData] = useState<CartItemType[]>([]);
   const router = useRouter();
 
-  // cartData 동기화 및 상태 업데이트
+  const stableRefetch = useCallback(() => {
+    refetch();
+  }, [refetch]);
+
   useEffect(() => {
-    if (cartData) {
+    if (cartData && cartData !== localCartData) {
       setLocalCartData(cartData);
     }
-  }, [cartData]);
-
-  // 옵션 업데이트나 삭제 시 localCartData 변경 감지
-  useEffect(() => {
-    // 추가적인 로직을 넣을 수 있음 (예: 서버 동기화)
-    console.log("localCartData가 변경되었습니다.", localCartData);
-  }, [localCartData]);
+  }, [cartData, localCartData]);
 
   const totalAmount = selectedItems.length
     ? localCartData
@@ -38,11 +35,15 @@ function CartPage() {
     return <div>장바구니가 비어 있습니다.</div>;
 
   const handleSelect = (cartId: number, isSelected: boolean) => {
-    setSelectedItems((prevSelected) =>
-      isSelected
-        ? [...prevSelected, cartId]
-        : prevSelected.filter((id) => id !== cartId)
-    );
+    setSelectedItems((prevSelected) => {
+      if (isSelected && !prevSelected.includes(cartId)) {
+        return [...prevSelected, cartId];
+      }
+      if (!isSelected && prevSelected.includes(cartId)) {
+        return prevSelected.filter((id) => id !== cartId);
+      }
+      return prevSelected;
+    });
   };
 
   const handleSave = (updatedItem: {
@@ -60,7 +61,7 @@ function CartPage() {
 
   const handleDelete = (id: number) => {
     setLocalCartData((prev) => prev.filter((item) => item.cartId !== id));
-    refetch(); // 서버 동기화
+    stableRefetch(); // 안정적인 서버 동기화
   };
 
   const handleOrder = () => {
@@ -74,7 +75,7 @@ function CartPage() {
   };
 
   return (
-    <>
+    <div className="h-screen">
       <ul>
         {localCartData.map((item) => (
           <li
@@ -98,7 +99,7 @@ function CartPage() {
       <div className="mt-4 fixed max-w-custom w-full p-4 left-1/2 bottom-0 -translate-x-1/2">
         <CartSummary totalAmount={totalAmount} handleOrder={handleOrder} />
       </div>
-    </>
+    </div>
   );
 }
 

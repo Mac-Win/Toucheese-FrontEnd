@@ -1,10 +1,10 @@
 type PaginationProps = {
-  currentPage: number; // 현재 페이지
-  totalPages: number; // 전체 페이지 수
-  onPageChange: (page: number) => void; // 페이지 변경 핸들러
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({
+const CommonPagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,
@@ -58,4 +58,4 @@ const Pagination: React.FC<PaginationProps> = ({
   );
 };
 
-export default Pagination;
+export default CommonPagination;

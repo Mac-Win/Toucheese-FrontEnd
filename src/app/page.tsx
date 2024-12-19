@@ -27,10 +27,10 @@ const Home = () => {
   if (error) return <div>에러가 발생했습니다: {error}</div>;
 
   return (
-    <div className="flex flex-col items-center  ">
+    <div className="flex flex-col items-center -mt-16">
       <Header showCart={false} />
       <SearchBar />
-      <div className="grid grid-cols-2 gap-4 w-full">
+      <div className="grid grid-cols-2 gap-4 w-full pb-4">
         {conceptList.map((concept: defaultConcept, index: number) => (
           <Link
             href={`/studios?conceptId=${concept.id}`}
@@ -47,8 +47,8 @@ const Home = () => {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               priority
             />
-            <div className="absolute bottom-0 w-full bg-black bg-opacity-50 py-2 text-center">
-              <h1 className="text-white text-sm sm:text-base font-medium">
+            <div className="absolute bottom-0 w-full bg-gradient-to-b from-transparent to-black py-2 sm:py-6 text-center">
+              <h1 className="text-white sm:text-lg font-semibold">
                 {concept.name}
               </h1>
             </div>

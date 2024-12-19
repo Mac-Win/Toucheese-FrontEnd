@@ -27,11 +27,14 @@ function SearchBar() {
 
   return (
     <div className="w-full relative min-h-16 mb-4">
-      <div className="z-20 absolute top-0 w-full rounded-3xl bg-yellow-400 p-4">
-        <form
-          onSubmit={handleSubmit}
-          className="flex items-center justify-between"
-        >
+      <div className="absolute z-20 w-full rounded-xl bg-gray-50 p-4 border">
+        <form onSubmit={handleSubmit} className="flex items-center gap-2">
+          <Image
+            src="/icons/search.svg"
+            alt="검색 아이콘"
+            width={24}
+            height={24}
+          />
           <label htmlFor="search-input" className="sr-only">
             검색창
           </label>
@@ -40,18 +43,11 @@ function SearchBar() {
             type="text"
             value={searchQuery}
             onChange={handleInputChange}
-            placeholder="스튜디오 이름을 검색해주세요"
-            className="flex-grow border-none outline-none bg-transparent text-white placeholder-white text-base"
+            placeholder="스튜디오 찾기"
+            className="flex-grow border-none outline-none bg-transparent text-gray-600 font-medium text-md"
             aria-label="스튜디오 검색"
           />
-          <button type="submit" className="ml-2" aria-label="검색">
-            <Image
-              src="/icons/search.svg"
-              alt="검색 아이콘"
-              width={24}
-              height={24}
-            />
-          </button>
+          <button type="submit" className="ml-2" aria-label="검색"></button>
         </form>
 
         {loading && (
@@ -73,7 +69,7 @@ function SearchBar() {
                     key={studio.id || `studio-${index}`}
                     className="flex items-center gap-2 cursor-pointer border-b py-4 last:border-0"
                   >
-                    {studio.profileImage ? (
+                    {/* {studio.profileImage ? (
                       <Image
                         src={studio.profileImage}
                         alt={`${studio.name}의 프로필 이미지`}
@@ -83,10 +79,10 @@ function SearchBar() {
                       />
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-gray-300" />
-                    )}
-                    <div>
+                    )} */}
+                    <div className="text-gray-600">
                       <h3 className="text-lg font-semibold">{studio.name}</h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm">
                         {studio.address || "주소 정보 없음"}
                       </p>
                     </div>

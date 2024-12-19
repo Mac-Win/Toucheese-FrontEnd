@@ -19,7 +19,7 @@ function ProductList({ product }: { product: Product }) {
           <p className="text-sm text-gray-700">
             ❤️ 리뷰 {product.reviewCount}개
           </p>
-          <p className="text-lg font-bold ml-auto">
+          <p className="text-xl font-bold mt-auto">
             {product.price.toLocaleString()}원
           </p>
         </div>

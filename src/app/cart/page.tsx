@@ -15,16 +15,16 @@ const CartPageRoute = () => {
   }, [setShowGNB]);
 
   return (
-    <>
+    <div className="bg-gray-100 -mx-4 p-4 flex-1 -mb-28">
       <TopBar
         message="장바구니"
         showShare={false}
         location={conceptId ? `/studios?conceptId=${conceptId}` : "/"}
       />
-      <div className="mt-20">
+      <div className="">
         <CartPage />
       </div>
-    </>
+    </div>
   );
 };
 

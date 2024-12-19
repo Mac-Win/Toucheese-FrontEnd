@@ -8,11 +8,11 @@ interface ProductPriceProps {
 }
 
 const ProductPrice = ({ product }: ProductPriceProps) => (
-  <div>
-    <div className="flex justify-between items-center border-b py-4">
+  <div className="border-t mt-4">
+    <div className="flex justify-between items-center  py-4">
       <h3 className="text-lg font-semibold">가격</h3>
       <p className="font-bold text-lg">
-        <span className="text-sm font-normal mr-2 text-gray-400">
+        <span className="text-sm font-normal text-right text-gray-400 block">
           {product.standard}인 기준
         </span>
         {product.price.toLocaleString()}원

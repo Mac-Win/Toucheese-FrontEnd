@@ -40,14 +40,14 @@ const TimeSelector = ({
                 {morningTimes.map((time) => (
                   <button
                     key={time}
-                    className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
+                    className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer border border-gray-100 ${
                       selectedTime === time
                         ? "bg-yellow-400 text-black"
-                        : "bg-gray-200"
+                        : "bg-white"
                     } ${
                       isTimeDisabled(time)
-                        ? "cursor-not-allowed bg-gray-300 text-gray-500"
-                        : ""
+                        ? "cursor-not-allowed bg-gray-300 text-gray-200"
+                        : "bg-white"
                     }`}
                     onClick={() => !isTimeDisabled(time) && onTimeClick(time)}
                     disabled={isTimeDisabled(time)}
@@ -67,14 +67,14 @@ const TimeSelector = ({
                 {afternoonTimes.map((time) => (
                   <button
                     key={time}
-                    className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
+                    className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer border border-gray-100 ${
                       selectedTime === time
                         ? "bg-yellow-400 text-black"
-                        : "bg-gray-200"
+                        : "bg-white"
                     } ${
                       isTimeDisabled(time)
-                        ? "cursor-not-allowed bg-gray-300 text-gray-500"
-                        : ""
+                        ? "cursor-not-allowed bg-gray-300 text-gray-200"
+                        : "bg-white"
                     }`}
                     onClick={() => !isTimeDisabled(time) && onTimeClick(time)}
                     disabled={isTimeDisabled(time)}
