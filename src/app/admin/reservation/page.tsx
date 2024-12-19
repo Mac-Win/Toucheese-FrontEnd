@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ReservationList from "./ui/ReservationList";
+//경로수정
 import Pagination from "../components/pagination";
 import { useAdminReservation } from "../hooks/AdminReservation";
 

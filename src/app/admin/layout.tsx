@@ -3,6 +3,7 @@
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { useEffect } from "react";
 import SideBar from "./ui/SideBar";
+//경로수정
 
 function AdminLayout({ children }: { children: React.ReactNode }) {
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
