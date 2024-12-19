@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import ReservationList from "./ui/ReservationCheckList";
 import Pagination from "../components/pagination";
 import { useAdminReservation } from "../hooks/AdminReservation";
 
