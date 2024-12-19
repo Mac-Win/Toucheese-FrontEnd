@@ -94,8 +94,8 @@ const ReservationEdit = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="p- rounded-lg shadow mb-6 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 ">
+      <div className="p-4 bg-white rounded-lg shadow mb-6 flex flex-col gap-4">
         <ReservationInfo reservation={reservation} />
         <div>
           <button
@@ -136,7 +136,6 @@ const ReservationEdit = () => {
         onUpdate={handleUpdateReservation}
       />
 
-      {/* 날짜 선택 모달 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <ReservationDate
@@ -147,7 +146,6 @@ const ReservationEdit = () => {
         </div>
       )}
 
-      {/* 확인 모달 */}
       {isConfirmModalOpen && (
         <ConfirmModal
           message={`\n예약날짜${selectedDate}\n예약시간: ${selectedTime}`}

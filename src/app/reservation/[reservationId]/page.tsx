@@ -23,10 +23,10 @@ function ReservationEditPage() {
   }
 
   return (
-    <>
+    <div className="bg-gray-100 -mx-4 p-4 flex-1">
       <TopBar showShare={false} />
       <ReservationEdit />
-    </>
+    </div>
   );
 }
 

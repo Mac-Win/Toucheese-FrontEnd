@@ -56,7 +56,7 @@ const StudiosPage = () => {
   }
 
   return (
-    <div className="flex flex-col  bg-white">
+    <div className="flex flex-col bg-white pb-4">
       <TopBar
         showShare={false}
         showCart={true}

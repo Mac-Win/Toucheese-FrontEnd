@@ -29,7 +29,6 @@ const TimeSelector = ({
         예약 가능한 시간대
       </label>
 
-      {/* 오전 */}
       <div className="mb-4">
         <h3 className="font-medium mb-2">오전</h3>
         <div className="flex gap-2 flex-wrap">
@@ -38,10 +37,10 @@ const TimeSelector = ({
               <span
                 key={time}
                 onClick={() => setSelectedTime(time)}
-                className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
+                className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer border border-gray-100 ${
                   selectedTime === time
                     ? "bg-yellow-400 text-black"
-                    : "bg-gray-200"
+                    : "bg-white"
                 }`}
               >
                 {time}
@@ -53,7 +52,6 @@ const TimeSelector = ({
         </div>
       </div>
 
-      {/* 오후 */}
       <div>
         <h3 className="font-medium mb-2">오후</h3>
         <div className="flex gap-2 flex-wrap">
@@ -62,10 +60,10 @@ const TimeSelector = ({
               <span
                 key={time}
                 onClick={() => setSelectedTime(time)}
-                className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer ${
+                className={`min-w-20 text-center px-4 py-2 rounded-md cursor-pointer border border-gray-100 ${
                   selectedTime === time
                     ? "bg-yellow-400 text-black"
-                    : "bg-gray-200"
+                    : "bg-white"
                 }`}
               >
                 {time}

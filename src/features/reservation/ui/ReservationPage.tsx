@@ -36,7 +36,7 @@ function ReservationPage() {
   }
 
   return (
-    <div className="">
+    <div>
       {reservationItems.map((reservation) => (
         <div
           key={reservation.reservationId}
