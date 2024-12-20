@@ -16,8 +16,14 @@ function ProductList({ product }: { product: Product }) {
         <div className="flex flex-col gap-2 w-full">
           <h3 className="text-lg font-bold">{product.name}</h3>
           <p className="text-sm text-gray-500">{product.description}</p>
-          <p className="text-sm text-gray-700">
-            ❤️ 리뷰 {product.reviewCount}개
+          <p className="text-sm text-gray-700 flex items-center gap-1">
+            <Image
+              src="/icons/product/Chat_Circle_Dots.svg"
+              alt="리뷰"
+              width={20}
+              height={20}
+            />
+            리뷰 {product.reviewCount}개
           </p>
           <p className="text-xl font-bold mt-auto">
             {product.price.toLocaleString()}원

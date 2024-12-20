@@ -13,15 +13,36 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        gray: {
+          10: "#141414",
+          9: "#1F1F1F",
+          8: "#262626",
+          7: "#434343",
+          6: "#595959",
+          5: "#8C8C8C",
+          4: "#BFBFBF",
+          3: "#D9D9D9",
+          2: "#F0F0F0",
+          1: "#FAFAFA",
+        },
+        primary: {
+          10: "#664100",
+          9: "#8C5900",
+          8: "#B27100",
+          7: "#E59100",
+          6: "#FFC000",
+          5: "#FFD129",
+          4: "#FFDF52",
+          3: "#FFEB7A",
+          2: "#FFF4A3",
+          1: "#FFFDE6",
+        },
+      },
       aspectRatio: {
         "3/4": "3 / 4",
         "16/9": "16 / 9",
         "1/1": "1/1",
-      },
-      colors: {
-        "custom-bg": "#FFFCF5",
-        "cheese-bg": "#FFC000",
-        "btn-color": "#FFD129",
       },
       boxShadow: {
         inner: "inset 0 0 0 5px #FFC000",

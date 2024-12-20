@@ -6,7 +6,7 @@ import FilterGroup from "@/features/studios/components/filterGroup";
 import StudioList from "@/features/studios/components/studioList";
 import { TopBar } from "@/features/common/components/topbar";
 
-const StudiosPage = () => {
+const StudiosRoutePage = () => {
   const searchParams = useSearchParams();
   const conceptIdParam = searchParams?.get("conceptId");
   const conceptId =
@@ -84,4 +84,4 @@ const StudiosPage = () => {
   );
 };
 
-export default StudiosPage;
+export default StudiosRoutePage;

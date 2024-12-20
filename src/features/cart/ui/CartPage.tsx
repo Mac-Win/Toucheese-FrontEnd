@@ -78,22 +78,14 @@ function CartPage() {
     <div className="h-screen">
       <ul>
         {localCartData.map((item) => (
-          <li
+          <CartItem
             key={item.cartId}
-            className={`${
-              selectedItems.includes(item.cartId)
-                ? "border-blue-500"
-                : "border-gray-300"
-            }`}
-          >
-            <CartItem
-              item={item}
-              isSelected={selectedItems.includes(item.cartId)}
-              onSelect={handleSelect}
-              onSave={handleSave}
-              onDelete={handleDelete}
-            />
-          </li>
+            item={item}
+            isSelected={selectedItems.includes(item.cartId)}
+            onSelect={handleSelect}
+            onSave={handleSave}
+            onDelete={handleDelete}
+          />
         ))}
       </ul>
       <div className="mt-4 fixed max-w-custom w-full p-4 left-1/2 bottom-0 -translate-x-1/2">

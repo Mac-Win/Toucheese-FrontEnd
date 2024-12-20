@@ -27,7 +27,7 @@ function SearchBar() {
 
   return (
     <div className="w-full relative min-h-16 mb-4">
-      <div className="absolute z-20 w-full rounded-xl bg-gray-50 p-4 border">
+      <div className="absolute z-20 w-full rounded-xl bg-gray-1 p-4 border">
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
           <Image
             src="/icons/search.svg"
@@ -44,7 +44,7 @@ function SearchBar() {
             value={searchQuery}
             onChange={handleInputChange}
             placeholder="스튜디오 찾기"
-            className="flex-grow border-none outline-none bg-transparent text-gray-600 font-medium text-md"
+            className="flex-grow border-none outline-none bg-transparent text-gray-6 font-medium text-md"
             aria-label="스튜디오 검색"
           />
           <button type="submit" className="ml-2" aria-label="검색"></button>
@@ -52,7 +52,7 @@ function SearchBar() {
 
         {loading && (
           <div className="flex justify-center items-center py-4">
-            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-2"></div>
           </div>
         )}
 
@@ -80,7 +80,7 @@ function SearchBar() {
                     ) : (
                       <div className="w-10 h-10 rounded-full bg-gray-300" />
                     )} */}
-                    <div className="text-gray-600">
+                    <div className="text-gray-6">
                       <h3 className="text-lg font-semibold">{studio.name}</h3>
                       <p className="text-sm">
                         {studio.address || "주소 정보 없음"}

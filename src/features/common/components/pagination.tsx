@@ -18,12 +18,12 @@ const CommonPagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-4">
+    <div className="flex justify-center items-center space-x-4 mt-4">
       <button
         className={`px-3 py-1 rounded-md ${
           currentPage === 1
-            ? "bg-gray-300 cursor-not-allowed"
-            : "bg-cheese-bg text-white"
+            ? "bg-gray-4 cursor-not-allowed"
+            : "bg-primary-4 text-white"
         }`}
         onClick={handlePrev}
         disabled={currentPage === 1}
@@ -35,8 +35,8 @@ const CommonPagination: React.FC<PaginationProps> = ({
           key={index}
           className={`px-3 py-1 rounded-md ${
             currentPage === index + 1
-              ? "bg-cheese-bg text-white"
-              : "bg-gray-200 hover:bg-gray-300"
+              ? "bg-primary-5 text-white"
+              : "bg-gray-2 hover:bg-gray-3"
           }`}
           onClick={() => onPageChange(index + 1)}
         >
@@ -46,8 +46,8 @@ const CommonPagination: React.FC<PaginationProps> = ({
       <button
         className={`px-3 py-1 rounded-md ${
           currentPage === totalPages
-            ? "bg-gray-300 cursor-not-allowed"
-            : "bg-cheese-bg text-white"
+            ? "bg-gray-4 cursor-not-allowed"
+            : "bg-primary-4 text-black"
         }`}
         onClick={handleNext}
         disabled={currentPage === totalPages}

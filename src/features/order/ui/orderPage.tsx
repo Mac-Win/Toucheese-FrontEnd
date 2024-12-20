@@ -56,7 +56,7 @@ const OrderPage = () => {
   );
 
   return (
-    <div className="mt-20">
+    <div>
       <UserInfo memberContactInfo={memberContactInfo} />
       <OrderProduct cartPaymentList={cartPaymentList} />
       <PaymentOptions />

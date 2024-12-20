@@ -4,7 +4,7 @@ import { use, useEffect } from "react";
 import { useStudioDetail } from "@/features/studios/hooks/useStudioDetail";
 import { useStudioReviews } from "@/features/review/hooks/useReview";
 import { StudioImages } from "@/features/studios/ui/StudioImages";
-import { StudioSummary } from "@/features/studios/ui/StudioSummary";
+import StudioSummary from "@/features/studios/ui/StudioSummary";
 import { StudioTabs } from "@/features/studios/ui/StudioTabs";
 import { StudioProducts } from "@/features/studios/ui/StudioProducts";
 import { StudioReviews } from "@/features/studios/ui/StudioReviews";

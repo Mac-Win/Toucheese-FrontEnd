@@ -6,7 +6,7 @@ const ContactDummy = {
   status: "문의완료",
 };
 
-function ContactList() {
+function AdminContactList() {
   return (
     <>
       <div className="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -54,4 +54,4 @@ function ContactList() {
   );
 }
 
-export default ContactList;
+export default AdminContactList;

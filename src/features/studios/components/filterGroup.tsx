@@ -51,7 +51,7 @@ const FilterGroup = ({
       {filterConfigs.map((config) => (
         <div key={config.key}>
           <button
-            className="px-4 py-2 rounded-full bg-gray-100 text-gray-800 flex items-center gap-1"
+            className="px-4 py-2 rounded-full bg-gray-1 text-gray-8 flex items-center gap-1"
             onClick={() => toggleDropdown(config.key)}
           >
             {config.label}
@@ -63,7 +63,7 @@ const FilterGroup = ({
             />
           </button>
           {activeDropdown === config.key && (
-            <ul className="absolute z-10 w-full flex flex-wrap gap-4 left-0 mt-2 bg-custom-bg shadow rounded px-2 py-4">
+            <ul className="absolute z-20 w-full flex flex-wrap gap-4 left-0 mt-2 bg-gray-1 shadow rounded px-2 py-4">
               {config.options.map((option) => (
                 <li key={option.value} className="min-w-24">
                   {config.key === "locations" ? (

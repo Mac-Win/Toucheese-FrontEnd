@@ -110,7 +110,7 @@ const CartItem: React.FC<CartItemProps> = ({ item, onSave, onDelete }) => {
         <div className="p-4 flex items-start gap-4">
           <input
             type="checkbox"
-            className="w-6 h-6 bg-yellow-500 text-white border-gray-300 rounded focus:ring-2 focus:ring-yellow-400"
+            className="w-5 h-5 appearance-none border-2  rounded-md checked:bg-[url('/icons/common/checkbox.png')] bg-no-repeat bg-center bg-contain cursor-pointer"
           />
           <div className="px-4 flex">
             <div className="relative max-w-48 w-32 aspect-3/4 overflow-hidden rounded-lg bg-gray-200">

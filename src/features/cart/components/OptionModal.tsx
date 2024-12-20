@@ -201,6 +201,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
+                      className="w-5 h-5 appearance-none border-2  rounded-md checked:bg-[url('/icons/common/checkbox.png')] bg-no-repeat bg-center bg-contain cursor-pointer"
                       checked={selectedOptions.some(
                         (selected) => selected.id === option.id
                       )}
@@ -218,13 +219,13 @@ const OptionModal: React.FC<OptionModalProps> = ({
         </div>
         <div className="flex gap-4 p-4">
           <button
-            className="flex-1 bg-cheese-bg text-white py-2 rounded font-bold hover:bg-yellow-500"
+            className="flex-1 bg-primary-5 py-2 rounded font-bold hover:bg-primary-6"
             onClick={handleSubmit}
           >
             저장
           </button>
           <button
-            className="flex-1 bg-custom-bg text-gray-700 py-2 rounded font-bold hover:bg-gray-200"
+            className="flex-1 bg-gray-2 text-gray-7 py-2 rounded font-bold hover:bg-gray-3"
             onClick={onClose}
           >
             취소

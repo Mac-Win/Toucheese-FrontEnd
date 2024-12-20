@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
-function SideBar() {
+function SideMenuBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
@@ -70,4 +70,4 @@ function SideBar() {
   );
 }
 
-export default SideBar;
+export default SideMenuBar;

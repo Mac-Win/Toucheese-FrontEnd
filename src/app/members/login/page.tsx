@@ -46,7 +46,7 @@ function LoginPage() {
             <input
               type="text"
               id="email"
-              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-yellow-500"
+              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
               value={email}
               onChange={handleEmailChange}
               placeholder="이메일을 입력하세요"
@@ -60,7 +60,7 @@ function LoginPage() {
             <input
               type="password"
               id="password"
-              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-yellow-500"
+              className="w-full px-3 py-4 border rounded-lg outline-none focus:border-primary-5"
               value={password}
               onChange={handlePasswordChange}
               placeholder="비밀번호를 입력하세요"
@@ -68,7 +68,7 @@ function LoginPage() {
             />
           </div>
           {error && <p className="text-red-500">{error}</p>}
-          <div className="flex justify-between text-gray-700">
+          <div className="flex justify-between text-black">
             <div className="flex gap-2 ">
               <input type="checkbox" />
               <label htmlFor="password" className="font-medium">
@@ -83,7 +83,7 @@ function LoginPage() {
           </div>
           <button
             type="submit"
-            className="w-full bg-btn-color font-bold py-3 rounded-lg"
+            className="w-full bg-primary-5 font-bold py-3 rounded-lg"
           >
             로그인
           </button>

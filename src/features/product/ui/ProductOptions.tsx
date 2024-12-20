@@ -10,14 +10,11 @@ interface ProductOptionsProps {
   options: AddOption[];
   selectedOptions: AddOption[];
   setSelectedOptions: React.Dispatch<React.SetStateAction<AddOption[]>>;
-  //React.Dispatch 타입으로 명시하여 TypeScript가 올바르게 해석
 }
-
 const ProductOptions = ({
   options,
   setSelectedOptions,
 }: ProductOptionsProps) => {
-  // 옵션 선택 처리
   const handleOptionChange = (option: AddOption, isChecked: boolean) => {
     setSelectedOptions((prev: AddOption[]): AddOption[] =>
       isChecked
@@ -35,14 +32,14 @@ const ProductOptions = ({
             key={idx}
             className="flex justify-between items-center border-b py-2"
           >
-            <label className="flex items-center space-x-2">
+            <label className="flex items-center space-x-2 cursor-pointer">
               <input
                 type="checkbox"
+                className="w-5 h-5 appearance-none border-2  rounded-md checked:bg-[url('/icons/common/checkbox.png')] bg-no-repeat bg-center bg-contain cursor-pointer"
                 onChange={(e) => handleOptionChange(option, e.target.checked)}
               />
               <span>{option.name}</span>
             </label>
-            <span>{option.price.toLocaleString()}원</span>
           </li>
         ))}
       </ul>
