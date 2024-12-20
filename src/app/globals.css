@@ -110,5 +110,5 @@ body {
 }
 
 .custom-checkbox:checked {
-  background-image: url("/icons/common/checkbox.png");
+  background-image: url("/icons/common/checkBox.svg");
 }
