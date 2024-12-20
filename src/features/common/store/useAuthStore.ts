@@ -6,8 +6,6 @@ interface AuthState {
   setToken: (token: string) => void; // 토큰 저장
   clearToken: () => void; // 토큰 삭제
 }
-
-// 로컬 스토리지를 'zustand'의 persist 미들웨어에 맞게 커스터마이징
 const zustandLocalStorage = {
   getItem: (key: string) => {
     const item = localStorage.getItem(key);
@@ -29,8 +27,8 @@ const useAuthStore = create<AuthState>()(
       clearToken: () => set({ token: null }),
     }),
     {
-      name: "auth-storage", // 로컬 스토리지에 저장될 키 이름
-      storage: zustandLocalStorage, // 커스터마이징한 로컬 스토리지 사용
+      name: "auth-storage",
+      storage: zustandLocalStorage,
     }
   )
 );

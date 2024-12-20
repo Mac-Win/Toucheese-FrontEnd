@@ -28,7 +28,6 @@ function useRequest<T, D = unknown>() {
         const queryString = params?.toString();
         const url = queryString ? `${endpoint}?${queryString}` : endpoint;
 
-        // API 호출
         const response = await apiRequest<T, D>(
           method,
           url,

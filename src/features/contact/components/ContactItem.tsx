@@ -12,7 +12,7 @@ type ContactItemProps = {
 };
 
 function ContactItem({ contact }: ContactItemProps) {
-  const maxPhotos = 4; // 최대 사진 개수
+  const maxPhotos = 4;
 
   return (
     <div className="p-4 bg-white rounded-lg shadow-md my-4">
@@ -23,8 +23,8 @@ function ContactItem({ contact }: ContactItemProps) {
         <div
           className={`py-1 px-2 ml-auto text-sm rounded-lg border ${
             contact.status === "답변 완료"
-              ? "bg-yellow-100 text-btn-color border border-yellow-300"
-              : "bg-gray-100 text-gray-600"
+              ? "bg-primary-1 text-btn-color border border-primary-3"
+              : "bg-gray-1 text-gray-6"
           }`}
         >
           {contact.status}
@@ -37,7 +37,7 @@ function ContactItem({ contact }: ContactItemProps) {
           {contact.photos.slice(0, maxPhotos).map((photo, index) => (
             <div
               key={index}
-              className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-200"
+              className="relative w-12 h-12 rounded-lg overflow-hidden border border-gray-2"
             >
               <Image
                 src={photo}
@@ -53,7 +53,7 @@ function ContactItem({ contact }: ContactItemProps) {
       {/* 작성자 정보 */}
       <div className="text-sm text-gray-600 flex items-center gap-1">
         <span>{contact.author}</span> |{" "}
-        <span className="text-gray-400">작성일: {contact.date}</span>
+        <span className="text-gray-4">작성일: {contact.date}</span>
       </div>
     </div>
   );

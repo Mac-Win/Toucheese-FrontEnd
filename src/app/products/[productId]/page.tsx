@@ -7,7 +7,7 @@ import { useGNBStore } from "@/features/common/store/useGnbStore";
 import useProductStore from "@/features/product/store/ProductStore";
 import { TopBar } from "@/features/common/components/topbar";
 
-function ProductDetailPage({
+function ProductRoutePage({
   params,
 }: {
   params: Promise<{ productId: string }>;
@@ -57,10 +57,10 @@ function ProductDetailPage({
 
   return (
     <>
-      <TopBar showShare={false} />
+      <TopBar showShare={false} showCart={false} message="상품상세" />
       <ProductDetail product={product} />
     </>
   );
 }
 
-export default ProductDetailPage;
+export default ProductRoutePage;

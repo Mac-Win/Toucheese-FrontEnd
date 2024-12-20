@@ -1,6 +1,11 @@
 import axios, { AxiosResponse, ResponseType } from "axios";
 import apiClient from "./apiCient";
 
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+  return match ? decodeURIComponent(match[2]) : null;
+}
+
 export async function apiRequest<T, D = unknown>(
   method: "GET" | "POST" | "PUT" | "DELETE",
   endpoint: string,
@@ -10,7 +15,8 @@ export async function apiRequest<T, D = unknown>(
 ): Promise<T> {
   try {
     const url = params ? `${endpoint}?${params.toString()}` : endpoint;
-    const token = localStorage.getItem("authToken");
+
+    const token = getCookie("refreshToken");
 
     const defaultHeaders: Record<string, string> = {
       "Content-Type": "application/json",
@@ -28,7 +34,7 @@ export async function apiRequest<T, D = unknown>(
         ...defaultHeaders,
         ...options?.headers,
       },
-      responseType: options?.responseType || "json", // 기본 응답 형식: JSON
+      responseType: options?.responseType || "json",
     });
 
     return response.data;

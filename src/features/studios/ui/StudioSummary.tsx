@@ -26,10 +26,9 @@ function StudioSummary({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const todayIndex = new Date().getDay();
-
   const daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-
   const today = daysOfWeek[todayIndex];
+
   const todayOperatingHours = operatingHours.find(
     (item) => item.dayOfWeek === today
   );
@@ -53,11 +52,27 @@ function StudioSummary({
     const currentMinutes =
       currentTime.getHours() * 60 + currentTime.getMinutes();
 
-    console.log("Current Time (in minutes):", currentMinutes);
-    console.log("Open Time:", openTime, "Close Time:", closeTime);
-
     return currentMinutes >= openTime && currentMinutes < closeTime;
   }, [todayOperatingHours]);
+
+  const isClosed = useMemo(() => {
+    if (!todayOperatingHours || todayOperatingHours.openTime === "휴무") {
+      return false; // 휴무
+    }
+
+    const [closeHours, closeMinutes] = todayOperatingHours.closeTime
+      .split(":")
+      .map(Number);
+
+    const closeTime = closeHours * 60 + closeMinutes;
+
+    const currentTime = new Date();
+    const currentMinutes =
+      currentTime.getHours() * 60 + currentTime.getMinutes();
+
+    return currentMinutes >= closeTime;
+  }, [todayOperatingHours]);
+
   const sortedOperatingHours = useMemo(() => {
     const todayIndexInData = operatingHours.findIndex(
       (item) => item.dayOfWeek === today
@@ -71,7 +86,6 @@ function StudioSummary({
   }, [operatingHours, today]);
 
   const formattedContent = formatContent(description);
-
   const visibleContent = isExpanded
     ? formattedContent
     : formattedContent.slice(0, 1);
@@ -135,9 +149,15 @@ function StudioSummary({
               height={20}
             />
             <span
-              className={`font-bold ${isOpen ? "text-red-500" : " text-blue-500"}`}
+              className={`font-bold ${
+                isOpen
+                  ? "text-blue-500"
+                  : isClosed
+                    ? "text-red-500"
+                    : "text-gray-500"
+              }`}
             >
-              {isOpen ? "휴무" : " 영업 중"}
+              {isOpen ? "영업중" : isClosed ? "영업 종료" : "휴무"}
             </span>
             <span className="text-blue-500 text-sm ml-2">
               {isDropdownOpen ? "▲" : "▼"}
@@ -149,7 +169,9 @@ function StudioSummary({
                 ({ dayOfWeek, openTime, closeTime }, idx) => (
                   <li key={idx} className="flex gap-4 py-1 px-">
                     <span
-                      className={`font-semibold ${idx === 0 ? "text-blue-500" : ""}`}
+                      className={`font-semibold ${
+                        idx === 0 ? "text-blue-500" : ""
+                      }`}
                     >
                       ({dayOfWeek})
                     </span>

@@ -15,8 +15,13 @@ const Home = () => {
   const { data: conceptList, loading, error } = useConcept();
   const { setConceptId } = useConceptStore();
 
+  function getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? decodeURIComponent(match[2]) : null;
+  }
+
   useEffect(() => {
-    const token = localStorage.getItem("authToken");
+    const token = getCookie("refreshToken");
 
     if (!token) {
       router.push("/members/login/");

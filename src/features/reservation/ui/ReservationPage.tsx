@@ -81,13 +81,13 @@ function ReservationPage() {
             <div className="mt-4 flex justify-between gap-2">
               <Link
                 href={`/studios/${reservation.studioId}`}
-                className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
+                className="px-4 py-4 bg-gray-1 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
               >
                 스튜디오 홈
               </Link>
               <Link
                 href={`/review/${reservation.reservationId}`}
-                className="px-4 py-4 bg-yellow-500 w-1/2 text-center rounded-lg border border-gray-200 font-semibold text-black"
+                className="px-4 py-4 bg-primary-5 w-1/2 text-center rounded-lg border border-gray-200 font-semibold text-black"
               >
                 리뷰 쓰기
               </Link>
@@ -96,13 +96,13 @@ function ReservationPage() {
             <div className="mt-4 flex justify-between gap-2">
               <Link
                 href={`/studios/${reservation.studioId}`}
-                className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
+                className="px-4 py-4 bg-gray-1 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
               >
                 스튜디오 홈
               </Link>
               <Link
                 href={`/reservation/${reservation.reservationId}`}
-                className="px-4 py-4 bg-gray-50 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
+                className="px-4 py-4 bg-gray-1 w-1/2 text-center rounded-lg border border-gray-200 font-semibold"
               >
                 예약 수정
               </Link>
