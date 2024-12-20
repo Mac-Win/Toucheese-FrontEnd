@@ -70,7 +70,7 @@ export function TopBar({
         >
           {showBack && (
             <button
-              className="relative max-w-10 w-full max-h-10 h-full overflow-hidden"
+              className="relative"
               onClick={() => (location ? router.push(location) : router.back())}
             >
               <Image

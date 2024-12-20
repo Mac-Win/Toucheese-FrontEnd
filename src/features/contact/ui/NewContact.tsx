@@ -61,7 +61,7 @@ const NewContact = () => {
           이미지 첨부
         </label>
         <div className="flex items-center space-x-2">
-          <label className="flex flex-col items-center justify-center w-20 h-20 bg-gray-200 rounded-lg cursor-pointer border border-gray-4">
+          <label className="flex flex-col items-center justify-center w-20 h-20 bg-gray-2 rounded-lg cursor-pointer border border-gray-4">
             <input
               type="file"
               multiple
@@ -82,14 +82,14 @@ const NewContact = () => {
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            <span className="text-xs text-gray-500">{`${selectedFiles.length}/5`}</span>
+            <span className="text-xs text-gray-5">{`${selectedFiles.length}/5`}</span>
           </label>
 
           {/* Preview Thumbnails */}
           {previewUrls.map((url, index) => (
             <div
               key={index}
-              className="relative flex flex-col items-center justify-center w-20 h-20 bg-gray-100 rounded-lg overflow-hidden border border-gray-300"
+              className="relative flex flex-col items-center justify-center w-20 h-20 bg-gray-1 rounded-lg overflow-hidden border border-gray-3"
             >
               <Image
                 src={url}
@@ -105,7 +105,7 @@ const NewContact = () => {
       {/* Submit Button */}
       <button
         type="button"
-        className="w-full bg-yellow-500 text-white font-medium py-2 rounded-lg shadow hover:bg-yellow-600 transition mt-auto"
+        className="w-full bg-primary-5 text-black font-medium py-2 rounded-lg shadow hover:bg-yellow-600 transition mt-auto"
       >
         문의 등록
       </button>
