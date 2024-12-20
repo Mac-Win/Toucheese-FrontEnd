@@ -67,7 +67,7 @@ function CartPage() {
         <CartSummary
           totalAmount={totalAmount}
           handleOrder={handleOrder}
-          isButtonDisabled={selectedItems.length === 0} // 버튼 비활성화
+          isButtonDisabled={selectedItems.length === 0}
         />
       </div>
     </div>

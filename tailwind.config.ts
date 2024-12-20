@@ -53,6 +53,9 @@ const config: Config = {
       maxWidth: {
         custom: "var(--max-width)",
       },
+      backgroundImage: {
+        "checkbox-checked": "url('/icons/common/checkbox.png')",
+      },
     },
   },
   plugins: [scrollbarHide],
