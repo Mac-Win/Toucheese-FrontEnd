@@ -66,7 +66,7 @@ const CartItem: React.FC<CartItemProps> = ({
           type="checkbox"
           checked={isSelected}
           onChange={(e) => onSelect(item.cartId, e.target.checked)}
-          className="w-5 h-5 appearance-none border-2 rounded-md checked:bg-checkbox-checked cursor-pointer"
+          className="custom-checkbox"
         />
         <div className="relative w-32 aspect-3/4 rounded-lg overflow-hidden bg-gray-200">
           <Image

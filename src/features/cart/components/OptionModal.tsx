@@ -201,7 +201,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 appearance-none border-2  rounded-md checked:bg-checkbox-checked bg-no-repeat bg-center bg-contain cursor-pointer"
+                      className="custom-checkbox"
                       checked={selectedOptions.some(
                         (selected) => selected.id === option.id
                       )}
