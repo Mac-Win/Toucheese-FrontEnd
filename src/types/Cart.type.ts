@@ -1,7 +1,7 @@
 export interface AddOption {
   id: number;
-  price: number; // 데이터에 맞게 수정 (optionPrice → price)
-  name: string; // 데이터에 맞게 수정 (optionName → name)
+  price: number;
+  name: string;
 }
 
 export interface SelectAddOption {

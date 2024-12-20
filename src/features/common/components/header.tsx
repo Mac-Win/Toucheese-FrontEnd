@@ -25,6 +25,8 @@ function Header() {
           alt="터치즈"
           width={250}
           height={100}
+          priority
+          loading="eager"
         />
       </Link>
     </header>

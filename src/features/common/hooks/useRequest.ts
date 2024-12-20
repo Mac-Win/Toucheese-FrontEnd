@@ -1,13 +1,14 @@
 import { useState, useCallback } from "react";
 import { apiRequest } from "@/api/apiRequest";
 import { ResponseType } from "axios";
+import { getCookie } from "@/utils/getcookie";
 
 interface ApiRequestOptions {
   headers?: Record<string, string>;
   responseType?: ResponseType;
 }
 
-function useRequest<T, D = unknown>() {
+function useRequest<T = unknown, D = unknown>() {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +25,6 @@ function useRequest<T, D = unknown>() {
       setError(null);
 
       try {
-        // URL에 params 추가 처리
         const queryString = params?.toString();
         const url = queryString ? `${endpoint}?${queryString}` : endpoint;
 
@@ -51,7 +51,20 @@ function useRequest<T, D = unknown>() {
     []
   );
 
-  return { data, loading, error, request };
+  const handleRequest = useCallback(
+    async (method: "PUT" | "DELETE", endpoint: string, data?: D) => {
+      const token = getCookie("refreshToken");
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      };
+
+      return request(method, endpoint, data, undefined, { headers });
+    },
+    [request]
+  );
+
+  return { data, loading, error, request, handleRequest };
 }
 
 export default useRequest;

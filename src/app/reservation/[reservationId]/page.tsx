@@ -9,7 +9,6 @@ import { TopBar } from "@/features/common/components/topbar";
 function ReservationEditPage() {
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
 
-  // useParams 호출
   const params = useParams();
   const reservationId = params?.reservationId;
 

@@ -2,10 +2,18 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
 import ClientGNBWrapper from "@/features/common/components/navbar/clientGnbWrapper";
+import localFont from "next/font/local";
+
+const pretendard = localFont({
+  src: "../fonts/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+});
 
 export const metadata: Metadata = {
-  title: "터치즈 MVP 기능구현",
-  description: "스프린트3단계",
+  title: "터치즈-맥반윈반",
+  description: "스프린트 최종단계",
   icons: {
     icon: "/icon.ico",
     shortcut: "/icon32.png",
@@ -19,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className="flex flex-col align-center justify-center">
+      <body className={`${pretendard.variable} font-pretendard`}>
         <Suspense>
           <main
             id="main"

@@ -12,6 +12,7 @@ import ProductPrice from "./ProductPrice";
 import ReservationDate from "./ReservationDate";
 import OrderButton from "./OrderButton";
 import Image from "next/image";
+import { getCookie } from "@/utils/getcookie";
 
 type AddOption = ProductDetail["addOptions"][number];
 interface ProductDetailsProps {
@@ -52,7 +53,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       addOptions: selectedAddOptions.map((option) => option.id),
     };
 
-    const token = localStorage.getItem("authToken");
+    const token = getCookie("refreshToken");
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/v1/members/carts`,

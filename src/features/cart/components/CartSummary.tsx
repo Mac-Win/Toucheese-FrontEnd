@@ -1,13 +1,23 @@
 interface CartSummaryProps {
   totalAmount: number;
   handleOrder: () => void;
+  isButtonDisabled: boolean;
 }
 
-const CartSummary = ({ totalAmount, handleOrder }: CartSummaryProps) => {
+const CartSummary = ({
+  totalAmount,
+  handleOrder,
+  isButtonDisabled,
+}: CartSummaryProps) => {
   return (
     <button
-      className="bg-primary-5 text-black font-bold rounded w-full py-2 "
+      className={`font-bold rounded w-full py-2 ${
+        isButtonDisabled
+          ? "bg-gray-3 text-gray-5 cursor-not-allowed"
+          : "bg-primary-5 text-black"
+      }`}
       onClick={handleOrder}
+      disabled={isButtonDisabled} // 버튼 비활성화 처리
     >
       상품 주문하기 ({totalAmount.toLocaleString()}원)
     </button>

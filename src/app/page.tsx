@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useConceptStore } from "@/features/common/store/useConceptStore";
 
-const Home = () => {
+function Home() {
   const router = useRouter();
   const { data: conceptList, loading, error } = useConcept();
   const { setConceptId } = useConceptStore();
@@ -32,7 +32,7 @@ const Home = () => {
   if (error) return <div>에러가 발생했습니다: {error}</div>;
 
   return (
-    <div className="flex flex-col items-center -mt-16">
+    <div className="-mt-16">
       <Header />
       <SearchBar />
       <div className="grid grid-cols-2 gap-4 w-full pb-4">
@@ -62,6 +62,6 @@ const Home = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Home;
