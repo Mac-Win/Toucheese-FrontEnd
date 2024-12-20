@@ -1,10 +1,6 @@
 import axios, { AxiosResponse, ResponseType } from "axios";
 import apiClient from "./apiCient";
-
-function getCookie(name: string): string | null {
-  const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-  return match ? decodeURIComponent(match[2]) : null;
-}
+import { getCookie } from "@/utils/getcookie";
 
 export async function apiRequest<T, D = unknown>(
   method: "GET" | "POST" | "PUT" | "DELETE",
