@@ -11,7 +11,6 @@ function CartPage() {
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const router = useRouter();
 
-  // 선택된 항목만 총액 계산
   const totalAmount = useMemo(() => {
     const itemsToCalculate = selectedItems.length
       ? cartData?.filter((item) => selectedItems.includes(item.cartId)) || []
