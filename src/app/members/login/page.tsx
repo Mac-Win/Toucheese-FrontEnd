@@ -4,9 +4,11 @@ import { useGNBStore } from "@/features/common/store/useGnbStore";
 import useLogin from "@/features/members/hooks/useLogin";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 function LoginPage() {
+  const router = useRouter();
   const {
     email,
     password,
@@ -20,6 +22,12 @@ function LoginPage() {
     setShowGNB(false);
     return () => setShowGNB(true);
   }, [setShowGNB]);
+
+  const handleKakao = () => {
+    router.push(
+      `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_LOGIN_REDIRECT_URI}&prompt=select_account`
+    );
+  };
 
   return (
     <div className="flex-grow w-full left-0 top-0 bottom-0 right-0 flex flex-col justify-center gap-4 p-4 pb-20">
@@ -88,6 +96,21 @@ function LoginPage() {
             로그인
           </button>
         </form>
+
+        <div className="flex flex-col mt-10">
+          <span className="text-center">SNS 로그인</span>
+          <button
+            onClick={handleKakao}
+            className="relative max-w-custom w-full h-20"
+          >
+            <Image
+              src="/kakao_login_large_wide.png"
+              alt="카카오로그인"
+              fill
+              className="object-fit-cover"
+            />
+          </button>
+        </div>
       </div>
     </div>
   );

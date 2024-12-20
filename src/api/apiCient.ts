@@ -27,17 +27,17 @@ apiClient.interceptors.response.use(
 
         try {
           const { data } = await axios.post(
-            `${process.env.NODE_ENV === "production"}/v1/tokens/reissue`,
+            `${process.env.NEXT_PUBLIC_API_URL}/v1/tokens/reissue`,
             {},
-            {
-              withCredentials: true,
-            }
+            { withCredentials: true }
           );
 
-          // 새 authToken을 쿠키에 저장
           document.cookie = `authToken=${data.authToken}; path=/; secure=${
             process.env.NODE_ENV === "production"
           }; samesite=strict; max-age=3600`;
+
+          apiClient.defaults.headers.common["Authorization"] =
+            `Bearer ${data.authToken}`;
 
           return apiClient(config);
         } catch (refreshError) {
