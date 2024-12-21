@@ -25,13 +25,13 @@ const FilterGroup = ({
       [key]:
         key === "locations"
           ? value === "전체"
-            ? [] // "전체" 선택 시 빈 배열로 설정
+            ? []
             : tempFilters[key]?.includes(value)
-              ? tempFilters[key].filter((v) => v !== value) // 이미 선택된 경우 제거
-              : [...(tempFilters[key] || []), value] // 새로운 값 추가
+              ? tempFilters[key].filter((v) => v !== value)
+              : [...(tempFilters[key] || []), value]
           : value === "전체"
-            ? [] // "전체" 선택 시 빈 배열로 설정
-            : [value], // 단일 선택 필터는 항상 배열로 저장
+            ? []
+            : [value],
     };
 
     setTempFilters(newFilters);
@@ -52,8 +52,8 @@ const FilterGroup = ({
       rating: [],
       price: [],
     };
-    setTempFilters(resetFilters); // 필터 초기화
-    onApplyFilters(resetFilters); // 부모 컴포넌트에도 초기화된 값 전달
+    setTempFilters(resetFilters);
+    onApplyFilters(resetFilters);
   };
 
   const handleCloseBottomSheet = () => {
@@ -80,7 +80,7 @@ const FilterGroup = ({
   return (
     <div className="flex gap-4 mb-4 relative">
       <button
-        className="p-2 rounded-full bg-gray-1 text-gray-8 flex items-center border border-gray-2"
+        className="p-2 rounded-full aspect-square bg-gray-1 text-gray-8 border border-gray-2"
         onClick={handleReset}
       >
         <Image
@@ -88,6 +88,11 @@ const FilterGroup = ({
           alt="필터초기화버튼"
           width={20}
           height={20}
+          style={{
+            width: "auto",
+            height: "auto",
+            objectFit: "contain",
+          }}
         />
       </button>
 
@@ -103,6 +108,11 @@ const FilterGroup = ({
               alt="필터메뉴버튼"
               width={20}
               height={20}
+              style={{
+                width: "auto",
+                height: "auto",
+                objectFit: "contain",
+              }}
             />
           </button>
         </div>
