@@ -1,7 +1,7 @@
 "use client";
 
 import { useProductDetail } from "../hooks/usePostProducts";
-import { ProductDetailItems } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetailItems.type";
 import ProductCoverImage from "../components/ProductCoverImage";
 import ProductSummary from "../components/ProductSummary";
 import ProductOptions from "../components/ProductOptions";

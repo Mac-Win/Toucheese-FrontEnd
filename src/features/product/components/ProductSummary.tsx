@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ProductDetailItems } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetailItems.type";
 
 interface ProductSummaryProps {
   product: ProductDetailItems;

@@ -1,5 +1,5 @@
 import ProductQuantity from "./ProductQuantity";
-import { ProductDetailItems } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetailItems.type";
 
 interface ProductPriceProps {
   product: ProductDetailItems;

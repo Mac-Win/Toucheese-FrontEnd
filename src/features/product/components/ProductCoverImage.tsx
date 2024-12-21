@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ProductDetailItems } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetailItems.type";
 
 interface ProductImageProps {
   product: ProductDetailItems;

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ProductDetailItems } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetailItems.type";
 import useRequest from "@/features/common/hooks/useRequest";
 import useProductOrderStore from "../store/useProductOrderStore";
 import useStudioStore from "@/features/studios/store/StudioStore";
