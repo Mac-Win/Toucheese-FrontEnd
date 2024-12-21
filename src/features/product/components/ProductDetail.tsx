@@ -2,12 +2,12 @@
 
 import { useProductDetail } from "../hooks/usePostProducts";
 import { ProductDetailItems } from "@/types/ProductDetailItems.type";
-import ProductCoverImage from "../components/ProductCoverImage";
-import ProductSummary from "../components/ProductSummary";
-import ProductOptions from "../components/ProductOptions";
-import ProductPrice from "../components/ProductPrice";
-import ReservationDate from "../components/ReservationDate";
-import OrderButton from "../components/OrderButton";
+import ProductCoverImage from "./ProductCoverImage";
+import ProductSummary from "./ProductSummary";
+import ProductOptions from "./ProductOptions";
+import ProductPrice from "./ProductPrice";
+import ReservationDate from "./ReservationDate";
+import OrderButton from "./OrderButton";
 import Image from "next/image";
 
 interface ProductDetailsProps {

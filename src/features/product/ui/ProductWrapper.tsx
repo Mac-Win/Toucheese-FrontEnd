@@ -5,7 +5,7 @@ import { TopBar } from "@/features/common/components/topbar";
 import { useGNBStore } from "@/features/common/store/useGnbStore";
 import { useProductsDetail } from "@/features/product/hooks/useProducts";
 import useProductStore from "@/features/product/store/ProductStore";
-import ProductDetail from "../ui/ProductDetail";
+import ProductDetail from "../components/ProductDetail";
 
 function ProductWrapper({ productId }: { productId: number }) {
   const setShowGNB = useGNBStore((state) => state.setShowGNB);
