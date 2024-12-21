@@ -16,7 +16,7 @@ const FilterGroup = ({
   const [tempFilters, setTempFilters] = useState<SelectedFilters>(filters);
 
   useEffect(() => {
-    setTempFilters(filters); // 부모로부터 전달된 필터값을 tempFilters에 반영
+    setTempFilters(filters);
   }, [filters]);
 
   const updateTempFilter = (key: keyof SelectedFilters, value: string) => {
@@ -27,11 +27,11 @@ const FilterGroup = ({
           ? value === "전체"
             ? [] // "전체" 선택 시 빈 배열로 설정
             : tempFilters[key]?.includes(value)
-              ? tempFilters[key].filter((v) => v !== value)
-              : [...(tempFilters[key] || []), value]
+              ? tempFilters[key].filter((v) => v !== value) // 이미 선택된 경우 제거
+              : [...(tempFilters[key] || []), value] // 새로운 값 추가
           : value === "전체"
-            ? [] // 단일 선택 필터(rating, price)도 빈 배열로 설정
-            : [value],
+            ? [] // "전체" 선택 시 빈 배열로 설정
+            : [value], // 단일 선택 필터는 항상 배열로 저장
     };
 
     setTempFilters(newFilters);
@@ -46,15 +46,58 @@ const FilterGroup = ({
     setActiveDropdown(null);
   };
 
+  const handleReset = () => {
+    const resetFilters: SelectedFilters = {
+      locations: [],
+      rating: [],
+      price: [],
+    };
+    setTempFilters(resetFilters); // 필터 초기화
+    onApplyFilters(resetFilters); // 부모 컴포넌트에도 초기화된 값 전달
+  };
+
+  const handleCloseBottomSheet = () => {
+    setActiveDropdown(null);
+  };
+
+  const getFilterChipLabel = (key: string) => {
+    const config = filterConfigs.find((config) => config.key === key);
+    const selectedValues = tempFilters[key as keyof SelectedFilters];
+
+    if (selectedValues && selectedValues.length > 0) {
+      const firstLabel = config?.options.find(
+        (option) => option.value === selectedValues[0]
+      )?.label;
+      const additionalCount = selectedValues.length - 1;
+      return additionalCount > 0
+        ? `${firstLabel} 외 ${additionalCount}`
+        : firstLabel;
+    }
+
+    return config?.label || "";
+  };
+
   return (
     <div className="flex gap-4 mb-4 relative">
+      <button
+        className="p-2 rounded-full bg-gray-1 text-gray-8 flex items-center border border-gray-2"
+        onClick={handleReset}
+      >
+        <Image
+          src="/icons/close.svg"
+          alt="필터초기화버튼"
+          width={20}
+          height={20}
+        />
+      </button>
+
       {filterConfigs.map((config) => (
         <div key={config.key}>
           <button
-            className="px-4 py-2 rounded-full bg-gray-1 text-gray-8 flex items-center gap-1"
+            className="px-4 py-2 rounded-full bg-gray-1 text-gray-8 flex items-center gap-1  border border-gray-2"
             onClick={() => toggleDropdown(config.key)}
           >
-            {config.label}
+            {getFilterChipLabel(config.key)}
             <Image
               src="/icons/keyboard_arrow_down.svg"
               alt="필터메뉴버튼"
@@ -62,50 +105,92 @@ const FilterGroup = ({
               height={20}
             />
           </button>
-          {activeDropdown === config.key && (
-            <ul className="absolute z-20 w-full flex flex-wrap gap-4 left-0 mt-2 bg-gray-1 shadow rounded px-2 py-4">
-              {config.options.map((option) => (
-                <li key={option.value} className="min-w-24">
-                  {config.key === "locations" ? (
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        value={option.value}
-                        checked={tempFilters[config.key]?.includes(
-                          option.value
-                        )}
-                        onChange={() =>
-                          updateTempFilter(config.key, option.value)
-                        }
-                      />
-                      {option.label}
-                    </label>
-                  ) : (
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name={config.key}
-                        value={option.value}
-                        checked={tempFilters[config.key]?.[0] === option.value}
-                        onChange={() =>
-                          updateTempFilter(config.key, option.value)
-                        }
-                      />
-                      {option.label}
-                    </label>
-                  )}
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       ))}
-      <button
-        className="px-6 py-2 bg-gray-100 rounded-full"
-        onClick={handleApply}
-      >
-        필터 적용
-      </button>
+
+      {activeDropdown && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end justify-center">
+          <div className="w-full bg-white rounded-t-2xl shadow-lg pb-10 p-4 max-h-[70%] max-w-custom overflow-y-auto md:pb-4">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">
+                {filterConfigs.find((config) => config.key === activeDropdown)
+                  ?.label || ""}
+              </h2>
+              <button
+                onClick={handleCloseBottomSheet}
+                className="text-gray-500"
+              >
+                <Image
+                  src="/icons/close.svg"
+                  alt="필터메뉴닫기"
+                  width={20}
+                  height={20}
+                />
+              </button>
+            </div>
+
+            <ul className="flex flex-col gap-4">
+              {filterConfigs.map((config) => (
+                <div key={config.key} className="border-b p-4 -mx-4">
+                  <h3 className="text-lg font-medium mb-2">{config.label}</h3>
+                  <ul className="flex flex-wrap gap-4">
+                    {config.options.map((option) => (
+                      <li key={option.value} className="min-w-24">
+                        {config.key === "locations" ? (
+                          <label className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              value={option.value}
+                              checked={tempFilters[config.key]?.includes(
+                                option.value
+                              )}
+                              onChange={() =>
+                                updateTempFilter(config.key, option.value)
+                              }
+                            />
+                            {option.label}
+                          </label>
+                        ) : config.key === "rating" ||
+                          config.key === "price" ? (
+                          <label className="flex items-center gap-2">
+                            <input
+                              type="radio"
+                              name={config.key}
+                              value={option.value}
+                              checked={
+                                tempFilters[config.key]?.[0] === option.value
+                              }
+                              onChange={() =>
+                                updateTempFilter(config.key, option.value)
+                              }
+                            />
+                            {option.label}
+                          </label>
+                        ) : null}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </ul>
+
+            <div className="flex mt-4 gap-2">
+              <button
+                className="px-6 py-2 bg-gray-2 rounded"
+                onClick={handleReset}
+              >
+                초기화
+              </button>
+              <button
+                className="px-6 py-2 bg-primary-5 font-bold rounded-lg flex-1"
+                onClick={handleApply}
+              >
+                적용하기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

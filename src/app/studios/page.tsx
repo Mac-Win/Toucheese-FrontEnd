@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import FilterGroup from "@/features/studios/components/filterGroup";
 import StudioList from "@/features/studios/components/studioList";
 import { TopBar } from "@/features/common/components/topbar";
+import { useConceptStore } from "@/features/common/store/useConceptStore";
 
 const StudiosRoutePage = () => {
   const searchParams = useSearchParams();
@@ -13,6 +14,8 @@ const StudiosRoutePage = () => {
     conceptIdParam && !isNaN(parseInt(conceptIdParam, 10))
       ? parseInt(conceptIdParam, 10)
       : null;
+
+  const { conceptName } = useConceptStore();
 
   const [filters, setFilters] = useState<{
     price?: number;
@@ -60,7 +63,7 @@ const StudiosRoutePage = () => {
       <TopBar
         showShare={false}
         showCart={true}
-        message={`${conceptId}`}
+        message={conceptName || "스튜디오 리스트"} // conceptName이 없는 경우 기본 메시지 표시
         location={"/"}
       />
       <FilterGroup
@@ -71,7 +74,6 @@ const StudiosRoutePage = () => {
         }}
         onApplyFilters={handleApplyFilters}
       />
-
       <StudioList
         conceptId={conceptId}
         filters={{
