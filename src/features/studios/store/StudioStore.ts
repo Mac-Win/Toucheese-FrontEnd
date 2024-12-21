@@ -24,7 +24,7 @@ const useStudioStore = create<StudioStore>()(
       setStudioId: (id) => set({ studioId: id }),
       setActiveTab: (tab) => set({ activeTab: tab }),
     }),
-    { name: "studio-store" } // 로컬 스토리지 키
+    { name: "studio-store" }
   )
 );
 

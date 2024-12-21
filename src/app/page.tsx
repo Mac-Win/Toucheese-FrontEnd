@@ -9,16 +9,12 @@ import SearchBar from "@/features/searchBar/searchBar";
 import Image from "next/image";
 import Link from "next/link";
 import { useConceptStore } from "@/features/common/store/useConceptStore";
+import { getCookie } from "@/utils/getcookie";
 
 function Home() {
   const router = useRouter();
   const { data: conceptList, loading, error } = useConcept();
-  const { setConceptId } = useConceptStore();
-
-  function getCookie(name: string): string | null {
-    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
-    return match ? decodeURIComponent(match[2]) : null;
-  }
+  const { setConceptId, setConceptName } = useConceptStore();
 
   useEffect(() => {
     const token = getCookie("refreshToken");
@@ -42,7 +38,10 @@ function Home() {
             key={concept.id}
             className="relative rounded-lg overflow-hidden shadow-md group aspect-[3/4]"
             aria-label={concept.name}
-            onClick={() => setConceptId(concept.id)}
+            onClick={() => {
+              setConceptId(concept.id);
+              setConceptName(concept.name);
+            }}
           >
             <Image
               src={`/concept${index + 1}.png`}
