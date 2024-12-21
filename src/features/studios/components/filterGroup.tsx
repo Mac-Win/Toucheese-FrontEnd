@@ -147,9 +147,10 @@ const FilterGroup = ({
                     {config.options.map((option) => (
                       <li key={option.value} className="min-w-24">
                         {config.key === "locations" ? (
-                          <label className="flex items-center gap-2">
+                          <label className="flex items-center gap-2 ">
                             <input
                               type="checkbox"
+                              className="custom-checkbox"
                               value={option.value}
                               checked={tempFilters[config.key]?.includes(
                                 option.value
@@ -162,7 +163,7 @@ const FilterGroup = ({
                           </label>
                         ) : config.key === "rating" ||
                           config.key === "price" ? (
-                          <label className="flex items-center gap-2">
+                          <label className="flex items-center gap-2 custom-radio">
                             <input
                               type="radio"
                               name={config.key}
@@ -174,6 +175,7 @@ const FilterGroup = ({
                                 updateTempFilter(config.key, option.value)
                               }
                             />
+                            <span className="radio-indicator"></span>
                             {option.label}
                           </label>
                         ) : null}
