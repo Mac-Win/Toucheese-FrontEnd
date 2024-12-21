@@ -2,7 +2,6 @@ export type FilterOption = {
   label: string;
   value: string;
 };
-// filter 기본속성
 
 export type SelectedFilters = {
   price: string[];
