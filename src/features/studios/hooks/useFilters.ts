@@ -17,11 +17,9 @@ export function useFilters(
   const { data, loading, error, request } =
     useRequest<StudiosByConceptResponse>();
 
-  // 페이지네이션 상태
   const [pageNumber, setPageNumber] = useState(initialPageNumber);
   const [pageSize, setPageSize] = useState(initialPageSize);
 
-  // 요청 실행 함수
   const fetchFilteredStudios = useCallback(
     (page: number = pageNumber, size: number = pageSize) => {
       const params = new URLSearchParams();
@@ -48,12 +46,10 @@ export function useFilters(
     [conceptId, filters, pageNumber, pageSize, request]
   );
 
-  // 초기 요청 실행
   useEffect(() => {
     fetchFilteredStudios(pageNumber, pageSize);
-  }, [fetchFilteredStudios]);
+  }, [fetchFilteredStudios, pageNumber, pageSize]);
 
-  // 페이지네이션 관련 함수 제공
   const goToPage = (page: number) => {
     setPageNumber(page);
     fetchFilteredStudios(page, pageSize);

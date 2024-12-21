@@ -1,5 +1,3 @@
-"use client";
-
 interface AddOption {
   id: number;
   name: string;

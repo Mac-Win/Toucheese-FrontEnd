@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Product } from "@/types/Product.type";
-import ProductList from "@/features/product/ui/productList";
+import ProductList from "@/features/product/components/ProductList";
 
 export function StudioProducts({ products }: { products: Product[] }) {
   return (

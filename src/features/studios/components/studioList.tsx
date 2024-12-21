@@ -72,8 +72,8 @@ const StudioList = ({
     : allStudiosData?.content || [];
 
   const handlePageChange = (newPage: number) => {
-    setCurrentPage(newPage - 1); // 페이지 번호를 0-based로 변경
-    refetch(newPage - 1); // 새 페이지로 데이터 로드
+    setCurrentPage(newPage - 1);
+    refetch(newPage - 1);
   };
 
   return (
@@ -90,6 +90,7 @@ const StudioList = ({
                       alt={`${studio.name} profile`}
                       width={64}
                       height={64}
+                      priority
                     />
                   </div>
                   <div>
@@ -105,6 +106,11 @@ const StudioList = ({
                       alt={`${studio.name}의 평점${studio.rating}`}
                       width={24}
                       height={24}
+                      style={{
+                        width: "auto",
+                        height: "auto",
+                        objectFit: "contain",
+                      }}
                     />
                     <span>{studio.rating}</span>
                   </div>
@@ -114,6 +120,11 @@ const StudioList = ({
                       alt={`${studio.name}의 평점${studio.rating}`}
                       width={24}
                       height={24}
+                      style={{
+                        width: "auto",
+                        height: "auto",
+                        objectFit: "contain",
+                      }}
                     />
                     <span>{studio.price.toLocaleString()}원</span>
                   </div>
@@ -135,6 +146,8 @@ const StudioList = ({
                           src={image}
                           alt={`${studio.name} image ${idx + 1}`}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          priority
                         />
                       </SwiperSlide>
                     ))}
