@@ -1,5 +1,3 @@
-"use client";
-
 import ProductQuantity from "./ProductQuantity";
 import { ProductDetailItems } from "@/types/ProductDetail.type";
 
