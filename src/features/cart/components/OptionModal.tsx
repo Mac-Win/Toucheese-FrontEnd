@@ -201,7 +201,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
                   <label className="flex items-center space-x-2">
                     <input
                       type="checkbox"
-                      className="w-5 h-5 appearance-none border-2  rounded-md checked:bg-[url('/icons/common/checkbox.png')] bg-no-repeat bg-center bg-contain cursor-pointer"
+                      className="custom-checkbox"
                       checked={selectedOptions.some(
                         (selected) => selected.id === option.id
                       )}
@@ -209,6 +209,7 @@ const OptionModal: React.FC<OptionModalProps> = ({
                         handleOptionChange(option, e.target.checked)
                       }
                     />
+
                     <span>{option.name}</span>
                   </label>
                   <span>{option.price.toLocaleString()}원</span>
