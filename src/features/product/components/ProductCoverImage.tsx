@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { ProductDetail } from "../../../types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetail.type";
 
 interface ProductImageProps {
-  product: ProductDetail;
+  product: ProductDetailItems;
 }
 
 const ProductCoverImage = ({ product }: ProductImageProps) => (

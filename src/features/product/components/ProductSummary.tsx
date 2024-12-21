@@ -1,11 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ProductDetail } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetail.type";
 import Image from "next/image";
 
 interface ProductSummaryProps {
-  product: ProductDetail;
+  product: ProductDetailItems;
   studioId: number | null;
 }
 

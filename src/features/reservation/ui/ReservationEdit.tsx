@@ -9,7 +9,7 @@ import ReservationInfo from "../components/ReservationInfo";
 import WeekCalendarGrid from "../components/weekCalendar";
 import TimeSelector from "../components/TimeSelector";
 import ReservationActions from "../components/ReservationAction";
-import ReservationDate from "@/features/product/ui/ReservationDate";
+import ReservationDate from "@/features/product/components/ReservationDate";
 import Image from "next/image";
 import { parseISO } from "date-fns";
 import ConfirmModal from "@/features/cart/components/ConfirmModal";

@@ -1,10 +1,10 @@
 "use client";
 
 import ProductQuantity from "./ProductQuantity";
-import { ProductDetail } from "@/types/ProductDetail.type";
+import { ProductDetailItems } from "@/types/ProductDetail.type";
 
 interface ProductPriceProps {
-  product: ProductDetail;
+  product: ProductDetailItems;
 }
 
 const ProductPrice = ({ product }: ProductPriceProps) => (
